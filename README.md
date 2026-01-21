@@ -12,8 +12,9 @@ A voice-based conversational AI application using Kokoro TTS, Whisper for STT, a
 ## Prerequisites
 
 - **Python 3.10+**
-- **Ollama**: [Download and install Ollama](https://ollama.ai/).
-- **Models**: Ensure you have the required models pulled in Ollama.
+- **Ollama**: [Download and install Ollama](https://ollama.ai/). 
+   - Note: There's been some controversy around Ollama being a bit shady. If you want to use other things I've heard better things about [llama.cpp](https://github.com/ggml-org/llama.cpp), but you might need to refactor things a bit.
+- **Models**: Ensure you have the required models pulled in Ollama. e.g. This abliterated model from the original gemma 3 model provides a somewhat uncensored experience. Read more about abliteration here.
   ```bash
   ollama pull gemma-3-27b-it-abliterated-GGUF:Q4_K_M
   ```
@@ -55,4 +56,10 @@ python voice_chat.py
 - `stt_processor.py`: Handles audio recording and transcription.
 - `tts_processor.py`: Handles text-to-speech generation and playback.
 - `llm_processor.py`: Manages interactions with the LLM via Ollama.
-- `personality-template.txt`: Template defining the AI's personality.
+- `personality-template.txt`: Template defining the AI's personality. 
+   -  Note that the `{context}Human: {question}\nAssistant:` format at the end of the template is necessary for Ollama when using a simple prompt template. This is because Ollama expects a completion-style prompt. It needs explicit markers like "Human:" and "Assistant:" to understand the conversation structure.
+
+## TODO
+- Context is currently retained to 10 messages. This is a bit arbitrary and should be configurable. How effective this is also depends on the model size.
+- We could look into compacting the context periodically to preserve context.
+- If we want to have a chatbot that retains long-term context, then we'd need a vector database of some sort to store the context and retrieve the relevant memories.

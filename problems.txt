@@ -1,0 +1,10 @@
+- There's a problem with the speech TTS only happening after the text has been produced from the LLM.
+This needs to be streamed so the conversation latency is reduced.
+
+- Using RealtimeSTT for faster voice input?
+
+- At some point package things into separate docker applications, maybe? Not sure if this is best though, need more research.
+
+- Create a requirements.txt or some sort like that, apparently poetry might be better as generating one specifies with too low of an LOD.
+
+- Create a Readme.md
