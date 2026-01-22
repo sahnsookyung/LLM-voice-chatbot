@@ -14,7 +14,7 @@ A voice-based conversational AI application using Kokoro TTS, Whisper for STT, a
 - **Python 3.10+**
 - **Ollama**: [Download and install Ollama](https://ollama.ai/). 
    - Note: There's been some controversy around Ollama being a bit shady. If you want to use other things I've heard better things about [llama.cpp](https://github.com/ggml-org/llama.cpp), but you might need to refactor things a bit.
-- **Models**: Ensure you have the required models pulled in Ollama. e.g. This abliterated model from the original gemma 3 model provides a somewhat uncensored experience. Read more about abliteration here.
+- **Models**: Ensure you have the required models pulled in Ollama. e.g. This abliterated model from the original gemma 3 model provides a somewhat uncensored experience. Read more about abliteration [here](https://huggingface.co/blog/mlabonne/abliteration).
   ```bash
   ollama pull gemma-3-27b-it-abliterated-GGUF:Q4_K_M
   ```
