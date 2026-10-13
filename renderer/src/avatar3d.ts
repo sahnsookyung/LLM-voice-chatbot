@@ -13,6 +13,7 @@ import type {Framing} from './types';
 import {defaultWardrobe, type WardrobeSelection} from './wardrobe';
 import {buildWardrobeModel} from './wardrobe-model';
 import {AccessoryRig,type Accessories} from './accessories';
+import {GarmentCorrectives} from './garment-correctives';
 
 let baseBytes:ArrayBuffer|undefined;
 
@@ -49,6 +50,7 @@ export class Avatar3D {
   private cpuTotals = {steps:0,draws:0,pose:0,vrm:0,contact:0,simulation:0,draw:0};
   private wardrobe:WardrobeSelection={...defaultWardrobe};
   private accessories?:AccessoryRig;
+  private garmentCorrectives?:GarmentCorrectives;
   private framing:Framing='full';
   private accessoryHeight=0;
 
@@ -98,6 +100,7 @@ export class Avatar3D {
       customizeClothing(vrm);
       VRMUtils.combineMorphs(vrm);
       VRMUtils.combineSkeletons(vrm.scene);
+      avatar.garmentCorrectives=new GarmentCorrectives(vrm.scene);
       vrm.scene.traverse(node => {
         if (node instanceof Mesh) {
           if (node.morphTargetDictionary) avatar.morphMeshes++;
@@ -123,7 +126,7 @@ export class Avatar3D {
         .filter(joint=>joint.bone.name.includes('Hair')&&joint.child&&!joint.child.children.some(child=>child.name.includes('Hair')))
         .map(joint=>joint.child!);
       avatar.garmentRest=[...(vrm.springBoneManager?.joints??[])].filter(joint=>joint.bone.name.startsWith('Skirt')).map(joint=>({bone:joint.bone,rotation:joint.bone.quaternion.clone()}));
-      avatar.accessories=new AccessoryRig(vrm);
+      avatar.accessories=new AccessoryRig(vrm,wardrobe.outfit);
       host.appendChild(avatar.renderer.domElement);
       return avatar;
     } catch (error) {
@@ -242,6 +245,7 @@ export class Avatar3D {
     this.pose(w);
     const posed = this.profile ? performance.now() : 0;
     this.vrm.update(reduced ? 0 : dt);
+    this.garmentCorrectives?.update(w);
     const rigged = this.profile ? performance.now() : 0;
     if (reduced && !this.reduced) this.vrm.springBoneManager?.reset();
     this.reduced = reduced;
@@ -285,6 +289,8 @@ export class Avatar3D {
       format: 'VRM 1.0',
       modelVersion: 'v9',
       wardrobe:{...this.wardrobe},
+      beretPalette:this.accessories?.palette(),
+      garmentCorrectives:{meshes:this.garmentCorrectives?.meshes??0,weights:[...(this.garmentCorrectives?.weights??[])]},
       geometries:this.renderer.info.memory.geometries,
       physicsHz:60,
       ...(this.profile?{cpuTotals:{...this.cpuTotals}}:{}),
@@ -329,6 +335,7 @@ export class Avatar3D {
     this.hairRest = [];
     this.hairTips = [];
     this.garmentRest=[];
+    this.garmentCorrectives=undefined;
     this.hairContact = undefined;
     this.scene.clear();
     this.renderer.domElement.removeEventListener('webglcontextlost', this.onContextLost);

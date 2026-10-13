@@ -149,6 +149,13 @@ final class RendererCheck: NSObject, WKScriptMessageHandler, WKNavigationDelegat
       case 5:
         let gesture = self.gestures[self.gestureIndex]
         let elapsed = Date().timeIntervalSince(self.start)
+        if gesture == "raise-arms", elapsed > 1.8, elapsed < 2.5 {
+          guard let correction = status["garmentCorrectives"] as? [String: Any],
+            (correction["meshes"] as? Int ?? 0) > 0,
+            let weights = correction["weights"] as? [Double], weights.count == 2,
+            weights.allSatisfy({ $0 > 0.8 && $0 <= 1 })
+          else { self.fail("raised arms did not engage garment fold corrections") }
+        }
         guard (status["footError"] as? Double ?? 1) < 0.001,
               (status["limbExtent"] as? Double ?? 2) < 0.97,
               let hair = status["hairDeflection"] as? Double, hair.isFinite, hair < 1.6

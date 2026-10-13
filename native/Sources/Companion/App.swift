@@ -728,7 +728,7 @@ struct CompanionView: View {
         }
         Picker("Headwear", selection: lookBinding(\.headwear)) {
           Text("None").tag("none")
-          if model.overlayLook.hair != "double-buns" { Text("Butter beret").tag("beret") }
+          if model.overlayLook.hair != "double-buns" { Text("Coordinated beret").tag("beret") }
         }
       }
       if model.overlayLook.hair == "double-buns" {

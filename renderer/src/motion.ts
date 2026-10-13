@@ -85,7 +85,7 @@ export class MotionController {
     const idleShift=Math.sin(this.time*.32)*.008*motion;
     const nod=this.gesture==='nod'?envelope*Math.sin(age*5.6)*.09*motion:0;
     const hairSway=this.gesture==='hair-sway'&&age<4.8?Math.sin(age/4.8*Math.PI)**2*Math.sin(age*2.8)*.30*motion:0;
-    const raise=cue('raise-arms'),raiseLeft=cue('raise-arms',.13);
+    const raise=cue('raise-arms'),raiseLeft=cue('raise-arms',.045);
     const shrug=cue('shrug'),shrugLeft=cue('shrug',.09);
     const point=cue('point'),pointHand=cue('point',.20);
     const peace=cue('double-peace')+cue('peace-eye'),peaceLeft=cue('double-peace',.09),thinking=cue('thinking'),adjust=cue('adjust-glasses');
@@ -105,29 +105,31 @@ export class MotionController {
       bodyYaw:this.gesture==='twirl'&&!this.reduced?this.spinBase+Math.PI*2*turn:this.spinTarget,
       // Fitted against Ari's normalized arm lengths and fingertip positions:
       // the thoughtful finger reaches the chin; the pinch reaches the frame.
-      upperArm:wave*.82+explain*.28+raise*2.35+shrug*.4+point*1.48+twirl*.82+peace*.719+thinking*.075+adjust*.746,
+      upperArm:wave*.82+explain*.28+raise*2.02+shrug*.4+point*1.48+twirl*.82+peace*.719+thinking*.075+adjust*.746,
       forearm:cue('wave',.12)*.18+cue('explain',.13)*.95+cue('shrug',.12)*1.1-point*.055-peace*.192-thinking*.757-adjust*.173,
-      forearmLift:cue('wave',.12)*1.65+cue('raise-arms',.12)*.24+cue('shrug',.12)*.8+twirl*.31+peace*2.442+thinking*2.57+adjust*2.188,
+      forearmLift:cue('wave',.12)*1.65+cue('raise-arms',.06)*.50+cue('shrug',.12)*.8+twirl*.31+peace*2.442+thinking*2.57+adjust*2.188,
       wave,
-      hand:cue('wave',.24)*Math.sin(age*8)*.18+cue('point',.27)*.055-cue('raise-arms',.24)*.12+peace*.495-thinking*.591+adjust*.357,
-      rightWristRoll:cue('wave',.20)*1.05+cue('shrug',.22)*1.38+cue('explain',.25)*.25+peace*.482+thinking*1.378+adjust*1.668,
-      leftWristRoll:cue('shrug',.31)*1.34+cue('explain',.32)*.45+peaceLeft*.482,
+      hand:cue('wave',.24)*Math.sin(age*8)*.18+cue('point',.27)*.055-cue('raise-arms',.20)*.045+peace*.495-thinking*.591+adjust*.357,
+      rightWristRoll:cue('wave',.20)*1.05+cue('shrug',.22)*1.38+cue('explain',.25)*.25+cue('raise-arms',.16)*.30+peace*.482+thinking*1.378+adjust*1.668,
+      leftWristRoll:cue('shrug',.31)*1.34+cue('explain',.32)*.45+cue('raise-arms',.205)*.30+peaceLeft*.482,
       rightWristYaw:cue('wave',.26)*Math.sin(age*5.7+.5)*.09+cue('point',.24)*.07-peace*.239+thinking*.587+adjust*.537,
       leftWristYaw:cue('explain',.30)*.07-peaceLeft*.239,
-      rightArmForward:point*.12+raise*.05+explain*.09+peace*1.031+thinking*1.081+adjust*1.239,
-      leftArmForward:raiseLeft*.045+explain*.06+peaceLeft*1.031,
-      leftArm:explain*.32+step*.1+raiseLeft*2.3+shrugLeft*.37+twirl*.72+peaceLeft*.719,
+      // Share elevation with the clavicles and reach forward on a diagonal.
+      // Soft elbows avoid the old straight sideways "airplane" silhouette.
+      rightArmForward:point*.12+raise*.27+explain*.09+peace*1.031+thinking*1.081+adjust*1.239,
+      leftArmForward:raiseLeft*.27+explain*.06+peaceLeft*1.031,
+      leftArm:explain*.32+step*.1+raiseLeft*2.02+shrugLeft*.37+twirl*.72+peaceLeft*.719,
       leftForearm:cue('explain',.21)*.7+cue('shrug',.21)*1.05-peaceLeft*.192,
-      leftForearmLift:cue('raise-arms',.24)*.26+cue('shrug',.21)*.78+twirl*.37+peaceLeft*2.442,
-      shoulderLift:shrug*.16+raise*.07,
-      rightShoulderLift:cue('shrug',-.06)*.165+raise*.067,
+      leftForearmLift:cue('raise-arms',.105)*.50+cue('shrug',.21)*.78+twirl*.37+peaceLeft*2.442,
+      shoulderLift:shrug*.16+cue('raise-arms',-.015)*.22,
+      rightShoulderLift:cue('shrug',-.06)*.165+cue('raise-arms',-.06)*.22,
       palmUp:shrug*1.45,
       point:pointHand+cue('thinking',.24)*.85,
       rightPeace:cue('double-peace',.22)+cue('peace-eye',.22),leftPeace:cue('double-peace',.31),rightPinch:cue('adjust-glasses',.24),
       rightOpen:clamp(rightOpen),leftOpen:clamp(leftOpen),
       rightGrip:(Math.sin(this.time*.83)+Math.sin(this.time*.37+.4))*.012*motion,
       leftGrip:(Math.sin(this.time*.71+.8)+Math.sin(this.time*.41))*.012*motion,
-      leftHand:cue('explain',.3)*.12+cue('raise-arms',.35)*.1-peaceLeft*.495,
+      leftHand:cue('explain',.3)*.12+cue('raise-arms',.245)*.045-peaceLeft*.495,
       hipX:idleShift+shift*.024-step*.025,
       hipDrop:(.004+Math.abs(idleShift)*.3+shift*.007+step*.01)*motion,
       bodyLean:-(idleShift+shift*.024-step*.025)*.6,

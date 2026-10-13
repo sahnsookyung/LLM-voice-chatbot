@@ -1,0 +1,13 @@
+✔ every outfit gives the beret its dominant fabric and a coordinated secondary ribbon (157.237625ms)
+✔ outfit changes recolor the beret without tinting glasses or changing hat geometry (9.103417ms)
+✔ accessory choices validate independently (0.255292ms)
+✔ beret opening sits below the scalp apex and follows the head without drift (5.059875ms)
+✔ repeated accessory swaps release every retired geometry and material (30.561542ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 280.28825

@@ -37,7 +37,9 @@ The generated garments now use sampled curved surfaces with waist gathering and 
 
 Knee socks copy and offset Ari’s actual calf surface, clip cleanly at the upper/lower boundaries, and retain the existing skin weights. They cover the front, sides and back. The short skirts were lengthened by 6 cm; the long linen skirt is unchanged. Low-waist skirt roots fit the hips beneath longer tops rather than intersecting them.
 
-The beret is a shaped crown with a turned-under edge, a tilted elliptical opening that arches across the hairline, a narrow band and a side ribbon. Its form follows the user’s newer beret reference, saved only as a design reference in `reports/hair-design-references/beret-shape.png`. No pixels from that reference are used as runtime textures.
+The beret has a lower, centered crown, restrained overhang, irregular cloth folds, a turned-under edge, a fitted elliptical opening, a narrow wool band and a side ribbon. Its form follows the user’s newer beret reference, saved only as a design reference in `reports/hair-design-references/beret-shape.png`. No pixels from that reference are used as runtime textures. Front, quarter, profile and back fit captures are in `reports/beret-fit/`.
+
+**Coordinated beret** uses the selected outfit's authored palette: the crown follows the dominant outer fabric or skirt/dress, the band and stem use darker shades, and the ribbon/seam pick up a secondary color. `wardrobe-palette.ts` shares the garment colors with accessories. Dominance is selected per outfit, rather than sampled from a camera image that includes skin, hair and lighting; the original textured cardigan uses a representative cream. Outfit replacements, including startup randomization, construct the accessory rig with the new palette. Glasses retain their own colors. No extra simulation, textures or draw calls are added by recoloring.
 
 Screenshot poses include double peace, peace near the eye, thoughtful finger-to-chin and glasses adjustment. The arm/wrist targets were fitted against Ari’s normalized bones and fingertip locations. Gentle smile, playful wink and pensive detail controls blend with speech and the existing eight emotions. The expression-pair rehearsal still covers 56 directed transitions.
 
@@ -47,7 +49,7 @@ Fabric folds are modeled and skinned, not a per-vertex cloth simulation. Sparse 
 
 `renderer/src/wardrobe-model.ts` adapts only the known finished v9 GLB layout. It builds the selected combination from cached base bytes at load time. It does not embed or keep 135 complete models. The original/original selection returns the original buffer directly.
 
-The adapter copies the face mesh, all facial morphs, face/eye/skin materials, actual body skin vertices, humanoid rest transforms and expression definitions unchanged. Existing garment vertices retain their original skin influences. New panels inherit influences from the original garment; footwear follows foot/lower-leg bones. New hair and skirt joints get their own parent-local transforms and inverse bind matrices. Unit tests compare existing bind transforms with the authored baseline and require identity bind transforms for new joints.
+The adapter copies the face mesh, all facial morphs, face/eye/skin materials, actual body skin vertices, humanoid rest transforms and expression definitions unchanged. Retained garment vertices keep their original skin influences; sleeve cuts interpolate those influences at their boundaries. Procedural closed tops blend hips/spine/chest with local shoulder and upper-arm weights. Footwear follows foot/lower-leg bones. New hair and skirt joints get their own parent-local transforms and inverse bind matrices. Unit tests compare existing bind transforms with the authored baseline and require identity bind transforms for new joints.
 
 This is a version-specific adapter, not an arbitrary VRM part importer. Layout guards and asset-contract tests must be updated deliberately for a new base export. Do not run earlier `finish_ari_v6.mjs`, `detail_ari_v7.mjs`, `refine_ari_v8.mjs` or `refine_ari_v9.mjs` against reordered VRoid exports by bypassing their hash guards.
 
@@ -66,6 +68,34 @@ Main garment deformation uses skin weights. Secondary hair and skirt motion uses
 These are conservative contact approximations. They do not guarantee collision-free arbitrary poses, hair-to-hair contact or an interacting cloth surface. The new skinning and guide rigs run locally; Blender and VRoid are not required during playback. See the [VRM spring-bone specification](https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_springBone-1.0/README.md) and [VRoid hair-bounce controls](https://vroid.pixiv.help/hc/en-us/articles/900006910023-I-want-to-edit-hair-bounce).
 
 Future artist-authored garments should include explicit roles, skeleton/bind-space contracts, outfit-specific body visibility masks, contact envelopes and pose correctives. A new mask must fit the actual neckline, sleeve and hem coverage; it cannot simply inherit the mask of a different garment. See [VRoid skin masks](https://vroid.pixiv.help/hc/en-us/articles/4405516267033-How-to-use-Skin-Masks).
+
+## Raised-arm baseline assessment, 2026-10-13
+
+Historical baseline, captured before the repair below. The [36-frame comparison](../reports/raise-arms-assessment/index.html) records original cardigan, cloud sweatshirt and ruffled dress at 0, 0.75, 1.0, 1.3, 2.5 and 3.5 seconds, from front and 45 degrees. Bob hair exposes the shoulders. The harness advances the renderer at fixed 60 Hz without changing saved settings.
+
+The problem has two distinct causes:
+
+1. **Garment construction and skin weights.** The original cardigan remains continuous but its underarm fabric pulls into broad smooth triangles. On the cloud sweatshirt and ruffled dress, sleeves visibly separate from the torso, exposing skin/open edges. `screenshotOutfit` cuts sleeve triangles from the cardigan and substitutes a separate closed torso. Those boundaries are not joined or matched, and `torsoBinding` follows hips/spine/chest only. Sleeves follow the arms while the new torso remains largely fixed. This is a seam/deformation defect; added surface detail cannot repair it. Other closed-top variants share this construction, although they were not individually captured in this assessment.
+2. **Gesture shape.** The raise targets upper-arm controls around 2.3 radians but shoulder controls only about 0.07 and forward reach about 0.05. These are local rig controls, not measured anatomical angles. The resulting path is mostly sideways, with nearly straight elbows and rigid-looking wrists. A 0.13-second left/right offset becomes a conspicuous height difference during the fast part. The controller already has eased envelopes and damped transitions; adding easing alone does not address the pose.
+
+Original recommended implementation order:
+
+1. Rebuild sleeve caps/armholes with corresponding seam boundaries and matching weights. Remove inherited cardigan neckline scraps from closed tops. Blend shoulder, upper-arm and chest influence locally; avoid hiding exposed skin as a substitute for closing the garment.
+2. Author a comfortable forward-diagonal hand path, progressive shoulder participation, softer elbows/wrists and smaller timing asymmetry. Check ascent and descent with the original cardigan and one closed-top garment before propagating changes.
+3. Add separate left/right pose-driven garment corrections for arms at shoulder height and overhead: preserve underarm volume, compress sleeve folds and lift the hem modestly. Author in Blender and export morph targets, then drive their weights from the pose in the renderer. Blender's [glTF exporter supports skinning and shape keys](https://docs.blender.org/manual/en/5.1/addons/import_export/scene_gltf2.html); a live cloth solver or Blender modifier stack is not exported as a runtime simulation.
+4. Add lightweight cuff/hem follow-through only after the seam and pose corrections work. Full cloth simulation introduces contact/tuning work and does not fix disconnected topology. Runtime cost of corrective targets versus a cloth prototype still needs measurement; no performance improvement is claimed here.
+
+Acceptance should include fixed-time front/quarter/profile/back captures through the full gesture, interrupted raises and lowered-arm recovery. Track paired seam distances, triangle/edge strain and body penetration alongside existing finite-weight/foot-contact checks. Test representative garment families before the full outfit catalog. Current structural tests can pass while these visible seam defects remain.
+
+## Implemented arm and garment repair, 2026-10-13
+
+Closed tops now cut complete rings from the detailed original sleeves and stitch new raglan shoulder panels to actual torso armholes. Both seam sides share positions and skin weights, so their edges move together. The old cardigan neckline fragments are removed from closed tops. Eight closed-top families have regression checks for seam equality under unequal bone transforms, internal edge connectivity and winding. Fitted vest/pinafore layers retain open armholes over the connected blouse. Lower skirt roots fit beneath loose sweater/coat hems.
+
+Raise Arms now has a forward-diagonal reach, progressive shoulder participation, softer elbows/wrists and a much smaller left/right timing offset. Existing eased envelopes and interruption damping remain. The [repaired pose gallery](../reports/raise-arms-repaired/index.html) repeats the 36 baseline captures, checks raised hand height at the peak and requires planted feet. It includes ascent, hold and recovery from the front and quarter view; it is not exhaustive collision verification.
+
+`garment-correctives.ts` adds two relative GPU morph targets to each eligible upper garment, driven independently by arm elevation. They gather the underarm and modestly lift loose lower hems; fitted waists and the inner knit stay anchored. Shared seam positions receive the same correction. Normal deltas follow the changed surface while preserving authored rest normals. These are code-authored bind-space corrections, not Blender-authored assets. Only weights change in the frame loop; no cloth solver or per-frame vertex-buffer rewrite was added. Model disposal owns the target buffers.
+
+The repair does not establish exact tailoring or collision-free arbitrary poses. The generated shoulder panels remain smoother than the retained textured sleeves, and underarm cloth can still look stiff. Runtime memory/energy impact has not been benchmarked against the baseline.
 
 ## Verification and performance limits
 

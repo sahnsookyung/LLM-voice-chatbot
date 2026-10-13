@@ -1,0 +1,362 @@
+[
+  {
+    "angle" : 0,
+    "footError" : 2.3263411494723067e-16,
+    "image" : "original-0-0.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 0.85919590377152266,
+    "seconds" : 0,
+    "shoulderAngle" : 0
+  },
+  {
+    "angle" : 0,
+    "footError" : 1.1188630228279524e-16,
+    "image" : "original-0-45.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.097276798181626,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2291027918243403e-16,
+    "image" : "original-0-60.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.4813224050354741,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2377260456559048e-16,
+    "image" : "original-0-78.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.6721042814020262,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.8449465006019636e-16,
+    "image" : "original-0-150.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.6896730536428659,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.8211532207911455e-16,
+    "image" : "original-0-210.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.4829468775459773,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.2301825219878386e-16,
+    "image" : "original-45-0.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 0.85902247021166622,
+    "seconds" : 0,
+    "shoulderAngle" : 1.4942465101376337e-19
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.7388818282700985e-16,
+    "image" : "original-45-45.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.0941166001166287,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 45,
+    "footError" : 7.4734174503522706e-17,
+    "image" : "original-45-60.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.4779176172416373,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.2247786310271853e-16,
+    "image" : "original-45-78.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.6700020876634847,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.3916546437205541e-16,
+    "image" : "original-45-150.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.687067778130942,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.1775693440128312e-16,
+    "image" : "original-45-210.png",
+    "modelError" : "",
+    "outfit" : "original",
+    "rightHandHeight" : 1.4783311029461577,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  },
+  {
+    "angle" : 0,
+    "footError" : 1.0007415106216802e-16,
+    "image" : "cloud-sweater-0-0.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 0.85949264174036522,
+    "seconds" : 0,
+    "shoulderAngle" : 1.4942465101376337e-19
+  },
+  {
+    "angle" : 0,
+    "footError" : 3.3335590258932494e-16,
+    "image" : "cloud-sweater-0-45.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.0972276194844708,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2301825219878386e-16,
+    "image" : "cloud-sweater-0-60.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.4814465022443295,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2887833992611187e-16,
+    "image" : "cloud-sweater-0-78.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.6731020975658601,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 0,
+    "footError" : 5.594315114139762e-17,
+    "image" : "cloud-sweater-0-150.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.6900817324793669,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.4825341532472731e-16,
+    "image" : "cloud-sweater-0-210.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.4828528617069168,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.8041124150158794e-16,
+    "image" : "cloud-sweater-45-0.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 0.85955697178364754,
+    "seconds" : 0,
+    "shoulderAngle" : 1.4942465101376337e-19
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.2761264355043341e-16,
+    "image" : "cloud-sweater-45-45.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.097230248830783,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.2929868617541516e-16,
+    "image" : "cloud-sweater-45-60.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.4812183359401971,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 45,
+    "footError" : 4.0125770192081414e-16,
+    "image" : "cloud-sweater-45-78.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.6722628878327448,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.2177709378935645e-16,
+    "image" : "cloud-sweater-45-150.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.6903124705518615,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 45,
+    "footError" : 3.502595287175881e-16,
+    "image" : "cloud-sweater-45-210.png",
+    "modelError" : "",
+    "outfit" : "cloud-sweater",
+    "rightHandHeight" : 1.4825633762988084,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  },
+  {
+    "angle" : 0,
+    "footError" : 1.1188630228279524e-16,
+    "image" : "ruffle-dress-0-0.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 0.85699935295721474,
+    "seconds" : 0,
+    "shoulderAngle" : 1.4942465101376337e-19
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2291027918243403e-16,
+    "image" : "ruffle-dress-0-45.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.0926159371653814,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.3520701021126763e-16,
+    "image" : "ruffle-dress-0-60.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.4768142338793357,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 0,
+    "footError" : 2.2344962252874602e-16,
+    "image" : "ruffle-dress-0-78.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.669663619850851,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 0,
+    "footError" : 1.1295700899707568e-16,
+    "image" : "ruffle-dress-0-150.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.6877688190617672,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 0,
+    "footError" : 1.2738115944464653e-16,
+    "image" : "ruffle-dress-0-210.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.4800928240121596,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  },
+  {
+    "angle" : 45,
+    "footError" : 6.5461394166803377e-17,
+    "image" : "ruffle-dress-45-0.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 0.85971590661475916,
+    "seconds" : 0,
+    "shoulderAngle" : 1.4942465101376337e-19
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.7235854893846466e-16,
+    "image" : "ruffle-dress-45-45.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.0971790024467538,
+    "seconds" : 0.75,
+    "shoulderAngle" : 0.023418783237031584
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.7928509224031823e-16,
+    "image" : "ruffle-dress-45-60.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.4811778488374039,
+    "seconds" : 1,
+    "shoulderAngle" : 0.048715310454734505
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.2516683988987807e-16,
+    "image" : "ruffle-dress-45-78.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.6719309534801101,
+    "seconds" : 1.3,
+    "shoulderAngle" : 0.066824601720846255
+  },
+  {
+    "angle" : 45,
+    "footError" : 2.8609792490763985e-16,
+    "image" : "ruffle-dress-45-150.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.689430067210977,
+    "seconds" : 2.5,
+    "shoulderAngle" : 0.069999974125650261
+  },
+  {
+    "angle" : 45,
+    "footError" : 1.2038530986592155e-16,
+    "image" : "ruffle-dress-45-210.png",
+    "modelError" : "",
+    "outfit" : "ruffle-dress",
+    "rightHandHeight" : 1.4830810148202358,
+    "seconds" : 3.5,
+    "shoulderAngle" : 0.047996458753754981
+  }
+]

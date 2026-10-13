@@ -10,7 +10,7 @@ The app starts with the microphone off. Audio capture and playback use AVAudioEn
 
 Use **Character → Open character studio** (or **Character → Open character studio** in the menu bar) to explore the full-body art, eight expressions, and the optional VRoid 3D model. Appearance and Framing also control the floating character. The editable VRoid model has facial expressions, finger articulation and hair springs; its likeness is still unfinished. See [asset details and limitations](docs/ARI-3D.md).
 
-In the **Character** tab, **Desktop wardrobe** selects the overlay's outfit, hairstyle, glasses and headwear independently. All 15 outfits and nine hairstyles are available; choosing a look switches to 3D and saves it immediately, even while the avatar is hidden. The beret is unavailable with double buns. Studio keeps its own preview choices so experimenting there does not change the desktop look.
+In the **Character** tab, **Desktop wardrobe** selects the overlay's outfit, hairstyle, glasses and headwear independently. All 15 outfits and nine hairstyles are available; choosing a look switches to 3D and saves it immediately, even while the avatar is hidden. **Coordinated beret** follows the outfit's main fabric color, with a darker band and a secondary-color ribbon, including after startup randomization. The beret is unavailable with double buns. Studio keeps its own preview choices so experimenting there does not change the desktop look.
 
 **Randomize outfit on startup** is on by default. Each app launch picks a different outfit while keeping hair, accessories, appearance mode and visibility as selected. Turn it off to retain the current outfit across launches; this preference is saved. Opening a tab or reconnecting does not reroll the outfit.
 

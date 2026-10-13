@@ -6,7 +6,7 @@ export function mountWardrobe(container:HTMLElement,apply:(value:WardrobeSelecti
   container.classList.add('testbench');
   container.innerHTML=`<h2>3D wardrobe</h2><p class="hint">Mix an outfit with any hairstyle. These controls change animated Ari; illustrations below remain design references.</p>
     <label for="outfit">Outfit</label><select id="outfit"></select><label for="hairstyle">Hairstyle</label><select id="hairstyle"></select>
-    <div class="row"><div class="field"><label for="glasses">Glasses</label><select id="glasses"><option value="none">None</option><option value="round">Round frames</option></select></div><div class="field"><label for="headwear">Headwear</label><select id="headwear"><option value="none">None</option><option value="beret">Butter beret</option></select></div></div>
+    <div class="row"><div class="field"><label for="glasses">Glasses</label><select id="glasses"><option value="none">None</option><option value="round">Round frames</option></select></div><div class="field"><label for="headwear">Headwear</label><select id="headwear"><option value="none">None</option><option value="beret">Coordinated beret</option></select></div></div>
     <p id="accessory-fit" class="hint" role="status"></p>
     <div class="row"><button id="wardrobe-cycle">Cycle all ${combinations.length} looks</button><button id="wardrobe-stop" disabled>Stop cycle</button></div>
     <p id="wardrobe-status" role="status" aria-live="polite">Original cardigan · long layered hair</p>`;

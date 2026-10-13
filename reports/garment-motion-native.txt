@@ -1,0 +1,15 @@
+PASS: bundled full-body illustration loaded
+PASS: bundled VRM rendered: 25 draws, 163466 triangles
+PASS: hidden character stops rendering
+PASS: portrait expression, blush and planted feet (error 1.279468816630226e-16)
+PASS: ariConcerned replaces the previous face without retaining a smile
+PASS: ariAnnoyed replaces the previous face without retaining a smile
+PASS: nine hair contact volumes; angular speed settles from 0.48348734088845696 to 0.023136629953397856 rad/s
+PASS: twirl pose (peak 6.283185307177283), planted feet, finite hair, 41.28140036333113 rendered FPS
+PASS: raise-arms pose (peak 1.6862644916704652), planted feet, finite hair, 56.34985662089848 rendered FPS
+PASS: shrug pose (peak 0.15999842705995912), planted feet, finite hair, 54.94417936932247 rendered FPS
+PASS: point pose (peak 0.9399276992652218), planted feet, finite hair, 58.40511758144746 rendered FPS
+PASS: speed-dependent hair radius: slow 0.2913100570814622, fast 0.3786397856461216 metres
+TIMING: p95 simulation 1 ms per 60 Hz step; draw submission 2 ms
+PASS: reduced motion stops hair dynamics
+PASS: illustration fallback disposes 3D canvas

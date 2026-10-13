@@ -1,0 +1,5 @@
+PASS: original-0; beret rendered, glasses retained
+PASS: original-45; beret rendered, glasses retained
+PASS: original-90; beret rendered, glasses retained
+PASS: original-180; beret rendered, glasses retained
+PASS: 4 captures, 1 distinct palettes, retained accessories

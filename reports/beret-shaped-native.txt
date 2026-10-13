@@ -1,0 +1,16 @@
+PASS: original; beret rendered, glasses retained
+PASS: tailored; beret rendered, glasses retained
+PASS: streetwear; beret rendered, glasses retained
+PASS: linen; beret rendered, glasses retained
+PASS: cloud-sweater; beret rendered, glasses retained
+PASS: sunny-sweater; beret rendered, glasses retained
+PASS: school-cardigan; beret rendered, glasses retained
+PASS: school-cardigan-brown; beret rendered, glasses retained
+PASS: school-vest; beret rendered, glasses retained
+PASS: navy-blouse; beret rendered, glasses retained
+PASS: pink-sailor; beret rendered, glasses retained
+PASS: ruffle-dress; beret rendered, glasses retained
+PASS: black-jacket; beret rendered, glasses retained
+PASS: butter-coat; beret rendered, glasses retained
+PASS: forest-pinafore; beret rendered, glasses retained
+PASS: 15 captures, 15 distinct palettes, retained accessories

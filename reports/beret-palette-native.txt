@@ -1,0 +1,16 @@
+PASS: original; beret palette changed with outfit, glasses retained
+PASS: tailored; beret palette changed with outfit, glasses retained
+PASS: streetwear; beret palette changed with outfit, glasses retained
+PASS: linen; beret palette changed with outfit, glasses retained
+PASS: cloud-sweater; beret palette changed with outfit, glasses retained
+PASS: sunny-sweater; beret palette changed with outfit, glasses retained
+PASS: school-cardigan; beret palette changed with outfit, glasses retained
+PASS: school-cardigan-brown; beret palette changed with outfit, glasses retained
+PASS: school-vest; beret palette changed with outfit, glasses retained
+PASS: navy-blouse; beret palette changed with outfit, glasses retained
+PASS: pink-sailor; beret palette changed with outfit, glasses retained
+PASS: ruffle-dress; beret palette changed with outfit, glasses retained
+PASS: black-jacket; beret palette changed with outfit, glasses retained
+PASS: butter-coat; beret palette changed with outfit, glasses retained
+PASS: forest-pinafore; beret palette changed with outfit, glasses retained
+PASS: 15 outfit swaps, 15 distinct palettes, retained accessories

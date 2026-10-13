@@ -1,0 +1,7 @@
+Captured original at 0 degrees
+Captured original at 45 degrees
+Captured cloud-sweater at 0 degrees
+Captured cloud-sweater at 45 degrees
+Captured ruffle-dress at 0 degrees
+Captured ruffle-dress at 45 degrees
+PASS: 36 deterministic pose captures; no production animation changes

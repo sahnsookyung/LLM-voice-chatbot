@@ -15,6 +15,43 @@ function worldMatrices(g){const worlds=[];
   function walk(i,parent){const n=g.nodes[i],world=parent.clone().multiply(n.matrix?new Matrix4().fromArray(n.matrix):new Matrix4().compose(new Vector3(...(n.translation??[0,0,0])),new Quaternion(...(n.rotation??[0,0,0,1])),new Vector3(...(n.scale??[1,1,1]))));worlds[i]=world;for(const c of n.children??[])walk(c,world);}
   for(const n of g.scenes[g.scene??0].nodes)walk(n,new Matrix4());return worlds;}
 const originalWorlds=worldMatrices(source.g);
+test('closed tops stitch each complete sleeve ring with identical skin weights',()=>{
+  for(const outfit of ['cloud-sweater','sunny-sweater','school-vest','navy-blouse','pink-sailor','ruffle-dress','butter-coat','forest-pinafore']){
+    const {g,values}=read(buildWardrobeModel(original,{outfit,hair:'original'}));
+    const top=g.meshes.find(m=>m.extras?.ariSleeveSeams?.length);
+    assert.ok(top,`${outfit}: connected shoulder yoke required`);
+    assert.equal(top.extras.ariSleeveSeams.length,2);
+    const readPart=p=>({p:values(p.attributes.POSITION),j:values(p.attributes.JOINTS_0),w:values(p.attributes.WEIGHTS_0),indices:values(p.indices).flat()});
+    const torso=readPart(top.primitives[0]);
+    const skin=(v,id,t)=>{
+      const p=new Vector3(...v.p[id]),result=new Vector3();
+      for(let k=0;k<4;k++)result.addScaledVector(p.clone().applyMatrix4(new Matrix4().makeRotationZ(t*(v.j[id][k]%7-3)*.4)),v.w[id][k]);
+      return result;
+    };
+    for(const seam of top.extras.ariSleeveSeams){
+      const sleeve=readPart(g.meshes[seam.mesh].primitives[0]);
+      assert.ok(seam.pairs.length>12,'the seam is a ring, not an overlapping patch');
+      for(const [a,b]of seam.pairs){
+        assert.ok(torso.indices.includes(a)&&sleeve.indices.includes(b));
+        assert.deepEqual(torso.p[a],sleeve.p[b]);
+        assert.deepEqual(torso.j[a],sleeve.j[b]);assert.deepEqual(torso.w[a],sleeve.w[b]);
+        for(const t of [0,.3,.6,1])assert.ok(skin(torso,a,t).distanceTo(skin(sleeve,b,t))<1e-7,'seam stays closed under unequal bone transforms');
+      }
+    }
+    // Interior shoulder edges must have two oppositely wound faces. Open edges
+    // are legitimate only at the neckline, hem and the outer sleeve cuts.
+    const edges=new Map(),points=torso.p;
+    const key=i=>points[i].map(v=>Math.round(v*1e5)).join(',');
+    for(let i=0;i<torso.indices.length;i+=3)for(let k=0;k<3;k++){
+      const a=torso.indices[i+k],b=torso.indices[i+(k+1)%3],ka=key(a),kb=key(b);if(ka===kb)continue;
+      const id=ka<kb?`${ka}/${kb}`:`${kb}/${ka}`,edge=edges.get(id)??{count:0,winding:0,a,b};edge.count++;edge.winding+=ka<kb?1:-1;edges.set(id,edge);
+    }
+    for(const edge of edges.values()){
+      if(edge.count===1){const a=points[edge.a],b=points[edge.b];assert.ok((Math.abs(a[0])>.239&&Math.abs(b[0])>.239)||(a[1]>1.30&&b[1]>1.30)||(a[1]<1.0&&b[1]<1.0),`${outfit}: open interior edge ${a}/${b}`);}
+      else assert.equal(edge.winding,0,`${outfit}: inward-facing yoke triangle`);
+    }
+  }
+});
 test('stockings wrap both calf surfaces and short skirts have a longer hem',()=>{
   const {g,values}=read(buildWardrobeModel(original,{outfit:'navy-blouse',hair:'original'}));
   const socks=g.meshes.find(m=>m.name==='Ari knee socks'),points=values(socks.primitives[0].attributes.POSITION);

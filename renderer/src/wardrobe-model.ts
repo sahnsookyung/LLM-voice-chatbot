@@ -1,12 +1,12 @@
 import {BufferGeometry, CatmullRomCurve3, DoubleSide, Float32BufferAttribute, Matrix3, Matrix4, Mesh, MeshBasicMaterial, Quaternion, Raycaster, Vector3} from 'three';
 import {parseWardrobe, type WardrobeSelection} from './wardrobe.js';
+import {outfitPalettes} from './wardrobe-palette.js';
+import {blendInfluences,cutSleeve,stitchSleeve,type Influence,type Surface} from './garment-seams.js';
 
 // This adapter owns the v9 export format. Face, body, facial morphs and humanoid
 // nodes are copied untouched; new parts use the existing skeleton's bind space.
 type JSONNode = Record<string, any>;
 type Point = [number, number, number];
-type Influence = {joints:number[]; weights:number[]};
-type Surface = {positions:number[][]; uv:number[][]; influences:Influence[]; indices:number[]};
 const smooth = (v:number) => {const t=Math.max(0,Math.min(1,v));return t*t*(3-2*t);};
 const vector = (p:number[]) => new Vector3(p[0],p[1],p[2]);
 const surface = ():Surface => ({positions:[],uv:[],influences:[],indices:[]});
@@ -70,6 +70,7 @@ class Model {
   addMesh(name:string,s:Surface,material:number,skin:number) {
     const mesh=this.g.meshes.push({name,primitives:[{...this.geometry(s),material}]})-1;
     const node=this.g.nodes.push({name,mesh,skin})-1;this.g.scenes[this.g.scene??0].nodes.push(node);
+    return mesh;
   }
   addMaterial(name:string,color:number[],detail?:string) {
     return this.g.materials.push({name,pbrMetallicRoughness:{baseColorFactor:[...color,1],metallicFactor:0,roughnessFactor:.9},doubleSided:true,...(detail?{extras:{ariSurfaceDetail:detail}}:{}),extensions:{VRMC_materials_mtoon:{specVersion:'1.0',shadeColorFactor:color.map(v=>v*.72),shadingToonyFactor:.8,shadingShiftFactor:0,outlineWidthMode:'none'}}})-1;
@@ -316,7 +317,8 @@ function outfit(m:Model,selection:WardrobeSelection) {
   const g=m.g,body=g.meshes[1],find=(word:string)=>body.primitives.find((p:JSONNode)=>g.materials[p.material].name.includes(word));
   const coat=find('Tops_01'),inner=find('Onepiece_00'),pants=find('Bottoms_01'),shoes=find('Shoes_01');
   if(!coat||!inner||!pants||!shoes)throw new Error('Ari garment binding is missing.');
-  const colors=selection.outfit==='tailored'?[[.43,.36,.30],[.88,.84,.76],[.065,.071,.075],[.035,.027,.023]]:selection.outfit==='streetwear'?[[.23,.29,.20],[.84,.82,.74],[.052,.066,.055],[.73,.73,.68]]:[[.68,.62,.50],[.27,.34,.23],[.27,.34,.23],[.09,.047,.027]];
+  const palette=outfitPalettes[selection.outfit];
+  const colors=selection.outfit==='tailored'?[palette.outer,palette.accent,palette.bottom,[.035,.027,.023]]:selection.outfit==='streetwear'?[palette.outer,palette.accent,palette.bottom,[.73,.73,.68]]:[palette.outer,palette.bottom,palette.bottom,[.09,.047,.027]];
   for(const [i,p]of [coat,inner,pants,shoes].entries())g.materials[p.material].extras={...g.materials[p.material].extras,ariGarmentColor:colors[i]};
   m.warp(g.meshes[3].primitives[0],([x,y,z])=>[x,1.309+(y-1.323)*.18,z]);
   if(selection.outfit!=='linen')m.warp(pants,([x,y,z])=>{
@@ -384,17 +386,19 @@ function outfit(m:Model,selection:WardrobeSelection) {
 function torsoBinding(m:Model) {
   const g=m.g,skin=g.skins[1],bones=g.extensions.VRMC_vrm.humanoid.humanBones;
   const joint=(name:string)=>skin.joints.indexOf(bones[name].node);
-  return ([,y]:number[]):Influence=>{
+  return ([x,y]:number[]):Influence=>{
     const anchors:[[number,string],[number,string],[number,string],[number,string]]=[[.98,'hips'],[1.10,'spine'],[1.22,'chest'],[1.30,'upperChest']];
     let i=0;while(i<2&&y>anchors[i+1][0])i++;
     const f=smooth((y-anchors[i][0])/(anchors[i+1][0]-anchors[i][0]));
-    return {joints:[joint(anchors[i][1]),joint(anchors[i+1][1]),0,0],weights:[1-f,f,0,0]};
+    const torso={joints:[joint(anchors[i][1]),joint(anchors[i+1][1]),0,0],weights:[1-f,f,0,0]};
+    const side=x>0?'left':'right',arm=smooth((Math.abs(x)-.055)/.14)*smooth((y-1.105)/.13)*.65;
+    return blendInfluences(torso,{joints:[joint(`${side}Shoulder`),joint(`${side}UpperArm`),0,0],weights:[.48,.52,0,0]},arm);
   };
 }
 
 function skirt(m:Model,color:number[],hem:number,waist=1.02,ruffle=false,trim?:number[]) {
   const g=m.g,hips=g.extensions.VRMC_vrm.humanoid.humanBones.hips.node,spring=g.extensions.VRMC_springBone,colliders:number[]=[];
-  const rootRx=waist<.9?.184:.14,rootRz=waist<.9?.137:.113;
+  const rootRx=waist<.9?.173:.14,rootRz=waist<.9?.126:.113;
   for(const side of ['left','right']){
     const bone=g.extensions.VRMC_vrm.humanoid.humanBones[`${side}UpperLeg`].node,knee=g.extensions.VRMC_vrm.humanoid.humanBones[`${side}LowerLeg`].node;
     const tail=new Vector3().setFromMatrixPosition(m.worlds[knee]).applyMatrix4(m.worlds[bone].clone().invert()).toArray();
@@ -450,25 +454,28 @@ function screenshotOutfit(m:Model,id:WardrobeSelection['outfit']) {
   const g=m.g,body=g.meshes[1],find=(word:string)=>body.primitives.find((p:JSONNode)=>g.materials[p.material].name.includes(word));
   const coat=find('Tops_01'),inner=find('Onepiece_00'),pants=find('Bottoms_01');
   const sweatshirt=id.endsWith('sweater'),cardigan=id.startsWith('school-cardigan'),vest=id==='school-vest',navy=id==='navy-blouse',sailor=id==='pink-sailor',ruffle=id==='ruffle-dress',jacket=id==='black-jacket',butter=id==='butter-coat',forest=id==='forest-pinafore';
-  const brown=id==='school-cardigan-brown',blue=id==='cloud-sweater';
-  const outer=sweatshirt?(blue?[.54,.68,.76]:[.82,.72,.35]):cardigan?(brown?[.32,.21,.14]:[.23,.25,.26]):vest?[.77,.66,.47]:jacket?[.026,.031,.033]:butter?[.82,.66,.29]:ruffle?[.045,.039,.04]:[.86,.85,.78];
-  const bottom=cardigan?(brown?[.14,.09,.065]:[.095,.105,.11]):vest?[.085,.089,.09]:navy?[.035,.07,.09]:sailor?[.69,.33,.42]:ruffle?[.58,.44,.34]:forest?[.18,.25,.095]:butter?outer:[.13,.16,.20];
+  const {outer,bottom}=outfitPalettes[id];
   const bind=torsoBinding(m);
   const recolor=(primitive:JSONNode,color:number[])=>{g.materials[primitive.material].extras={...g.materials[primitive.material].extras,ariGarmentColor:color};};
   recolor(coat,outer);recolor(inner,jacket?[.85,.84,.78]:outer);recolor(pants,[.035,.039,.043]);
   const puff=sweatshirt?1.18:ruffle||sailor||navy||forest?1.10:vest?.85:1;
+  const sleeves:{surface:Surface;ring:number[];sign:number;mesh:number}[]=[];
   m.warp(coat,([x,y,z])=>{
     const arm=smooth((Math.abs(x)-.16)/.10),lower=smooth((1.13-y)/.36),shorten=cardigan?.03:jacket?.06:sweatshirt?-.08:butter?-.10:.14;
     return [x*(1+(sweatshirt?.06:cardigan?.15*lower:0)*(1-arm)),y+shorten*lower+(y-1.275)*(puff-1)*arm,z*(1+(puff-1)*(.3+.7*arm)+(cardigan?.38*lower*(1-arm):0))];
   });
   m.warp(g.meshes[3].primitives[0],([x,y,z])=>[x,1.302+(y-1.323)*.16,z]);
   if(!cardigan&&!jacket){
-    // Reuse the fitted sleeve weights; replace the open cardigan torso.
-    const positions=m.values(coat.attributes.POSITION),indices=m.values(coat.indices).flat(),sleeves:number[]=[];
-    for(let i=0;i<indices.length;i+=3){const tri=indices.slice(i,i+3);if(tri.every(v=>positions[v][1]>1.245||(Math.abs(positions[v][0])>.162&&positions[v][1]>1.12)))sleeves.push(...tri);}
-    coat.indices=m.append(sleeves.map(i=>[i]),'SCALAR',5125);
+    // Keep the detailed cuffs/outer sleeves, but cut complete rings. The new
+    // raglan yoke below stitches those rings to actual torso armholes.
+    const weights=m.values(coat.attributes.WEIGHTS_0);
+    const source:Surface={positions:m.values(coat.attributes.POSITION),uv:m.values(coat.attributes.TEXCOORD_0),indices:m.values(coat.indices).flat(),influences:m.values(coat.attributes.JOINTS_0).map((joints,i)=>({joints,weights:weights[i]}))};
     recolor(coat,sweatshirt||butter?outer:ruffle?[.045,.039,.04]:[.84,.83,.77]);
-    body.primitives=body.primitives.filter((p:JSONNode)=>p!==inner);
+    for(const sign of [-1,1]){
+      const sleeve=cutSleeve(source,sign),mesh=m.addMesh(`Ari retained ${sign>0?'left':'right'} sleeve`,sleeve.surface,coat.material,1);
+      sleeves.push({...sleeve,sign,mesh});
+    }
+    body.primitives=body.primitives.filter((p:JSONNode)=>p!==inner&&p!==coat);
     // A blouse/sweatshirt has its own neckline; the collapsed v9 turtleneck
     // would otherwise remain as an unrelated band above it.
     g.scenes[g.scene??0].nodes=g.scenes[g.scene??0].nodes.filter((i:number)=>g.nodes[i].mesh!==3);
@@ -480,6 +487,7 @@ function screenshotOutfit(m:Model,id:WardrobeSelection['outfit']) {
   };
   const closedTop=(name:string,tint:number[],bottomY:number,extra:number,vNeck=false,kind='cotton')=>{
     const s=surface(),rows=64,sides=144;
+    const low=Math.round((1.165-bottomY)/(1.317-bottomY)*rows),high=Math.round((1.302-bottomY)/(1.317-bottomY)*rows),half=16;
     const point=(a:number,t:number)=>{
       const top=1.317-(vNeck?.105*Math.max(0,Math.cos(a))**6:0),y=bottomY+(top-bottomY)*t,[rx,rz,z]=shape(y,extra);
       const neck=smooth((t-.80)/.20);
@@ -495,8 +503,18 @@ function screenshotOutfit(m:Model,id:WardrobeSelection['outfit']) {
     for(let row=0;row<=rows;row++)for(let side=0;side<=sides;side++){
       const a=side/sides*Math.PI*2,t=row/rows,p=point(a,t);s.positions.push(p);s.uv.push([side/sides,t]);s.influences.push(bind(p));
     }
-    for(let row=0;row<rows;row++)for(let side=0;side<sides;side++){const a=row*(sides+1)+side,b=a+sides+1;s.indices.push(a,a+1,b,a+1,b+1,b);}
-    m.addMesh(name,s,m.addFabric(name,tint,kind),1);
+    for(let row=0;row<rows;row++)for(let side=0;side<sides;side++){
+      if(row>=low&&row<high&&[sides/4,3*sides/4].some(center=>side>=center-half&&side<center+half))continue;
+      const a=row*(sides+1)+side,b=a+sides+1;s.indices.push(a,a+1,b,a+1,b+1,b);
+    }
+    const seams:{mesh:number;pairs:number[][]}[]=[];
+    if(!vNeck)for(const sleeve of sleeves){
+      const center=sleeve.sign>0?sides/4:3*sides/4,l=center-half,r=center+half,index=(row:number,col:number)=>row*(sides+1)+col;
+      const opening=[...Array.from({length:r-l},(_,i)=>index(low,l+i)),...Array.from({length:high-low},(_,i)=>index(low+i,r)),...Array.from({length:r-l},(_,i)=>index(high,r-i)),...Array.from({length:high-low},(_,i)=>index(high-i,l))];
+      seams.push({mesh:sleeve.mesh,pairs:stitchSleeve(s,opening,sleeve.surface,sleeve.ring)});
+    }
+    const mesh=m.addMesh(name,s,m.addFabric(name,tint,kind),1);
+    m.g.meshes[mesh].extras={ariSleeveSeams:seams};
     const edging=surface();
     for(const [start,end] of [[0,sweatshirt?.06:.020],[.980,1]]){
       const base=edging.positions.length;
@@ -511,7 +529,7 @@ function screenshotOutfit(m:Model,id:WardrobeSelection['outfit']) {
   if(sweatshirt)closedTop('Ari oversized sweatshirt body',outer,.83,.026,false,'cotton');
   else if(butter)closedTop('Ari shaped wool coat',outer,.79,.026,false,'wool');
   else if(!cardigan&&!jacket){
-    closedTop('Ari closed blouse',[.73,.72,.67],.985,.010);
+    closedTop('Ari closed blouse',ruffle?[.045,.039,.04]:[.73,.72,.67],.985,.010);
     if(vest||forest||ruffle)closedTop('Ari fitted vest bodice',vest?outer:bottom,1.045,.018,true,vest?'wool':'twill');
   }
   const decoration=surface();

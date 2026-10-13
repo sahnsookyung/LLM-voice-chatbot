@@ -60,7 +60,11 @@ test('new gestures are bilateral where needed, bounded, and smoothly interruptib
       }
       previous=w;
     }
-    if(gesture==='raise-arms'){assert.ok(peak.upperArm>2.2&&peak.leftArm>2.2);}
+    if(gesture==='raise-arms'){
+      assert.ok(peak.upperArm>1.95&&peak.upperArm<2.1&&peak.leftArm>1.95,'upper arms leave room for shoulder participation');
+      assert.ok(peak.shoulderLift>.20&&peak.rightArmForward>.25&&peak.leftArmForward>.25,'shoulders and forward reach share the lift');
+      assert.ok(peak.forearmLift>.45&&peak.leftForearmLift>.45,'elbows remain softly bent');
+    }
     if(gesture==='shrug'){assert.ok(peak.shoulderLift>.14&&peak.palmUp>.85);}
     if(gesture==='point'){assert.ok(peak.point>.9&&peak.upperArm>1.35);}
   }
@@ -69,11 +73,11 @@ test('new gestures are bilateral where needed, bounded, and smoothly interruptib
   assert.ok(Math.abs(Math.sin(w.bodyYaw))<.001);
 });
 
-test('gesture reach leads the wrists and fingers, with staggered bilateral arms',()=>{
+test('gesture reach leads the hands without a large bilateral height stagger',()=>{
   const m=new MotionController(()=>.5);m.update({gesture:'raise-arms'});
   const w=settle(m,.75,60);
-  assert.ok(w.upperArm/2.35>w.leftArm/2.3+.04,'right arm starts first');
-  assert.ok(w.upperArm/2.35>w.rightOpen/.55+.08,'hand opens after reaching begins');
+  assert.ok(w.upperArm>w.leftArm&&w.upperArm-w.leftArm<.15,'subtle asymmetry without an airplane pose');
+  assert.ok(w.upperArm/2.02>w.rightOpen/.55+.08,'hand opens after reaching begins');
   const pose=settle(m,1.5,60);assert.ok(pose.rightOpen>.5&&pose.leftOpen>.5);
 });
 test('interrupted arm motion preserves velocity instead of abruptly reversing',()=>{
