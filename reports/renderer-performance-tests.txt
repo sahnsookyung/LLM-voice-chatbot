@@ -1,0 +1,56 @@
+
+> companion-character@0.1.0 test
+> tsc src/motion.ts src/motion-clock.ts src/types.ts src/sequence.ts src/leg-ik.ts --outDir .test-build --target ES2022 --module ES2022 --skipLibCheck && node --test test/*.test.mjs
+
+✔ two-bone knee solve preserves limb lengths and bends forwards (0.718541ms)
+✔ feet remain planted through weight shifts, steps, turning and gesture interruption (23.780416ms)
+✔ reduced motion settles both arms, hips and leg movement (1.74825ms)
+✔ leg solve follows changed ancestors without traversing unrelated avatar branches (0.564166ms)
+✔ v7 is self-contained and preserves the humanoid, body fit, and garment cutouts (225.460583ms)
+✔ v7 lengthens the brows, refines the chin and exposes narrower ears (4.726875ms)
+✔ all 57 facial morph endpoints remain finite with normalized normals (171.60825ms)
+✔ temple hair remains skinned in its new rest pose without moving the crown (10.566041ms)
+✔ gold hoops follow the head and new geometry has valid normals, indices and skin weights (142.795542ms)
+✔ v8 shrinks only ear regions while preserving expressions, body and garment alpha (330.677667ms)
+✔ finer hair has valid outward geometry, tiny tapered tips, and normalized skinning (183.157458ms)
+✔ all hair chains use fitted body capsules with stable spring settings (0.181167ms)
+✔ v9 exposes ears through a local hair tuck, preserving ear size, face, body, textures and skinning (62.836292ms)
+✔ fixed-step tuning preserves world-space inertia and fitted collision groups (0.171542ms)
+✔ VRoid asset is self-contained, textured and within the geometry budget (37.75275ms)
+✔ humanoid includes distinct articulated fingers and valid expression bindings (0.131959ms)
+✔ skin weights are normalized and joint indices reference the exported skeleton (66.730041ms)
+✔ hair springs contain valid joints and collision references (0.150167ms)
+✔ offline tailoring preserves topology, face morphs, textures and rig data (19.934083ms)
+✔ neutral cardigan clears the inner knit over both chest and pocket seams (206.254416ms)
+✔ longer hair retains valid rest skinning and preserves roots and face (17.133583ms)
+✔ mock-neck is skinned, outward-facing, and overlaps the shirt neckline (257.127083ms)
+✔ fixed simulation is identical across 30, 60, 120 Hz and uneven callbacks (29.2ms)
+✔ drawing uses 60 Hz during gestures and 30 Hz when idle without losing fractional time (0.203125ms)
+✔ stalls, invalid timing and visibility resets cannot create unbounded catch-up (0.060708ms)
+✔ millisecond callback jitter does not skip otherwise available gesture frames (0.14175ms)
+✔ presentation jitter allowance retains debt and does not increase the frame cap (1.272042ms)
+✔ interruptions blend from the current expression instead of snapping (4.797ms)
+✔ emotion smoothing is independent of frame rate (1.485875ms)
+✔ stale or invalid audio cannot leave a mouth open (0.930333ms)
+✔ every mood, gaze and repeated gesture produces bounded finite morph weights (47.068375ms)
+✔ reduced motion settles all secondary motion while keeping expression and speech (2.146ms)
+✔ hair sway alternates smoothly, settles, and supports interruption (5.5345ms)
+✔ a twirl completes one turn with alternate foot lifts and no rewind (3.778875ms)
+✔ new gestures are bilateral where needed, bounded, and smoothly interruptible (20.78175ms)
+✔ gesture reach leads the wrists and fingers, with staggered bilateral arms (1.0515ms)
+✔ interrupted arm motion preserves velocity instead of abruptly reversing (0.947458ms)
+✔ tempo changes gesture speed without skipping orientation or increasing its amplitude (7.270958ms)
+✔ pair rehearsal covers all 56 directed changes without duplicates or neutral resets (0.791625ms)
+✔ shuffle includes every emotion once and custom order preserves repetitions (1.000958ms)
+✔ paused and suspended rehearsal cannot accumulate timers or skip expressions (0.179208ms)
+✔ all expression pairs and rapid interruptions stay finite, smooth, and settle cleanly (81.167958ms)
+✔ sleepiness and blush blend out, and speech continues through changing emotions (2.573875ms)
+✔ movement rehearsal gives all new gestures time to complete and returns to neutral (0.088959ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 719.1205

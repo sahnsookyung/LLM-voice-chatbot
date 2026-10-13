@@ -1,0 +1,25 @@
+# Models, quantization, and licenses
+
+All inference is local after setup; the application has no paid API dependency. The app's original code/art is MIT licensed. Runtime libraries and model weights retain their own licenses. Apple's macOS frameworks and Xcode are platform software, so the entire installed stack should not be described as open-source software.
+
+| Role | Installed choice | Precision | License/source |
+| --- | --- | --- | --- |
+| Everyday conversation | Qwen3.5 9B, MLX community conversion | 4-bit weights; no KV-cache quantization | [Apache 2.0 model card](https://huggingface.co/mlx-community/Qwen3.5-9B-4bit) |
+| Quiet conversation | Qwen3.5 4B, MLX community conversion | 4-bit weights; no KV-cache quantization | [Upstream Qwen model](https://huggingface.co/Qwen/Qwen3.5-4B) |
+| Recognition | Nemotron 3.5 streaming ASR 0.6B in NeMo-Speech.cpp | Q8_0 GGUF | [OpenMDW 1.1 model card](https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b); runtime Apache 2.0 |
+| Voice activity | Pipecat's bundled Silero | Original ONNX CPU artifact | [Silero MIT](https://github.com/snakers4/silero-vad) |
+| End of turn | Pipecat bundled Smart Turn v3.2 CPU | Upstream CPU ONNX artifact | [Smart Turn BSD 2-Clause](https://github.com/pipecat-ai/smart-turn) |
+| Speech synthesis | Qwen3-TTS 12 Hz 0.6B Base | BF16 weights | [Apache 2.0 model card](https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16) |
+| Voice creation only | Qwen3-TTS 12 Hz 1.7B VoiceDesign | BF16 weights | [Apache 2.0 model card](https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16) |
+
+Model repositories and exact revisions are pinned in `scripts/download_models.py`. oMLX 0.7.1.dev1 is pinned to the official CPython 3.12 macOS wheel. MLX-Audio is pinned to commit `94c7716212b2228f178d2f9c7619a591fd1b0b78`; NeMo-Speech.cpp 0.2.0 CPU archive is verified against a committed SHA-256. The backend uses `uv.lock`; the renderer uses `package-lock.json`. oMLX's own transitive Git dependencies are pinned in its wheel metadata, while some transitive package ranges are resolved during setup. This is a local development distribution, not a fully hermetic release archive.
+
+Quantization is a chosen operating point, not an assertion that all lower precision is bad. Dialogue receives 4-bit weights to reduce bandwidth and leave room for everyday apps. Recognition keeps Q8_0 to reduce the chance of transcription regressions. The already-small TTS model keeps BF16 because voice stability and pronunciation matter more than saving another gigabyte. No untested quantized TTS artifact is silently substituted. This implementation has not run a BF16-versus-4-bit dialogue quality study or an ASR Q8-versus-F16 corpus evaluation.
+
+The backend limits total prompt plus output to 4,096 tokens using the serving tokenizer, with at most 256 generated tokens. It trims old exchanges in larger groups when needed and keeps that prefix boundary stable, preserving cache reuse between trims. After an interruption, it starts a new cache prefix and rebuilds from the latest four exchanges plus the current input, avoiding reuse against unheard generated output. The complete transcript remains in SQLite; older context is not summarized automatically. It does not create hidden long-term summaries or an embedding database. Only explicitly saved memories are injected. Excessive system/persona/current-message content is rejected with an actionable error.
+
+Auto language uses a lightweight script-based hint on each user message, with explicit language requests taking priority. Hints are applied consistently to history so switching between languages does not invalidate the entire system prefix. The language selector supplies a fixed override when wanted. This reduces history-driven language drift but is not a guarantee of perfect language identification or model instruction-following.
+
+Only the selected dialogue model is exposed to oMLX discovery. Hugging Face cache discovery and disk caching are disabled. A bounded 1 GB RAM-only prefix cache avoids reprocessing the whole conversation on each turn. The speech worker caps the MLX allocator cache at 256 MiB and caches one voice reference. Creation models never load in the conversation process. Both main models unload after ten idle minutes; ASR unloads when the session closes. Memory-pressure warnings downgrade at an idle boundary, and critical pressure unloads the main models. The 18 GB Everyday / 12 GB Quiet figures are operating targets, not OS-enforced whole-app quotas. Runtime diagnostics currently report backend and child-process RSS; WebKit/native memory and shared GPU accounting need separate Instruments measurements.
+
+Third-party package notices remain with the installed distributions in `.venv` and `.runtime`. Preserve their notices and the model licenses when redistributing a packaged application or model bundle. Downloading freely available weights does not mean every model uses the same software license.

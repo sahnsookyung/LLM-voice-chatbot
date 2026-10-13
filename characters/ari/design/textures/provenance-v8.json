@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-13",
+  "generator": "built-in imagegen",
+  "assets": [
+    {
+      "name": "iris-v8-jade-silver.png",
+      "transparent": true,
+      "refs": [
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/textures/iris-v7-smoke-gray.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit this paired iris UV atlas exactly in place. Keep both oval island outlines, positions, dimensions, pupil positions, and 2:1 framing unchanged. Preserve transparent background. Make the irises more lively and jewel-like while remaining natural adult anime eyes: luminous muted silver-teal/gray-green radial fibers, charcoal outer rims, darker upper third, subtle warm champagne flecks near the pupil and a soft clear aqua glow in the lower iris. Keep dark compact pupils. Add only two tiny elegant white catchlights in the upper-left region of EACH iris, one small soft oval and one pinprick; avoid star shapes, large white disks, neon saturation, or magical symbols. Match both eyes. Output only this flat UV atlas, no face, text or other objects."
+    },
+    {
+      "name": "hair-v8-silk.png",
+      "transparent": false,
+      "refs": [
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/textures/v8-input/hair-color.png",
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/anime-reference-v2.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is a black hair UV texture tile to edit, Image 2 is the style/character reference only. Output only an opaque 1:2 vertical hair texture tile, full-bleed edge to edge with no face or hairstyle silhouette. Replace the nearly blank flat black surface with finely detailed silky black hair fibers, straight vertical fine dark graphite strands and a few delicate cool charcoal glints running top to bottom, density like many fine individual hairs. Subtle flowing highlights with variation in fine strand length, not broad horizontal bands. Keep very dark black/charcoal overall, never silver gray or brown. Seamless horizontally. No coarse chunks, no clumped clots, no zigzags, no wide shining strips, no hard outlines, no background or labels. This map repeats over many thin tapered 3D hair locks; fine-scale strand variation must be visible without exaggerating contrast."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "provider": "https://huggingface.co/spaces/tencent/Hunyuan3D-2.1",
+  "reference": "characters/ari/design/a-pose-v1.png",
+  "reference_sha256": "6e12924b54f3de2650f60d7b74a1de41bb96467008d85121cdca0cd281b5ca25",
+  "authorization": "User explicitly approved this image and destination on 2026-10-13.",
+  "parameters": {
+    "steps": 30,
+    "guidance_scale": 5,
+    "seed": 1234,
+    "octree_resolution": 512,
+    "check_box_rembg": true,
+    "num_chunks": 8000,
+    "randomize_seed": false
+  },
+  "status": "failed",
+  "error": "'The requested GPU duration (270s) is larger than the maximum allowedSubscribe to Hugging Face PRO to allow GPU tasks up to 40 min - https://huggingface.co/subscribe/pro?from=ZeroGPU'"
+}

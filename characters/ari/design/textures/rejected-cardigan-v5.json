@@ -1,0 +1,12 @@
+[
+  {
+    "file": "cardigan-v5-knit-candidate.png",
+    "prompt": "Production VRoid cardigan UV texture edit. Preserve the exact 2048-square layout of this input: every UV island boundary, position, cutout, cuff, hem, pocket and central front opening. Only recolor and retexture the existing white fabric to warm pale ivory/cream fine knitted cardigan fabric, subtle soft beige fold shading, restrained thin vertical ribs and clean front edging. The central opening between front panels must be fully transparent, since a separate charcoal shirt sits underneath; all existing transparent parts remain transparent. Do not fill the opening with a shirt. Top-center blank hood pieces remain blank/transparent as appropriate; no new features. Output a flat UV atlas alone, no person, no garment photo, no labels, no background. Match exact island coordinates so it imports onto the same 3D mesh.",
+    "status": "Rejected: generated transparency had speckles and broken edges; never imported."
+  },
+  {
+    "file": null,
+    "prompt": "Precisely edit the first VRoid cardigan UV atlas: recolor white cardigan cloth pale warm ivory, subtle low-contrast fine knit. Keep exact island positions, scale, edges, pockets and all alpha regions unchanged. Output ONLY a clean flat UV atlas. All background and the central front opening between the bottom two panels must be pure transparent alpha 0. Important: transparency should have clean solid edges, NO white speckles, NO lace, NO mottled noise, NO frayed edges. Solid opaque fabric interiors. Original seam topology is fixed, do not rearrange anything. No labels, no portrait, no mockup. Transparent background.",
+    "status": "Rejected second attempt: same transparency defect. Final cardigan uses the clean VRoid template tinted cream."
+  }
+]

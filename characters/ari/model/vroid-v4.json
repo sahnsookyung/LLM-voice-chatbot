@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-13",
+  "authoring_app": "VRoid Studio-2.14.0",
+  "source": "ari-vroid-v4.vroid",
+  "runtime": "ari-vroid-v4.vrm",
+  "sha256": "e7d19e64c54526c6068cbfca32dc67e68e94efccdf07549f071191caaeff8a69",
+  "size_bytes": 17678684,
+  "triangle_count": 43585,
+  "materials": 15,
+  "humanoid_bones": 54,
+  "spring_chains": 15,
+  "vrm_meta": {
+    "name": "Ari",
+    "version": "0.4",
+    "authors": [
+      "Local Companion"
+    ],
+    "thumbnailImage": 22,
+    "licenseUrl": "https://vrm.dev/licenses/1.0/",
+    "avatarPermission": "onlyAuthor",
+    "allowExcessivelyViolentUsage": false,
+    "allowExcessivelySexualUsage": false,
+    "commercialUsage": "personalNonProfit",
+    "allowPoliticalOrReligiousUsage": false,
+    "allowAntisocialOrHateUsage": false,
+    "creditNotation": "required",
+    "allowRedistribution": false,
+    "modification": "allowModification"
+  },
+  "custom_texture": "../design/textures/face-v4-makeup-fit.png",
+  "provenance": "../design/textures/provenance-v4.json",
+  "visual_status": "Rejected in user visual review: face is too fierce; relaxed confidence, softer oval contour and hourglass body/clothing revision planned in docs/ARI-3D.md",
+  "verification": {
+    "unit_tests": 17,
+    "native_draw_calls": 21,
+    "native_rendered_triangles_with_outlines": 64478,
+    "native_file_origin": true,
+    "hidden_pause": true,
+    "foot_error_metres": 2.086288971910448e-16,
+    "illustration_canvas_disposal": true
+  },
+  "limitations": [
+    "Combined brow, eyelid, chin and makeup treatment is too severe compared with the approved reference",
+    "Body and garment silhouettes do not yet meet the requested hourglass art direction",
+    "Hair remains shorter and less layered than reference",
+    "Hoodie/crewneck silhouette differs from cardigan/mockneck",
+    "No phoneme synchronization or locomotion"
+  ],
+  "face_parameters": {
+    "head_width": -1.5,
+    "jaw_position_y": -0.8,
+    "jawline_position_y": -0.6,
+    "sunken_cheeks": 1,
+    "chin_length": -1.2,
+    "chin_roundness": 0.45,
+    "chin_width": 0,
+    "eye_size_x": 0.4,
+    "eye_size_y": -1.3,
+    "eye_position_y": 0.35,
+    "eye_position_x": -0.097,
+    "rotate_eye_socket": -0.45,
+    "inner_eye_slant_y": -0.8,
+    "outer_eye_slant_y": 1,
+    "straight_upper_eyelid": 0.45,
+    "straight_lower_eyelid": 0.65,
+    "upper_eyelid_down": 0.85,
+    "lower_eyelid_up": 0.85,
+    "iris_x": -0.45,
+    "iris_y": -0.3,
+    "brow_tilt": -0.55,
+    "brow_position_y": -1.2,
+    "brow_arch": -0.45,
+    "mouth_width": 0.9,
+    "mouth_corners": 0.35
+  },
+  "authoring_notes": [
+    "VRoid numeric input uses decimal commas in this installation. Values were verified after entry.",
+    "Negative chin-length value lengthens this preset face.",
+    "Stock lip paint is hidden; lipstick is painted in the custom skin atlas.",
+    "Eye highlight changed to the first preset to reduce the large ring appearance."
+  ]
+}

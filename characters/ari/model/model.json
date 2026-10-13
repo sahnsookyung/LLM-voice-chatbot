@@ -1,0 +1,29 @@
+{
+  "status": "prototype \u2014 likeness review required",
+  "source": "scripts/build_ari_model.py",
+  "height_m": 1.8,
+  "triangles": 57898,
+  "mesh_objects": 50,
+  "bones": 22,
+  "shape_keys": [
+    "Annoyed",
+    "BlinkL",
+    "BlinkR",
+    "Concerned",
+    "Curious",
+    "EyeWide",
+    "Happy",
+    "JawOpen",
+    "LookDown",
+    "LookLeft",
+    "LookRight",
+    "LookUp",
+    "MouthRound",
+    "Surprised"
+  ],
+  "reference": "../design/full-body-neutral-v1.png",
+  "animations": [
+    "Ari_LookAndGreet_20s"
+  ],
+  "license": "Original geometry and rig: project MIT license. Reference artwork generated with built-in image_gen."
+}

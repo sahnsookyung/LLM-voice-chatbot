@@ -1,0 +1,48 @@
+{
+  "provider": "https://huggingface.co/spaces/tencent/Hunyuan3D-2.1",
+  "endpoint": "/shape_generation",
+  "reference": "characters/ari/design/a-pose-v1.png",
+  "reference_sha256": "6e12924b54f3de2650f60d7b74a1de41bb96467008d85121cdca0cd281b5ca25",
+  "authorization": "User explicitly approved this image and destination on 2026-10-13.",
+  "parameters": {
+    "steps": 30,
+    "guidance_scale": 5,
+    "seed": 1234,
+    "octree_resolution": 512,
+    "check_box_rembg": true,
+    "num_chunks": 8000,
+    "randomize_seed": false
+  },
+  "status": "complete",
+  "result": [
+    {
+      "value": "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/model/hunyuan-shape-v1/8512a2729ed5ac987ed9f8fe38ae8802e02865bd55ed3e7ef7d03af6e7b923e5/white_mesh.glb",
+      "__type__": "update"
+    },
+    "\n        <div style='height: 650; width: 100%;'>\n        <iframe src=\"/static/3166099a-5bde-44dd-8437-bb8d6a23c5c1/white_mesh.html\" height=\"650\" width=\"100%\" frameborder=\"0\"></iframe>\n        </div>\n    ",
+    {
+      "model": {
+        "shapegen": "tencent/Hunyuan3D-2.1/hunyuan3d-dit-v2-1",
+        "texgen": "tencent/Hunyuan3D-2.1"
+      },
+      "params": {
+        "caption": null,
+        "steps": 30,
+        "guidance_scale": 5,
+        "seed": 1234,
+        "octree_resolution": 512,
+        "check_box_rembg": true,
+        "num_chunks": 8000
+      },
+      "number_of_faces": 1172808,
+      "number_of_vertices": 586400,
+      "time": {
+        "remove background": 1.0571532249450684,
+        "shape generation": 59.68874502182007,
+        "export to trimesh": 0.3072662353515625,
+        "total": 61.0574996471405
+      }
+    },
+    1234
+  ]
+}

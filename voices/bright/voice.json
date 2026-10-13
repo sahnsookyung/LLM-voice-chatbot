@@ -1,0 +1,13 @@
+{
+  "id": "bright",
+  "name": "Bright",
+  "description": "A slightly higher, clear voice with a cheerful, playful lift.",
+  "language": "english",
+  "transcript": "Hi, I'm Ari! It's lovely to see you. Tell me about your day. I'm listening.",
+  "seed": 72,
+  "instruct": "An original adult woman in her twenties, with a sweet, bright, slightly high-pitched soprano speaking voice. Cute and lightly playful, clear and natural, with smiling warmth and gentle melodic intonation. Relaxed conversational pace, crisp consonants, smooth vowels. Expressive but not exaggerated; no whisper, no rasp, no baby talk. Natural fluent English. Do not imitate a real person.",
+  "audio": "voice.wav",
+  "duration_seconds": 5.92,
+  "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+  "revision": "7d3824abff87e49756bb0f83fb5411de75d160c4"
+}

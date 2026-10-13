@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-13",
+  "generator": "built-in imagegen",
+  "assets": [
+    {
+      "file": "face-v6-clean-nose.png",
+      "prompt": "Use case: precise-object-edit. Asset: VRoid face skin UV atlas. This image is the exact edit target. Make ONE localized correction: completely remove the vertical reddish stripe, red patch and shadow in the nose area centered at x=50%, y=64%. Replace only that small nose region with smooth flat light peach skin matching the immediate surrounding complexion. There must be NO painted nose, NO bridge line, NO nostrils, NO red dot, NO nose shading at all; the 3D mesh will supply nose structure. Keep the lip shape/color, eye openings, cheek blush, ears, entire UV island layout, background, image framing, and every other feature unchanged. Return only the same flat opaque square atlas, with all feature coordinates and shapes preserved. No portrait or new anatomy.",
+      "input": "face-v5-soft-makeup.png"
+    }
+  ]
+}

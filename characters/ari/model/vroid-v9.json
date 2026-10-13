@@ -1,0 +1,57 @@
+{
+  "version": "v9",
+  "created": "2026-10-13",
+  "runtime": "characters/ari/model/ari-vroid-v9.vrm",
+  "editable_base": "characters/ari/model/ari-vroid-v6.vroid",
+  "source": "ari-vroid-v8.vrm",
+  "source_sha256": "d7bab078bc2e85745a5277bbe57d07b7885914e0c52bc94f202119cb10d45b0a",
+  "sha256": "fbae3f59fa8faa872167954656c05b8d843fe6f1fda8c8996567b1c12d462c8b",
+  "bytes": 27935572,
+  "generator": "node scripts/refine_ari_v9.mjs",
+  "changes": [
+    "Localized lower-temple hair tuck: up to 16 mm posterior and 7 mm inward, preserving upper temple coverage, ear size, face, body and textures",
+    "Fixed 60 Hz pose and spring simulation; converted per-step damping, stiffness and gravity; softer distal hair",
+    "Adaptive drawing: up to 60 FPS for gestures/settling and 30 FPS idle; bounded catch-up and hidden pause",
+    "Staggered reach/hold/recovery, preserved pose velocity, asymmetric arm timing and wrist follow-through",
+    "Individual relaxed finger curls, restrained spread and thumb articulation",
+    "Smooth conservative contact shell around nine runtime ellipsoids, including scalp protection while springs are frozen",
+    "Studio movement-speed control from 0.65 to 1.50 times normal tempo"
+  ],
+  "geometry": {
+    "triangles": 139663,
+    "hair_vertices": 66304,
+    "hair_triangles": 111552,
+    "materials": 16,
+    "humanoid_bones": 54,
+    "hair_chains": 10,
+    "simulated_hair_joints": 40
+  },
+  "texture_provenance": "characters/ari/design/textures/provenance-v8.json",
+  "validation": {
+    "unit_tests": 41,
+    "native_draw_calls": 25,
+    "native_rendered_triangles": 163466,
+    "native_check": "reports/v9-native-final.txt",
+    "native_studio_check": "reports/v9-native-check.txt",
+    "pose_images": "reports/v9-motion/",
+    "slow_fast_comparison": "World-space hair tips swing farther from turn axis on a 1.5x twirl than on a 0.65x twirl",
+    "performance_scope": "Short native WebKit test only; JS timings measure CPU update and draw submission, not GPU execution or full-app thermal/multitasking cost",
+    "gesture_fps_range": [
+      55.3124,
+      58.5646
+    ],
+    "hair_tip_radius_slow_m": 0.29694,
+    "hair_tip_radius_fast_m": 0.38369,
+    "simulation_cpu_p95_ms": 2,
+    "draw_submission_cpu_p95_ms": 2,
+    "hair_contact_volumes": 9
+  },
+  "limitations": [
+    "Guide-chain approximation with padded body contact, no strand self-collision or deforming cloth solver",
+    "Gesture and hair response are stylized and not physically calibrated",
+    "Runtime hair-contact shader and lit cardigan-color hook are app-specific",
+    "Reference asymmetric fringe, painterly waves, face structure and garment drape still differ",
+    "Offline changes are baked into the VRM, not a new editable VRoid project",
+    "Sustained voice-plus-renderer multitasking cost has not been benchmarked"
+  ]
+}

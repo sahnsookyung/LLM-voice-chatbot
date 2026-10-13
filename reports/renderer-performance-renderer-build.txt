@@ -1,0 +1,24 @@
+
+> companion-character@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 693 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                         5.12 kB │ gzip:      1.98 kB
+dist/studio.html                        5.14 kB │ gzip:      1.98 kB
+dist/ari/full-body-neutral-v1.png   1,317.58 kB
+dist/ari/turnaround-v1.png          1,712.96 kB
+dist/ari/anime-reference-v2.png     1,955.13 kB
+dist/ari/emotions/annoyed.png       2,105.34 kB
+dist/ari/emotions/neutral.png       2,151.71 kB
+dist/ari/emotions/curious.png       2,155.00 kB
+dist/ari/emotions/concerned.png     2,176.70 kB
+dist/ari/emotions/embarrassed.png   2,182.40 kB
+dist/ari/emotions/sleepy.png        2,213.80 kB
+dist/ari/emotions/happy.png         2,232.47 kB
+dist/ari/emotions/surprised.png     2,246.03 kB
+dist/character.js                  38,567.55 kB │ gzip: 21,635.14 kB
+✓ built in 4.50s

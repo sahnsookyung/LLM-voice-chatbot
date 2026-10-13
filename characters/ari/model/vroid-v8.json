@@ -1,0 +1,54 @@
+{
+  "version": "v8",
+  "created": "2026-10-13",
+  "runtime": "characters/ari/model/ari-vroid-v8.vrm",
+  "editable_base": "characters/ari/model/ari-vroid-v6.vroid",
+  "source": "ari-vroid-v7.vrm",
+  "source_sha256": "2a6cc18768e2d0e6922ea6714bf4577000832d6b7da1f2c2dba44c014149f449",
+  "sha256": "d7bab078bc2e85745a5277bbe57d07b7885914e0c52bc94f202119cb10d45b0a",
+  "bytes": 27935176,
+  "generator": "node scripts/refine_ari_v8.mjs",
+  "changes": [
+    "Smaller upper ear rim and lobes with all 57 morph endpoints preserved; repositioned smaller hoops",
+    "64 broad hair locks rebuilt as 176 fine smooth tapered sections",
+    "Teal-silver iris detail and catchlights; graphite fiber texture with mipmap filtering",
+    "Softer roots-to-tips spring response and seven fitted clothing capsules",
+    "Eight runtime contact ellipsoids protect rendered strands between sparse hair joints",
+    "Lower-back cardigan clearance",
+    "Hair sway, full-turn twirl, bilateral arm raise, shrug and index-finger point",
+    "World-space hair inertia preserves follow-through during whole-body rotation"
+  ],
+  "geometry": {
+    "triangles": 139663,
+    "hair_vertices": 66304,
+    "hair_triangles": 111552,
+    "materials": 16,
+    "humanoid_bones": 54,
+    "hair_chains": 10
+  },
+  "texture_provenance": "characters/ari/design/textures/provenance-v8.json",
+  "validation": {
+    "unit_tests": 33,
+    "native_draw_calls": 25,
+    "native_rendered_triangles": 163466,
+    "final_gesture_review": "Passed native pose, frame-boundary, planted-foot and spring stability checks; rendered snapshots reviewed",
+    "gesture_fps_range": [
+      27.79,
+      28.58
+    ],
+    "hair_peak_speed_rad_per_second": 0.34368,
+    "hair_final_speed_rad_per_second": 0.01907,
+    "native_studio_rehearsals": {
+      "movement": "6/6",
+      "all_expression_pairs": "57/57 cues, 56/56 directed transitions",
+      "rapid_interruptions": "8/8 at 0.4 seconds"
+    }
+  },
+  "limitations": [
+    "Contact ellipsoids are a lightweight geometric safeguard, not full strand, cloth, or self collision simulation",
+    "Runtime hair-contact shader and lit cardigan-color hook are app-specific; standard VRM spring capsules remain in the exported file",
+    "Reference asymmetric fringe, painterly waves, face structure and garment drape still differ",
+    "Offline changes are baked into the VRM, not a new editable VRoid project",
+    "Sustained voice-plus-renderer multitasking cost has not been benchmarked"
+  ]
+}

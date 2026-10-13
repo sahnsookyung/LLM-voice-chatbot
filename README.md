@@ -1,65 +1,83 @@
-# LLM Voice Chatbot
+# Local Voice Companion
 
-A voice-based conversational AI application using Kokoro TTS, Whisper for STT, and Ollama for LLM processing.
+A native macOS conversation companion for Apple Silicon, with English, Korean, and Japanese speech, a floating animated character, and local history. Built for a 48 GB M4 Pro Mac while leaving room for everyday apps.
 
-## Features
+Open **`build/Local Companion.app`** after setup. Click **Talk**, speak, then click **Send voice**, or hold **Control–Option–Space** to talk from any app. The microphone meter shows input level. Hands-free is explicit and stays on until muted. Escape stops a reply. The menu-bar sparkle restores the chat/character, toggles click-through, mutes, and quits.
 
-- **Voice Input**: Speech-to-Text using Faster-Whisper.
-- **Voice Activity Detection**: Efficient speech detection using Silero VAD.
-- **Conversational AI**: Powered by Ollama (Gemma 3 or other models).
-- **High-Quality TTS**: Streaming text-to-speech using Kokoro.
+The character floats near the lower-right corner of the chat's display. **Show character** brings it back there if it is hidden or on another display. The source `renderer/index.html` requires Vite; opening it directly is not a way to launch the app.
 
-## Prerequisites
+The app starts with the microphone off. Audio capture and playback use AVAudioEngine. Talk uses direct microphone capture; hands-free enables echo cancellation. The Python service and inference workers bind only to loopback and require a per-launch token. There is no browser automation, tool execution, cloud inference, or automatic memory collection.
 
-- **Python 3.10+**
-- **Ollama**: [Download and install Ollama](https://ollama.ai/). 
-   - Note: There's been some controversy around Ollama being a bit shady. If you want to use other things I've heard better things about [llama.cpp](https://github.com/ggml-org/llama.cpp), but you might need to refactor things a bit.
-- **Models**: Ensure you have the required models pulled in Ollama. e.g. This abliterated model from the original gemma 3 model provides a somewhat uncensored experience. Read more about abliteration [here](https://huggingface.co/blog/mlabonne/abliteration).
-  ```bash
-  ollama pull gemma-3-27b-it-abliterated-GGUF:Q4_K_M
-  ```
+Use **Character → Open character studio** (or **Character → Open character studio** in the menu bar) to explore the full-body art, eight expressions, and the optional VRoid 3D model. Appearance and Framing also control the floating character. The editable VRoid model has facial expressions, finger articulation and hair springs; its likeness is still unfinished. See [asset details and limitations](docs/ARI-3D.md).
 
-## Installation
+The studio's **Reference look** selector and **Wardrobe & Hair** gallery include three new outfits and three hairstyles. Select a look to swap the studio illustration or compare it alongside VRoid. **Auto reload** picks up saved workspace artwork within about three seconds; **Reload artwork** refreshes it immediately. These are complete reference illustrations, not interchangeable 3D clothing/hair meshes, and the selection is local to the studio. See [the look library and authoring workflow](docs/ARI-LOOKS.md).
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd LLM-voice-chatbot
-   ```
+Choose **Character → Voice** to switch between Original, Bright, and Soft, then use **Preview voice** to audition a sample. Bright and Soft are original higher-pitched adult voices generated locally; selection is saved per character. Only their small reference clips are used during conversation.
 
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+## Setup and build
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Requirements: Apple Silicon, macOS 15+, Xcode with its Metal toolchain, Node.js, and [uv](https://docs.astral.sh/uv/). Setup uses Python 3.12 and isolated inference environments. Allow roughly 25 GB of disk for runtime models, creation weights, dependencies, and caches.
 
-## Usage
+```sh
+xcodebuild -downloadComponent MetalToolchain
+./scripts/setup.sh --models
 
-Run the main application:
-```bash
-python voice_chat.py
+# Creation-only download and original voice generation; run with conversations closed.
+HF_HUB_DISABLE_XET=1 .venv/bin/python scripts/download_models.py design
+HF_HUB_OFFLINE=1 .runtime/tts/bin/python scripts/create_voice.py
+
+./scripts/build.sh
+open "build/Local Companion.app"
 ```
 
-### Options
-- `--model=<model_name>`: Specify a different Ollama model.
-- `--personality=<file>`: Use a custom personality template.
-- `--no-tts`: Disable Text-to-Speech output.
+Ari's generated reference is included in `characters/ari/voice.wav`; regenerating it is optional. The app bundle stores this workspace's absolute path and launches its Python environment. Keep the workspace in place or rebuild after moving it. This is an ad-hoc-signed local development app, not a standalone notarized installer. It does not copy gigabytes of models inside the `.app`.
 
-## Project Structure
+```sh
+.venv/bin/python scripts/doctor.py
+.venv/bin/pytest -q
+.venv/bin/ruff check backend tests scripts
+npm --prefix renderer run build
+swiftc native/Sources/Companion/Audio.swift scripts/check_audio.swift -o .build/check-audio
+.build/check-audio
+CLANG_MODULE_CACHE_PATH="$PWD/.cache/clang" swift scripts/check_renderer.swift "$PWD/build/Local Companion.app/Contents/Resources/renderer/index.html"
+```
 
-- `voice_chat.py`: Main entry point and application loop.
-- `stt_processor.py`: Handles audio recording and transcription.
-- `tts_processor.py`: Handles text-to-speech generation and playback.
-- `llm_processor.py`: Manages interactions with the LLM via Ollama.
-- `personality-template.txt`: Template defining the AI's personality. 
-   -  Note that the `{context}Human: {question}\nAssistant:` format at the end of the template is necessary for Ollama when using a simple prompt template. This is because Ollama expects a completion-style prompt. It needs explicit markers like "Human:" and "Assistant:" to understand the conversation structure.
+If setup fails during a network interruption, rerun the model download command; completed files and partial transfers are reused. No model is downloaded silently during a conversation. Missing components produce a visible setup message. First use includes cold model loading and is much slower than subsequent turns.
 
-## TODO
-- Context is currently retained to 10 messages. This is a bit arbitrary and should be configurable. How effective this is also depends on the model size.
-- We could look into compacting the context periodically to preserve context.
-- If we want to have a chatbot that retains long-term context, then we'd need a vector database of some sort to store the context and retrieve the relevant memories.
+## What is implemented
+
+- Native SwiftUI conversation, history, approved-memory editing/deletion, export, personality editor, language/profile controls, and global push-to-talk.
+- Floating nonactivating AppKit panel, full-body and portrait illustrations, and an optional Three.js/VRM character with expressions, gaze, blinking, speech-driven mouth motion and gestures. Reduced Motion and hidden-window throttling are supported; imported layered art retains Pixi.
+- Original adult character Ari, an in-app palette/personality character creator, plus a validated layered-PNG/voice ZIP import format. Live2D and MCP are not required.
+- CPU streaming Nemotron recognition, Pipecat Silero/Smart Turn, oMLX 4-bit dialogue, and an isolated persistent MLX-Audio BF16 voice worker.
+- Bounded input/output queues, turn identifiers, actual-playback acknowledgments, interruption handling, idle unloading, and memory-pressure response.
+- SQLite history using acknowledged speech for future assistant context. No embeddings or automatically inferred personal memory.
+
+Data normally lives in `~/Library/Application Support/LocalVoiceCompanion`. `LVC_DATA` can point to a separate test directory. Deleting a saved memory removes that fact from the memory collection and invalidates derived caches; it does not erase old conversation transcripts or facts repeated in them. Delete the relevant conversations too if you want those historical references removed.
+
+## Benchmarks and limits
+
+```sh
+# Real models; simulates timed playback, never opens a microphone.
+PYTHONPATH=backend .venv/bin/python scripts/benchmark.py --profile everyday --turns 6
+PYTHONPATH=backend .venv/bin/python scripts/test_voice_pipeline.py
+PYTHONPATH=backend .venv/bin/python scripts/benchmark.py --profile everyday --turns 100 --with-recognition --interrupt-every 10
+
+# Optional 30-minute pacing, while using your normal desktop workload.
+PYTHONPATH=backend .venv/bin/python scripts/benchmark.py --profile everyday --turns 100 --duration 1800 --with-recognition
+```
+
+Reports are local JSON in `reports/local-*`. They label cold starts separately from warm distributions and do not equate first generated PCM with physical speaker latency. Microphone permission, acoustic echo cancellation, headset/device changes, Korean/Japanese pronunciation quality, and a 30-minute run under your actual desktop workload require live-device acceptance testing. The implementation enables the relevant audio APIs but does not claim those human/device-dependent checks passed automatically.
+
+For a model-free wiring check, launch the executable with `--demo`. It clearly labels itself **Development preview** and plays quiet test tones. Production never falls back to a canned response.
+
+See [validation results](docs/VALIDATION.md), [character authoring](docs/CHARACTERS.md), [models and licenses](docs/MODELS.md), and [the local protocol](docs/PROTOCOL.md).
+
+## Layout
+
+- `native/`: SwiftUI/AppKit app, AVAudioEngine capture/playback, WebSocket client, process supervision.
+- `backend/companion/`: authenticated API, turn state, model adapters, isolated speech worker, storage/import validation.
+- `renderer/`: local TypeScript illustration, Three.js 3D preview, and Pixi import playback.
+- `characters/ari/`: original character manifest, generated voice, and provenance.
+- `scripts/`: setup, verified downloads, build, diagnostics, voice creation, and benchmark.
+- `tests/`: protocol, history, import, authentication, parsing, and playback/cancellation checks.

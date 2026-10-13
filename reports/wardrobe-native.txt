@@ -1,0 +1,22 @@
+PASS: original/original, 25 draws, 163466 triangles; one canvas, face expression and feet retained
+PASS: original/bob, 25 draws, 112010 triangles; one canvas, face expression and feet retained
+PASS: original/ponytail, 25 draws, 113842 triangles; one canvas, face expression and feet retained
+PASS: original/braid, 25 draws, 100018 triangles; one canvas, face expression and feet retained
+PASS: tailored/original, 26 draws, 163476 triangles; one canvas, face expression and feet retained
+PASS: tailored/bob, 26 draws, 112020 triangles; one canvas, face expression and feet retained
+PASS: tailored/ponytail, 26 draws, 113852 triangles; one canvas, face expression and feet retained
+PASS: tailored/braid, 26 draws, 100028 triangles; one canvas, face expression and feet retained
+PASS: streetwear/original, 26 draws, 163470 triangles; one canvas, face expression and feet retained
+PASS: streetwear/bob, 26 draws, 112014 triangles; one canvas, face expression and feet retained
+PASS: streetwear/ponytail, 26 draws, 113846 triangles; one canvas, face expression and feet retained
+PASS: streetwear/braid, 26 draws, 100022 triangles; one canvas, face expression and feet retained
+PASS: linen/original, 26 draws, 170678 triangles; one canvas, face expression and feet retained
+PASS: linen/bob, 26 draws, 119222 triangles; one canvas, face expression and feet retained
+PASS: linen/ponytail, 26 draws, 121054 triangles; one canvas, face expression and feet retained
+PASS: linen/braid, 26 draws, 107230 triangles; one canvas, face expression and feet retained
+PASS: 80 rapid independent selector changes settle on the final pair with one canvas
+PASS: outfit and hairstyle restored independently after document reload
+PASS: ponytail moves during fast twirl and settles; peak 2.9793451260785315, final 0.09296358729965314 rad/s
+PASS: invalid combination retains the last valid animated model
+PASS: leaving 3D disposes the active renderer
+PASS: wardrobe integration completed

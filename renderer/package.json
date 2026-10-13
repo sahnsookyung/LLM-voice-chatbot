@@ -1,0 +1,20 @@
+{
+  "name": "companion-character",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "test": "tsc src/motion.ts src/motion-clock.ts src/types.ts src/sequence.ts src/leg-ik.ts src/looks.ts src/wardrobe.ts src/wardrobe-model.ts --outDir .test-build --target ES2022 --module ES2022 --moduleResolution bundler --skipLibCheck && node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@pixiv/three-vrm": "3.5.5",
+    "pixi.js": "8.13.2",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.186.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.7"
+  }
+}

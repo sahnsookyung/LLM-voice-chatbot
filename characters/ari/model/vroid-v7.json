@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-13",
+  "authoring_base": "VRoid Studio 2.14.0",
+  "editable_base": "ari-vroid-v6.vroid",
+  "source": "ari-vroid-v6.vrm",
+  "source_sha256": "4a80172fdfd9307a0bfebe9f750f1b003f86f198155faf8af5f0fe8c5e108045",
+  "runtime": "ari-vroid-v7.vrm",
+  "sha256": "2a6cc18768e2d0e6922ea6714bf4577000832d6b7da1f2c2dba44c014149f449",
+  "size_bytes": 21210136,
+  "triangle_count": 46495,
+  "materials": 16,
+  "humanoid_bones": 54,
+  "spring_chains": 15,
+  "vrm_meta": {
+    "name": "Ari",
+    "version": "0.7",
+    "authors": [
+      "Local Companion"
+    ],
+    "thumbnailImage": 22,
+    "licenseUrl": "https://vrm.dev/licenses/1.0/",
+    "avatarPermission": "onlyAuthor",
+    "allowExcessivelyViolentUsage": false,
+    "allowExcessivelySexualUsage": false,
+    "commercialUsage": "personalNonProfit",
+    "allowPoliticalOrReligiousUsage": false,
+    "allowAntisocialOrHateUsage": false,
+    "creditNotation": "required",
+    "allowRedistribution": false,
+    "modification": "allowModification"
+  },
+  "finishing_script": "../../../scripts/detail_ari_v7.mjs",
+  "texture_provenance": "../design/textures/provenance-v7.json",
+  "visual_status": "Implemented; awaiting user likeness review",
+  "changes": {
+    "face_vertices": 2408,
+    "facial_targets_transformed": 57,
+    "brow_tail_extension_max_metres": 0.009,
+    "chin_extension_max_metres": 0.003,
+    "lower_face_width_reduction_max": 0.045,
+    "ear_vertices": 540,
+    "ear_shape": "Narrower helix/lobe silhouette, turned forward with custom cartilage shading.",
+    "hair_vertices": 2945,
+    "hair": "Temple locks swept backward, crown preserved, rest bones and inverse binds updated.",
+    "eyes": "Smoke-gray radial irises with charcoal rims and compact pupils.",
+    "face_paint": "Nose tip/nostril accents, taupe lid shading and restrained lip highlights.",
+    "clothing": "Ivory knit, ribbed cuffs/hem/placket, pocket stitching and fold shading; original base alpha retained.",
+    "earrings": {
+      "triangles": 1184,
+      "vertices": 720,
+      "binding": "100% head joint",
+      "shape": "Small warm-gold hoops and studs"
+    }
+  },
+  "verification": {
+    "unit_tests": 26,
+    "native_draw_calls": 25,
+    "native_rendered_triangles_with_outlines": 70298,
+    "native_file_origin": true,
+    "hidden_pause": true,
+    "foot_error_metres": 7.850462293418876e-17,
+    "illustration_canvas_disposal": true,
+    "reproducible_sha256": true
+  },
+  "limitations": [
+    "V7 edits live in the finished VRM and script, not the editable VRoid project.",
+    "Clothing lit-color detail uses an app-specific shader hook; other VRM viewers may render it differently.",
+    "Broad fringe, sparse front locks, eyelid/cheek nuance, shoes and clothing drape still differ from the approved reference.",
+    "No general arbitrary-pose hair or cloth collision solver.",
+    "Sustained whole-app memory/thermal/multitasking performance not benchmarked."
+  ]
+}

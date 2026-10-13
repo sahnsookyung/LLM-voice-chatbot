@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-13",
+  "authoring_app": "VRoid Studio 2.14.0",
+  "source": "ari-vroid-v5.vroid",
+  "raw_export": "ari-vroid-v5-raw.vrm",
+  "runtime": "ari-vroid-v5.vrm",
+  "tailoring_script": "../../../scripts/fit_ari_v5.mjs",
+  "sha256": "e4f5e4a0f9c08fd2a6679c924d12b60391ff1606fbaa041035669390c447e08e",
+  "size_bytes": 18205952,
+  "triangle_count": 44159,
+  "materials": 15,
+  "humanoid_bones": 54,
+  "spring_chains": 15,
+  "vrm_meta": {
+    "name": "Ari",
+    "version": "0.5",
+    "authors": [
+      "Local Companion"
+    ],
+    "thumbnailImage": 22,
+    "licenseUrl": "https://vrm.dev/licenses/1.0/",
+    "avatarPermission": "onlyAuthor",
+    "allowExcessivelyViolentUsage": false,
+    "allowExcessivelySexualUsage": false,
+    "commercialUsage": "personalNonProfit",
+    "allowPoliticalOrReligiousUsage": false,
+    "allowAntisocialOrHateUsage": false,
+    "creditNotation": "required",
+    "allowRedistribution": false,
+    "modification": "allowModification"
+  },
+  "visual_status": "Local revision ready for review, not user-approved likeness",
+  "face_parameters": {
+    "head_width": -1.1,
+    "jaw_position_y": -0.55,
+    "jawline_position_y": -0.35,
+    "sunken_cheeks": 0.35,
+    "chin_length": -0.65,
+    "chin_roundness": 0.72,
+    "eye_size_x": 0.5,
+    "eye_size_y": -1.1,
+    "eye_position_y": 0.35,
+    "eye_position_x": -0.097,
+    "rotate_eye_socket": -0.2,
+    "inner_eye_slant_y": -0.25,
+    "outer_eye_slant_y": 0.45,
+    "straight_upper_eyelid": 0.3,
+    "straight_lower_eyelid": 0.4,
+    "upper_eyelid_down": 0.55,
+    "lower_eyelid_up": 0.45,
+    "iris_x": -0.45,
+    "iris_y": -0.3,
+    "brow_tilt": -0.3,
+    "brow_position_y": -0.7,
+    "brow_arch": -0.2,
+    "mouth_width": 0.9,
+    "mouth_corners": 0.5,
+    "thick_upper_lip_fem": 8,
+    "thick_lower_lip_fem": 12
+  },
+  "body_parameters": {
+    "chest_size": 0.15,
+    "chest_prominence": 0.3,
+    "waist_width": 0.45,
+    "neck_length": -0.15,
+    "height_cm": 160.8
+  },
+  "clothing_parameters": {
+    "inner": "Body Suit / T-shirt Tight Fit",
+    "expand_bodysuit": 8,
+    "outer": "Cardigan",
+    "cardigan_waist_width": -35,
+    "sleeve_thickness": 70,
+    "base_color": "F4E9D2",
+    "shade_color": "D7CDBB"
+  },
+  "tailoring": {
+    "edited_vertices": 2975,
+    "max_displacement_metres": 0.031215238189546097,
+    "description": "Smooth torso waist taper, upper hip widening, and front-cardigan clearance; baked into mesh with inverse-transpose normal correction. Does not change bone lengths, skin weights, UVs, topology, face shapes or textures."
+  },
+  "verification": {
+    "unit_tests": 19,
+    "native_draw_calls": 21,
+    "native_rendered_triangles_with_outlines": 65626,
+    "native_file_origin": true,
+    "hidden_pause": true,
+    "foot_error_metres": 2.288783399261119e-16,
+    "illustration_canvas_disposal": true,
+    "neutral_garment_clearance": "More than 1000 front-ray samples across both chest and upper pocket regions exceed 5 mm separation. Neutral pose only.",
+    "native_rehearsals": {
+      "shuffle": "8/8 completed with speech and gestures",
+      "conversation": "12/12 completed",
+      "directed_pairs": "57/57 cues, 56/56 directed changes completed",
+      "pause_resume": "held at cue 47 with no advancement during pause",
+      "rapid_interruptions": "8/8 completed at 0.4 seconds per cue",
+      "custom_order": "happy, happy, concerned, neutral completed 4/4, preserving the repeat; invalid names rejected",
+      "stop_reset": "stopped progress, restored neutral and angle 0; mouth test turned off after review"
+    }
+  },
+  "limitations": [
+    "Not an exact match to the illustration; hair remains shorter and less layered.",
+    "Nose color is still more conspicuous and shading simpler than the illustration.",
+    "Missing earrings; crew neckline and shoes differ.",
+    "Cardigan remains looser than the inner silhouette.",
+    "No cloth simulation or general collision solver; inspect new gestures when added.",
+    "No phoneme synchronization or locomotion."
+  ]
+}

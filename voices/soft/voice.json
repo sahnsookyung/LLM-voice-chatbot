@@ -1,0 +1,13 @@
+{
+  "id": "soft",
+  "name": "Soft",
+  "description": "An airy, gentle higher voice with a soft, affectionate tone.",
+  "language": "japanese",
+  "transcript": "こんにちは、アリです。会えてうれしいです。今日はどんな一日でしたか？ゆっくり聞かせてくださいね。",
+  "seed": 108,
+  "instruct": "An original adult Japanese woman in her twenties. A clear, sweet, gently high-pitched voice, soft and cute with a little airy warmth, like an approachable adult anime heroine in a calm everyday conversation. Light melodic intonation, delicate but intelligible consonants, natural Japanese rhythm. Warm and softly playful, never childish or squeaky. Normal conversational volume, no whisper, no exaggerated acting. Do not imitate any real person.",
+  "audio": "voice.wav",
+  "duration_seconds": 9.12,
+  "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+  "revision": "7d3824abff87e49756bb0f83fb5411de75d160c4"
+}

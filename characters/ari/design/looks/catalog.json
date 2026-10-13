@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "looks": [
+    {
+      "id": "tailored",
+      "name": "City tailoring",
+      "category": "outfit",
+      "description": "Taupe blazer, ivory blouse, charcoal wide-leg trousers and loafers.",
+      "image": "looks/tailored-v1.png",
+      "sources": [
+        "tailoring"
+      ]
+    },
+    {
+      "id": "streetwear",
+      "name": "Utility weekend",
+      "category": "outfit",
+      "description": "Sage bomber, cream tee, dark cargo trousers and sneakers.",
+      "image": "looks/streetwear-v1.png",
+      "sources": [
+        "utility"
+      ]
+    },
+    {
+      "id": "linen",
+      "name": "Woodland linen",
+      "category": "outfit",
+      "description": "Sage linen midi dress, oatmeal knit cardigan and brown boots.",
+      "image": "looks/linen-v1.png",
+      "sources": [
+        "linen"
+      ]
+    },
+    {
+      "id": "bob",
+      "name": "Soft tapered bob",
+      "category": "hair",
+      "description": "Jaw-length black bob with swept fringe and one tucked side.",
+      "image": "looks/bob-v1.png",
+      "sources": [
+        "hair-grid",
+        "hair-form"
+      ]
+    },
+    {
+      "id": "ponytail",
+      "name": "High ponytail",
+      "category": "hair",
+      "description": "High black ponytail with soft curtain fringe and loose face-framing strands.",
+      "image": "looks/ponytail-v1.png",
+      "sources": [
+        "hair-grid",
+        "hair-form"
+      ]
+    },
+    {
+      "id": "braid",
+      "name": "Loose side braid",
+      "category": "hair",
+      "description": "Single loose black braid with swept fringe and delicate wisps.",
+      "image": "looks/braid-v1.png",
+      "sources": [
+        "hair-grid",
+        "hair-form"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "tailoring",
+      "title": "Japanese spring blazer styling · UDN",
+      "url": "https://woman.udn.com/woman/story/123163/7853493",
+      "idea": "Relaxed neutral blazers and wide trouser silhouettes."
+    },
+    {
+      "id": "utility",
+      "title": "Bomber and cargo street style · Vogue",
+      "url": "https://www.vogue.com/article/best-womens-street-style-mens-fashion-week",
+      "idea": "Utility pockets and bomber-jacket proportions."
+    },
+    {
+      "id": "linen",
+      "title": "Layered natural linen · Mycloset",
+      "url": "https://item.rakuten.co.jp/mycloset/106009/",
+      "idea": "Natural textures, layered dress hems and soft cardigans."
+    },
+    {
+      "id": "hair-grid",
+      "title": "Anime hairstyle variations · NovelAI",
+      "url": "https://docs.novelai.net/en/image/tutorial-charactercreation/",
+      "idea": "Compare bob, braid and ponytail while holding identity and clothing constant."
+    },
+    {
+      "id": "hair-form",
+      "title": "Anime illustration hair studies · Coloso / 2SHAM",
+      "url": "https://coloso.global/zh-TW/products/50chapter-illustrator-2sham-us",
+      "idea": "Large coherent black-hair masses and readable ponytail/braid silhouettes."
+    }
+  ]
+}

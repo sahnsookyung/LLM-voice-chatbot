@@ -1,0 +1,27 @@
+{
+  "generator": "built-in imagegen",
+  "date": "2026-10-13",
+  "assets": [
+    {
+      "file": "face-v5-soft-makeup.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: production VRoid face SKIN UV atlas, square 1024x1024.\nInput 1 is the EDIT TARGET and exact UV layout. Input 2 is only an appearance/makeup reference of adult anime character Ari.\nEdit only the skin makeup on input 1, keeping EVERY feature position, UV island boundary, eye opening silhouette and size, mouth seam position and width, ears and background identical to input 1. Output the flat atlas alone, not a portrait or face render.\nPrimary request: delicate polished anime skin matching the reference's relaxed mature confidence. Retain the base light peach skin. Add subtle peach-rose blush high on outer cheeks and extremely soft taupe/rose shadow ABOVE the existing eye openings. Eye openings must remain flat blank skin-color holes exactly as input 1. NO painted eyes, eyeliner, eyelashes, eyebrows or extra eyelid contours: these are separate model meshes. Keep nose almost as light and understated as input 1, with only a tiny warm shadow at tip, no drawn nostrils or nose bridge lines. Lipstick should be a soft muted peach-rose tint on the existing lip shape with a small restrained lower-lip highlight, no overlining, no larger lips, no dark maroon seam. Preserve the original ears and all atlas edges. Smooth illustrative skin, no pores or sparkly eye shadow. Minimal changes; clean neutral complexion that can accept dynamic emotion blush later. No text, no guide lines, no new anatomy. Opaque background.",
+      "inputs": [
+        "face-v3-base.png",
+        "../anime-reference-v2.png"
+      ]
+    },
+    {
+      "file": "fitted-top-v5-knit.png",
+      "prompt": "Edit target: first image is an exact production VRoid Body Suit clothing UV atlas, 2048 square with transparent background. Preserve exact garment island positions, scale, shape, alpha mask, and completely empty lower half. Recolor only the white fabric to dark charcoal (#303139) fine vertical ribbed knit with delicate low contrast stitch texture, softly illustrated anime shading. Keep sleeves short, preserve neck opening and hem. Do not add anatomy or a person, no text or labels, no background, no detached added objects. Flat UV texture only. Keep all currently transparent regions transparent. The atlas must import on the same mesh without moving any seams.",
+      "inputs": [
+        "fitted-top-v5-base.png"
+      ]
+    }
+  ],
+  "import_notes": [
+    "Face imported as a new skin item; both v4 makeup layers hidden.",
+    "Fitted knit imported on a separate Body Suit template with original white layer hidden.",
+    "Cardigan uses the clean VRoid stock texture tinted F4E9D2 / D7CDBB; generated cardigan candidates were rejected for alpha speckles.",
+    "Runtime garment tailoring is reproduced from the untouched VRM export by scripts/fit_ari_v5.mjs; it is not represented by VRoid sliders."
+  ]
+}

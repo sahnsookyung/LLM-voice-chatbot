@@ -1,0 +1,14 @@
+PASS: packaged studio has eight expressions, ten gestures and six rehearsal modes
+PASS: bundled full-body illustration loaded
+PASS: bundled VRM rendered: 25 draws, 163466 triangles
+PASS: hidden character stops rendering
+PASS: portrait expression, blush and planted feet (error 1.804112415015879e-16)
+PASS: eight hair contact volumes; angular speed settles from 2.0256304797563995 to 0.0014503895443757962 rad/s
+PASS: twirl pose (peak 6.283185307178117), planted feet, finite hair, 59.06710167302221 rendered FPS
+PASS: raise-arms pose (peak 1.687972592838376), planted feet, finite hair, 58.77095262881916 rendered FPS
+PASS: shrug pose (peak 0.1599976016228718), planted feet, finite hair, 55.73582839348066 rendered FPS
+PASS: point pose (peak 0.9129274105409486), planted feet, finite hair, 58.94969077352623 rendered FPS
+PASS: speed-dependent hair radius: slow 0.2919481969762448, fast 0.43554529349393756 metres
+TIMING: p95 simulation 2 ms per 60 Hz step; draw submission 2 ms
+PASS: reduced motion stops hair dynamics
+PASS: illustration fallback disposes 3D canvas

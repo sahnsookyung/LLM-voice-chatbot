@@ -1,0 +1,103 @@
+{
+  "tool": "Built-in image_gen",
+  "created": "2026-10-13",
+  "inputs": [
+    "full-body-neutral-v1.png",
+    "anime-reference-v2.png"
+  ],
+  "note": "Web sources inform design directions only; no third-party artwork redistributed. Complete illustrations, not separated rig layers.",
+  "sources": [
+    {
+      "id": "tailoring",
+      "title": "Japanese spring blazer styling · UDN",
+      "url": "https://woman.udn.com/woman/story/123163/7853493",
+      "idea": "Relaxed neutral blazers and wide trouser silhouettes."
+    },
+    {
+      "id": "utility",
+      "title": "Bomber and cargo street style · Vogue",
+      "url": "https://www.vogue.com/article/best-womens-street-style-mens-fashion-week",
+      "idea": "Utility pockets and bomber-jacket proportions."
+    },
+    {
+      "id": "linen",
+      "title": "Layered natural linen · Mycloset",
+      "url": "https://item.rakuten.co.jp/mycloset/106009/",
+      "idea": "Natural textures, layered dress hems and soft cardigans."
+    },
+    {
+      "id": "hair-grid",
+      "title": "Anime hairstyle variations · NovelAI",
+      "url": "https://docs.novelai.net/en/image/tutorial-charactercreation/",
+      "idea": "Compare bob, braid and ponytail while holding identity and clothing constant."
+    },
+    {
+      "id": "hair-form",
+      "title": "Anime illustration hair studies · Coloso / 2SHAM",
+      "url": "https://coloso.global/zh-TW/products/50chapter-illustrator-2sham-us",
+      "idea": "Large coherent black-hair masses and readable ponytail/braid silhouettes."
+    }
+  ],
+  "variants": [
+    {
+      "id": "tailored",
+      "category": "outfit",
+      "name": "City tailoring",
+      "description": "Taupe blazer, ivory blouse, charcoal wide-leg trousers and loafers.",
+      "change": "Change ONLY the clothing: relaxed tailored taupe single-breasted blazer worn open, simple ivory collarless blouse fully tucked into high-waisted charcoal wide-leg pleated trousers, slim dark belt and polished black loafers. Understated contemporary Japanese smart-casual silhouette, beautiful seams and fabric folds, adult everyday elegance. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY the clothing: relaxed tailored taupe single-breasted blazer worn open, simple ivory collarless blouse fully tucked into high-waisted charcoal wide-leg pleated trousers, slim dark belt and polished black loafers. Understated contemporary Japanese smart-casual silhouette, beautiful seams and fabric folds, adult everyday elegance. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "output": "tailored-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-e7074359-e692-4b71-9cfd-2e461f4f3913.png"
+    },
+    {
+      "id": "streetwear",
+      "category": "outfit",
+      "name": "Utility weekend",
+      "description": "Sage bomber, cream tee, dark cargo trousers and sneakers.",
+      "change": "Change ONLY the clothing: sage-green short bomber jacket with ribbed cuffs worn open over a plain cream crewneck tee, relaxed dark charcoal cargo trousers with understated functional pockets, clean ivory sneakers. Contemporary Japanese casual utility streetwear, subtle hardware and cloth texture, no logos, no exposed midriff. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY the clothing: sage-green short bomber jacket with ribbed cuffs worn open over a plain cream crewneck tee, relaxed dark charcoal cargo trousers with understated functional pockets, clean ivory sneakers. Contemporary Japanese casual utility streetwear, subtle hardware and cloth texture, no logos, no exposed midriff. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "output": "streetwear-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-578a7e68-905c-4926-b783-f6f21375b125.png"
+    },
+    {
+      "id": "linen",
+      "category": "outfit",
+      "name": "Woodland linen",
+      "description": "Sage linen midi dress, oatmeal knit cardigan and brown boots.",
+      "change": "Change ONLY the clothing: soft sage linen midi dress with gentle gathered skirt and modest round neckline, oatmeal open cropped textured knit cardigan, subtle ivory underskirt hem peeking below the dress and simple dark brown lace-up ankle boots. Mori-inspired natural layered fashion for an adult woman, refined wearable relaxed silhouette. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY the clothing: soft sage linen midi dress with gentle gathered skirt and modest round neckline, oatmeal open cropped textured knit cardigan, subtle ivory underskirt hem peeking below the dress and simple dark brown lace-up ankle boots. Mori-inspired natural layered fashion for an adult woman, refined wearable relaxed silhouette. Keep her ORIGINAL long loose jet-black hair, swept parted fringe and earrings.",
+      "output": "linen-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-c996db4a-04bb-4303-972a-18cf81b570ec.png"
+    },
+    {
+      "id": "bob",
+      "category": "hair",
+      "name": "Soft tapered bob",
+      "description": "Jaw-length black bob with swept fringe and one tucked side.",
+      "change": "Change ONLY her hairstyle: elegant jaw-to-chin length glossy jet-black tapered bob with softly curved ends, asymmetric swept fringe, one side neatly tucked behind the ear showing the small gold hoop. There MUST be no remaining long hair below the shoulders. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature confident adult face unchanged.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY her hairstyle: elegant jaw-to-chin length glossy jet-black tapered bob with softly curved ends, asymmetric swept fringe, one side neatly tucked behind the ear showing the small gold hoop. There MUST be no remaining long hair below the shoulders. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature confident adult face unchanged.",
+      "output": "bob-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-967c02dc-d324-4811-8a6c-dff6fae58b7f.png"
+    },
+    {
+      "id": "ponytail",
+      "category": "hair",
+      "name": "High ponytail",
+      "description": "High black ponytail with soft curtain fringe and loose face-framing strands.",
+      "change": "Change ONLY her hairstyle: clearly recognizable high jet-black ponytail tied at the upper back crown, slightly lifted crown silhouette, full flowing tapered tail visible beside one shoulder down to upper waist, softly parted curtain fringe and two delicate cheek-framing wisps. Simple black tie, no big ribbon. Remove the original loose long-hair curtain. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature adult face unchanged.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY her hairstyle: clearly recognizable high jet-black ponytail tied at the upper back crown, slightly lifted crown silhouette, full flowing tapered tail visible beside one shoulder down to upper waist, softly parted curtain fringe and two delicate cheek-framing wisps. Simple black tie, no big ribbon. Remove the original loose long-hair curtain. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature adult face unchanged.",
+      "output": "ponytail-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-a3ada17b-c42f-4e3c-afe9-6331ed2174bd.png"
+    },
+    {
+      "id": "braid",
+      "category": "hair",
+      "name": "Loose side braid",
+      "description": "Single loose black braid with swept fringe and delicate wisps.",
+      "change": "Change ONLY her hairstyle: glossy jet-black hair loosely gathered into one thick carefully interwoven three-strand side braid resting visibly over one shoulder to upper waist, softly swept fringe and a few delicate face-framing wisps, a small plain dark tie at the tapered end. Remove the original loose long-hair curtain. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature adult face unchanged.",
+      "prompt": "Use case: identity-preserve. Asset type: swappable full-body reference illustration for Ari's character studio. Input 1 is the full-body edit target and pose/proportions reference; input 2 is the exact face/identity/detail reference. Ari is the SAME original adult woman in her late twenties: slate-gray almond eyes, delicate mature anime face, subtle relaxed closed-mouth smile, small gold hoop earrings. Preserve recognizable face, body proportions, front-facing neutral standing pose with head upright and arms relaxed at sides and both hands readable, premium fine anime linework and softly painted cel shading. SINGLE character head-to-shoes entirely in frame, tall 2:3 portrait, consistent scale and alignment with input 1, safe margin around hair and feet. Genuine transparent alpha background: no gray/black backdrop, no glow, halo, floor, shadow or vignette. No text, watermark, panels, props, handbags, other characters or 3D appearance. Change ONLY her hairstyle: glossy jet-black hair loosely gathered into one thick carefully interwoven three-strand side braid resting visibly over one shoulder to upper waist, softly swept fringe and a few delicate face-framing wisps, a small plain dark tie at the tapered end. Remove the original loose long-hair curtain. Keep original ivory long open cardigan over charcoal ribbed high-neck knit, straight black trousers and black flats. Mature adult face unchanged.",
+      "output": "braid-v1.png",
+      "generatedFile": "/Users/sookyungahn/.codex/generated_images/01a13430-252b-7702-8410-740a3cc4da8f/exec-eb4252f0-7ec6-4a42-8f80-fcc48eee8c9f.png"
+    }
+  ]
+}

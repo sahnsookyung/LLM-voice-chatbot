@@ -1,0 +1,61 @@
+{
+  "reference": "anime-reference-v2.png",
+  "assets": [
+    {
+      "expression": "happy",
+      "file": "emotions/happy.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: a warm genuinely happy smile, gently lifted cheeks, bright relaxed eyes, slightly parted smiling lips showing a small amount of upper teeth. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-a7e2247b-097c-449c-ae2a-633e713e41b3.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "curious",
+      "file": "emotions/curious.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: attentive curiosity: one eyebrow very slightly raised, eyes alert and interested, lips gently closed with a tiny inquisitive smile. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-532c98ec-1dd2-43a0-9949-5a49bc95d1bb.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "concerned",
+      "file": "emotions/concerned.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: gentle empathetic concern: inner eyebrows slightly lifted and drawn together, soft worried eyes, lips relaxed and subtly downturned. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-67aa6e04-9a99-4c0a-8d08-7bb5fd765e42.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "neutral",
+      "file": "emotions/neutral.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: a calm neutral resting face: relaxed eyes and brows, closed relaxed lips, no visible smile or frown. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-582dfe98-195c-41c7-92f4-84d9b2f36754.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "surprised",
+      "file": "emotions/surprised.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: natural moderate surprise: both eyebrows lifted, eyes slightly wider, mouth slightly open in a small soft oval, no exaggerated cartoon shock. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-c55d069e-b46a-4728-a2c8-d444e4d16e39.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "annoyed",
+      "file": "emotions/annoyed.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: restrained annoyance: brows gently lowered and drawn inward, a slightly narrowed attentive gaze, lips pressed together, no rage or exaggerated grimace. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-8f6542d2-79a3-41c6-8709-c41a8330b24a.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "embarrassed",
+      "file": "emotions/embarrassed.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: a shy embarrassed smile: gentle cheek blush, eyebrows lifted subtly at the inner ends, a small closed-lip self-conscious smile, eyes looking slightly downward while head stays upright. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-3c86cc09-17b5-488d-a68a-e8806e510d50.png",
+      "tool": "Built-in image_gen"
+    },
+    {
+      "expression": "sleepy",
+      "file": "emotions/sleepy.png",
+      "prompt": "Use case: identity-preserve. Input: Ari's approved black-haired portrait is the exact identity and illustration-style reference. Create one consistent CHEST-UP frontal expression reference portrait of the SAME adult woman. Expression: a drowsy relaxed expression: half-lidded eyes, loose relaxed eyebrows, lips gently closed, no yawn, no head tilt. Keep the exact recognizable face, delicate nose, gray irises, long black layered hair, gold hoop earrings, charcoal high-neck ribbed top and ivory cardigan. Head upright, no tilt, face directly forward, shoulders level; include entire hair crown and shoulders, centered composition, generous clean space above hair. Preserve premium detailed anime linework and soft painted shading. The face must be large and clearly readable. Single portrait only, pale warm-gray solid background, no text, no labels, no props, no exaggerated cartoon symbols. Do not change age, identity, outfit or lighting.",
+      "source": "/Users/sookyungahn/.codex/generated_images/01a12fdf-fa7b-7053-8a72-5981908bda22/exec-db5cf4d2-bc91-41f2-ab53-759f3f1aaaa9.png",
+      "tool": "Built-in image_gen"
+    }
+  ]
+}

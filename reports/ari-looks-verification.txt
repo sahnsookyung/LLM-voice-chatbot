@@ -1,0 +1,16 @@
+PASS: native artwork handler rejects traversal and symlinks outside the asset root
+PASS: original plus six reference cards load under the packaged file-origin CSP
+PASS: swapped tailored
+PASS: swapped streetwear
+PASS: swapped linen
+PASS: swapped bob
+PASS: swapped ponytail
+PASS: swapped braid
+PASS: rapidly selecting then reverting cancels the stale image
+PASS: Reload artwork bypasses the cached image without a page reload
+PASS: automatic workspace revision reload preserves character state
+PASS: invalid catalog preserves the current library and artwork
+PASS: incomplete image save retains the last decoded image
+PASS: repaired image reloads successfully
+PASS: selected hairstyle remains alongside the animated VRoid comparison
+PASS: all reference library integration checks completed

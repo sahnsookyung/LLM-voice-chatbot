@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-13",
+  "generator": "built-in imagegen",
+  "assets": [
+    {
+      "file": "face-v7-detail.png",
+      "prompt": "Use case: precise-object-edit. Asset: exact VRoid face UV skin atlas. Image 1 is the edit target; Image 2 is a character/style reference, NOT the output layout. Refine Image 1 in place without moving or resizing any UV island, eye opening, mouth, ear, or facial landmark. Keep its exact square framing. Add delicate natural nose-tip modeling centered x50%,y64%: a very small warm ivory tip highlight with a soft taupe underside and two tiny subtle nostril accents, no vertical red stripe, no long bridge contour, no harsh lines. Refine the existing ear islands in both top corners with fine inner helix/concha shading and soft warm edges, retaining exact shapes. Add subtle taupe lid shadow around the existing eye holes and softly defined peach-rose lips with tiny restrained highlights, inspired by the reference. Preserve the light peach complexion, gentle cheek color and calm adult anime character. No painted eyeballs, no eyebrows, no jewelry, no fierce expression, no heavy contour, no blush stripe. Output only the flat opaque UV atlas, not a portrait. Preserve all landmarks and framing exactly.",
+      "references": [
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/textures/v7-input/face.png",
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/anime-reference-v2.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "iris-v7-smoke-gray.png",
+      "prompt": "Use case: precise-object-edit. Asset: paired VRoid iris UV texture atlas. Precisely edit this atlas with the two oval iris islands in EXACTLY the same positions, dimensions, oval outlines, and 2:1 canvas aspect ratio. Repaint the irises in nuanced neutral smoke gray/silver with a very subtle warm gray undertone, like sophisticated adult anime eyes. Fine radial fiber detail, darker charcoal limbal rim, compact dark pupil, soft gradient from shadowed upper iris to medium silver lower iris. Less blue, less flat cartoon banding, no giant pupil. Keep both irises matching. Do NOT add large white catchlights because separate 3D highlight meshes provide them. Preserve transparent background and island edges, no face, eyelashes, labels or other elements.",
+      "references": [
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/textures/v7-input/iris.png"
+      ],
+      "transparent_background": true
+    },
+    {
+      "file": "cardigan-v7-color.png",
+      "prompt": "Use case: precise-object-edit. Asset: VRoid cardigan UV COLOR atlas for a 3D model. Preserve this exact square atlas and every UV island, seam, pocket, front opening, cuff and hem coordinate. Keep the garment layout identical. Repaint ONLY the existing white cloth surfaces as detailed warm ivory fine-knit cardigan fabric matching a refined anime illustration: softly shaded folds, subtle fine stitches, ribbed vertical cuffs and hem bands, finely ribbed front placket, crisp discreet pocket stitching, believable seams. Soft neutral warm-gray occlusion in the existing folds. Clean fabric, not distressed, no lace, no dots, no speckles. Keep folds aligned to the original guide, avoid aggressive dark outlines. Do not add a shirt or fill the center front opening. Output a flat UV atlas only, no garment mockup, no person, no labels. Output opaque RGB; non-cloth and cutout areas can remain the same flat neutral gray/black as input because the model retains its original alpha mask separately.",
+      "references": [
+        "/Users/sookyungahn/repos/LLM-voice-chatbot/characters/ari/design/textures/v7-input/cardigan.png"
+      ],
+      "transparent_background": false
+    }
+  ]
+}

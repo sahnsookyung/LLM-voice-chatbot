@@ -1,0 +1,17 @@
+{
+  "source": "characters/ari/model/hunyuan-shape-v1/8512a2729ed5ac987ed9f8fe38ae8802e02865bd55ed3e7ef7d03af6e7b923e5/white_mesh.glb",
+  "triangles": 1172804,
+  "bounds": [
+    [
+      -0.9991877675056458,
+      -0.9949638843536377,
+      -0.44655561447143555
+    ],
+    [
+      0.9952101111412048,
+      0.9990427494049072,
+      0.42987778782844543
+    ]
+  ],
+  "status": "untextured and unrigged; visual review required"
+}

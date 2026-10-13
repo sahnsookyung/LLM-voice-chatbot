@@ -1,0 +1,53 @@
+
+> companion-character@0.1.0 test
+> tsc src/motion.ts src/motion-clock.ts src/types.ts src/sequence.ts src/leg-ik.ts --outDir .test-build --target ES2022 --module ES2022 --skipLibCheck && node --test test/*.test.mjs
+
+✔ two-bone knee solve preserves limb lengths and bends forwards (0.703542ms)
+✔ feet remain planted through weight shifts, steps, turning and gesture interruption (24.941542ms)
+✔ reduced motion settles both arms, hips and leg movement (2.7955ms)
+✔ v7 is self-contained and preserves the humanoid, body fit, and garment cutouts (236.720333ms)
+✔ v7 lengthens the brows, refines the chin and exposes narrower ears (4.643292ms)
+✔ all 57 facial morph endpoints remain finite with normalized normals (177.190125ms)
+✔ temple hair remains skinned in its new rest pose without moving the crown (10.399833ms)
+✔ gold hoops follow the head and new geometry has valid normals, indices and skin weights (145.685084ms)
+✔ v8 shrinks only ear regions while preserving expressions, body and garment alpha (336.075708ms)
+✔ finer hair has valid outward geometry, tiny tapered tips, and normalized skinning (177.856166ms)
+✔ all hair chains use fitted body capsules with stable spring settings (0.177292ms)
+✔ v9 exposes ears through a local hair tuck, preserving ear size, face, body, textures and skinning (69.178416ms)
+✔ fixed-step tuning preserves world-space inertia and fitted collision groups (0.182584ms)
+✔ VRoid asset is self-contained, textured and within the geometry budget (38.614ms)
+✔ humanoid includes distinct articulated fingers and valid expression bindings (0.135292ms)
+✔ skin weights are normalized and joint indices reference the exported skeleton (68.751834ms)
+✔ hair springs contain valid joints and collision references (0.157583ms)
+✔ offline tailoring preserves topology, face morphs, textures and rig data (21.69975ms)
+✔ neutral cardigan clears the inner knit over both chest and pocket seams (214.44025ms)
+✔ longer hair retains valid rest skinning and preserves roots and face (17.757959ms)
+✔ mock-neck is skinned, outward-facing, and overlaps the shirt neckline (260.135833ms)
+✔ fixed simulation is identical across 30, 60, 120 Hz and uneven callbacks (28.955958ms)
+✔ drawing uses 60 Hz during gestures and 30 Hz when idle without losing fractional time (0.213208ms)
+✔ stalls, invalid timing and visibility resets cannot create unbounded catch-up (0.06525ms)
+✔ interruptions blend from the current expression instead of snapping (6.079208ms)
+✔ emotion smoothing is independent of frame rate (1.979708ms)
+✔ stale or invalid audio cannot leave a mouth open (1.278208ms)
+✔ every mood, gaze and repeated gesture produces bounded finite morph weights (53.875ms)
+✔ reduced motion settles all secondary motion while keeping expression and speech (1.871625ms)
+✔ hair sway alternates smoothly, settles, and supports interruption (6.538667ms)
+✔ a twirl completes one turn with alternate foot lifts and no rewind (4.487208ms)
+✔ new gestures are bilateral where needed, bounded, and smoothly interruptible (19.184375ms)
+✔ gesture reach leads the wrists and fingers, with staggered bilateral arms (1.059875ms)
+✔ interrupted arm motion preserves velocity instead of abruptly reversing (0.988542ms)
+✔ tempo changes gesture speed without skipping orientation or increasing its amplitude (7.133791ms)
+✔ pair rehearsal covers all 56 directed changes without duplicates or neutral resets (0.848584ms)
+✔ shuffle includes every emotion once and custom order preserves repetitions (0.863834ms)
+✔ paused and suspended rehearsal cannot accumulate timers or skip expressions (0.114834ms)
+✔ all expression pairs and rapid interruptions stay finite, smooth, and settle cleanly (91.88325ms)
+✔ sleepiness and blush blend out, and speech continues through changing emotions (2.693042ms)
+✔ movement rehearsal gives all new gestures time to complete and returns to neutral (0.1765ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 736.65475

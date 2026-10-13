@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-13",
+  "tool": "Built-in image_gen.imagegen",
+  "active": "face-v4-makeup-fit.png",
+  "inputs": [
+    "face-v3-base.png",
+    "../anime-reference-v2.png"
+  ],
+  "outputs": [
+    {
+      "file": "face-v4-makeup.png",
+      "purpose": "Initial rose/taupe makeup atlas",
+      "prompt": "Edit Image 1, the square VRoid face skin UV texture atlas, using Image 2 only as the makeup and facial rendering style reference. Return the same square 1024x1024 UV atlas, NOT a portrait. Preserve exact UV layout, ear islands in top corners, skin island boundaries, eye hole positions around (350,556) and (677,556), nose at (512,649), and mouth at (512,776). Keep every facial feature at its exact original pixel position and scale. No eyes/irises/brows/hair added because those are separate meshes. Keep the uniform pale peach skin base at atlas edges to avoid seams. Strongly improve the painted makeup to match this mature adult anime woman's confident sophisticated face: smoky warm taupe and rose eyelid shadow tightly surrounding existing eye holes with defined upper crease, softly blended pink under-eye rim, more dimensional rose cheek blush under outer eyes, elegant narrow nose bridge shading and small clean bright tip highlight, clearly defined soft rose lipstick with cupid's bow, fuller-looking shaded lower lip with small glossy specular highlights following the EXISTING mouth footprint. Crisp high-quality anime/game face albedo texture, detailed restrained painterly gradients, substantially more definition than Image 1. No lighting backdrop, no face outline drawn, no text, no grid, no watermark. This will be wrapped onto a 3D mesh so preserving UV positions is critical."
+    },
+    {
+      "file": "face-v4-makeup-fit.png",
+      "purpose": "UV bleed and mouth placement correction",
+      "prompt": "Precise technical correction of Image 1, a VRoid face UV skin texture. Preserve the existing makeup style, skin, ears, nose, cheeks, colors, square aspect and every island boundary. TWO corrections only: (1) remove the sharp peach-colored blank holes inside both painted eyelids, filling them with smoothly continuous smoky rose/taupe eyelid shading. These are mesh cutouts and must have generous color bleed; no crisp eye-hole boundary and no skin-colored cutout patches. Do not add eyeballs, irises or lashes. (2) Move the ENTIRE painted lipstick motif DOWN by exactly 0.009 of the canvas height (about 11 pixels on this 1254px image). The mouth's darkest horizontal seam must be centered at normalized y=0.758, x=0.500, as in Image 2, the original UV layout reference. Preserve its width, detail and shape; remove the old seam so there is only one mouth. Image 2 is spatial guidance only, keep Image 1's richer makeup. Output just the corrected square atlas, no text or grid. No other feature moves or aesthetic changes."
+    }
+  ],
+  "import": "VRoid Skin custom item, active top layer at 100%, color calibration off. Original skin underneath. First generated layer retained but hidden; stock Lips paint hidden. Saved in ari-vroid-v4.vroid and exported into ari-vroid-v4.vrm.",
+  "limitations": [
+    "Generated atlas is 1254 square, despite requested 1024; VRoid resamples on import.",
+    "Painted anatomy must follow the mesh UV; it cannot itself change facial geometry.",
+    "Current model remains visibly different from the illustration, especially hair and clothing."
+  ]
+}

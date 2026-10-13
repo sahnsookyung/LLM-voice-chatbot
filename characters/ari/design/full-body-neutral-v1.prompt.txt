@@ -1,0 +1,7 @@
+Use case: identity-preserve.
+Asset type: full-body neutral master reference for a rigged animated character.
+Input image: the existing black-haired Ari portrait is the identity, outfit and illustration-style reference.
+Primary request: extend this exact original adult anime woman into one full-body standing character reference, head to toes visible. Preserve her recognizable face, mature young-adult proportions, slate-gray almond-shaped eyes, long layered jet-black hair, small gold hoop earrings, ivory cardigan, and charcoal ribbed high-neck knit top. Continue the visible black trousers into tailored straight-leg black trousers, with simple black flat shoes.
+Composition: single character, straight-on front view, head UPRIGHT with no tilt, eyes looking forward, relaxed neutral closed lips, even shoulders. Natural proportions approximately 7.5 heads tall. Both arms relaxed with a small gap from the torso; hands fully visible with relaxed separated fingers. Feet planted hip-width apart. Entire silhouette comfortably within canvas with transparent margin. Vertical full-body composition.
+Style: preserve the premium anime illustration, fine tapered linework, soft restrained painted shading, elegant coherent hair shapes, delicate adult face. Clean enough for 3D modeling reference.
+Constraints: exact same identity and outfit. No redesign, no extra accessories, no text, no labels, no panel borders, no floor, no cast shadow, no perspective foreshortening, no cropped hair or feet. Genuinely transparent background.
