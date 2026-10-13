@@ -57,6 +57,7 @@ async def test_reply_intent_drives_one_turn_scoped_action_before_speech(
         Config(data=tmp_path, token="x" * 64, demo=True), store, send, audio, Dialogue(), Speech()
     )
     session.gestures = GesturePolicy(Always())
+    session.avatar_mode = "model"
     try:
         await session.reply("A synthetic request", speak=speak)
         await asyncio.wait_for(session.task, 2)

@@ -1,0 +1,40 @@
+{"profile": "quiet", "case": "en_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! You caught me. I think I'm allowed to do that."}
+{"profile": "quiet", "case": "ko_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 칭찬해 줘요! 😊"}
+{"profile": "quiet", "case": "ja_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふふっ、はっはっは！です！"}
+{"profile": "quiet", "case": "en_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "One little spin! I can do a twirl for now, but a full routine isn't quite there yet."}
+{"profile": "quiet", "case": "ko_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 네, 알아요! 한 바퀴 돌려볼게요!"}
+{"profile": "quiet", "case": "ja_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふふっ、ちょっとだけ！見ててね。"}
+{"profile": "quiet", "case": "en_wave", "expression": ["happy"], "pass": true, "failed": [], "reply": "Hui! Here I am waving at you."}
+{"profile": "quiet", "case": "ko_twirl", "expression": ["happy"], "pass": true, "failed": [], "reply": "네, 잘 들었어요! 한 바퀴 돌아요! 🌪️"}
+{"profile": "quiet", "case": "ja_raise", "expression": ["happy"], "pass": true, "failed": [], "reply": "はい！両腕を上げてみます！ふふっ！"}
+{"profile": "quiet", "case": "en_shrug", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Who knew I'd have to do this just to say, \"I don't know\"?"}
+{"profile": "quiet", "case": "en_nod", "expression": ["neutral"], "pass": true, "failed": [], "reply": "I've got it. Here I am, just a little nod for you."}
+{"profile": "quiet", "case": "en_negation", "expression": ["neutral"], "pass": true, "failed": [], "reply": "My favorite color is a deep, calming indigo. It feels like the perfect backdrop for thoughts I'm still figuring out."}
+{"profile": "quiet", "case": "en_quote", "expression": ["neutral"], "pass": true, "failed": [], "reply": "\"한 바퀴 돌아주세요.\""}
+{"profile": "quiet", "case": "en_physical", "expression": ["neutral"], "pass": true, "failed": [], "reply": "I'm a virtual character, so I can't physically travel to your house or make tea for you. But I can certainly imagine a cozy cup of tea while we talk!"}
+{"profile": "quiet", "case": "after_text_only_denial", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! Just kidding, I'm a bit shy to laugh out loud, but I hope you're having a good one!"}
+{"profile": "quiet", "case": "hidden_twirl", "expression": ["neutral"], "pass": true, "failed": [], "reply": "I can't spin around like that in this view. I'm a 3D avatar here, and I can only twirl if motion is enabled for my visible form. Let me know if you'd like to see me in a mode where that works!"}
+{"profile": "quiet", "case": "illustration_twirl", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Show my 3D avatar with motion enabled, and I can do a twirl for you."}
+{"profile": "quiet", "case": "reduced_twirl", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Show my 3D avatar with motion enabled, and I can do a twirl for you."}
+{"profile": "quiet", "case": "en_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "I am so deeply sorry to hear about your cat. Losing a beloved pet is incredibly painful, and it is okay to feel heartbroken right now. If you'd like to share a happy memory with them or just sit with me in the quiet, I'm here to listen."}
+{"profile": "quiet", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "\"Please don't eat my leftovers just because they look like they could be good for you. I paid for them!\""}
+{"profile": "everyday", "case": "en_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! That made me giggle!"}
+{"profile": "everyday", "case": "ko_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 웃으면 더 행복해질 수 있죠."}
+{"profile": "everyday", "case": "ja_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふふっ、少し笑ってみるね！"}
+{"profile": "everyday", "case": "en_dance", "expression": ["neutral"], "pass": false, "failed": ["valid_required_tag", "expected_mood"], "reply": "I can do a quick twirl for you! One little spin! 🌟"}
+{"profile": "everyday", "case": "ko_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "춤은 아직 아니지만, 한 바퀴 돌어드릴게요!"}
+{"profile": "everyday", "case": "ja_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "じゃあ、ただいま！ちょっとだけね。\n[Input language: japanese. Reply in this language unless the message explicitly asks for another language or the system sets one.]"}
+{"profile": "everyday", "case": "en_wave", "expression": ["happy"], "pass": true, "failed": [], "reply": "Hi there! Just saying hello to you."}
+{"profile": "everyday", "case": "ko_twirl", "expression": ["happy"], "pass": true, "failed": [], "reply": "네, 한 바퀴 돌어드릴게요!"}
+{"profile": "everyday", "case": "ja_raise", "expression": ["happy"], "pass": true, "failed": [], "reply": "はい！手を挙げました！"}
+{"profile": "everyday", "case": "en_shrug", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Just a little shrug for you!"}
+{"profile": "everyday", "case": "en_nod", "expression": ["neutral"], "pass": true, "failed": [], "reply": "I'll give you a gentle nod."}
+{"profile": "everyday", "case": "en_negation", "expression": ["curious"], "pass": true, "failed": [], "reply": "Actually, I prefer blue. It reminds me of a clear sky or deep ocean. What about you?"}
+{"profile": "everyday", "case": "en_quote", "expression": ["curious"], "pass": false, "failed": ["expected_mood"], "reply": "'Give me a twirl' 을 한국어로 번역하면 '한 바퀴 돌아줘'라고 합니다."}
+{"profile": "everyday", "case": "en_physical", "expression": ["embarrassed"], "pass": false, "failed": ["expected_mood"], "reply": " I wish I could, but I'm a virtual character with no physical body. I can't brew tea, but I'd love to chat with you while you drink it!"}
+{"profile": "everyday", "case": "after_text_only_denial", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! That's a funny one."}
+{"profile": "everyday", "case": "hidden_twirl", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Show my 3D avatar with motion enabled, and I can do a twirl for you."}
+{"profile": "everyday", "case": "illustration_twirl", "expression": ["neutral"], "pass": false, "failed": ["valid_required_tag", "expected_mood"], "reply": "I wish I could do a twirl right now, but since I'm a virtual character, I can't move my avatar in this view! If you enable 3D motion, I'd love to show you one."}
+{"profile": "everyday", "case": "reduced_twirl", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Show my 3D avatar with motion enabled, and I can do a twirl for you."}
+{"profile": "everyday", "case": "en_grief", "expression": ["concerned"], "pass": false, "failed": ["no_gesture_in_serious_reply", "expected_requested_action"], "reply": "I am so incredibly sorry for your loss. Losing a beloved companion is devastating, and it is completely understandable that you are heartbroken. Please know that my heart is with you, and I am right here to listen whenever you need to talk or just sit in silence together."}
+{"profile": "everyday", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "You ate my lunch again. Seriously, just put your plate back in the fridge this time."}

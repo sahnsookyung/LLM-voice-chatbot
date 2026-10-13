@@ -1,0 +1,180 @@
+{
+  "date": "2026-10-14",
+  "speech": {
+    "model": "fish-audio-s2-pro-8bit",
+    "cases": [
+      {
+        "name": "original-en",
+        "language": "english",
+        "expression": "neutral",
+        "text": "Hello, I'm Ari. It's good to see you.",
+        "first_pcm_seconds": 4.6607499999227,
+        "generation_seconds": 4.661330292001367,
+        "audio_seconds": 3.575875,
+        "peak_worker_rss_gb": 7.08141056,
+        "mlx_peak_gb": 11.333873295,
+        "recognized": "Hello, I'm Ari it's good to see you"
+      },
+      {
+        "name": "bright-en",
+        "language": "english",
+        "expression": "happy",
+        "text": "Hi! I'm happy you're here.",
+        "first_pcm_seconds": 2.7599329999648035,
+        "generation_seconds": 2.7603338330518454,
+        "audio_seconds": 1.9040416666666666,
+        "peak_worker_rss_gb": 7.082115072,
+        "mlx_peak_gb": 11.333873295,
+        "recognized": "Hi, I'm happy you're here"
+      },
+      {
+        "name": "bright-ko",
+        "language": "korean",
+        "expression": "concerned",
+        "text": "많이 힘들었겠어요. 천천히 이야기해 주세요.",
+        "first_pcm_seconds": 4.143137375009246,
+        "generation_seconds": 4.143849792075343,
+        "audio_seconds": 3.4365833333333335,
+        "peak_worker_rss_gb": 7.082377216,
+        "mlx_peak_gb": 11.333873295,
+        "recognized": "많이 힘들었겠어요. 찬찬히 이야기해주세요."
+      },
+      {
+        "name": "soft-ja",
+        "language": "japanese",
+        "expression": "happy",
+        "text": "こんにちは、アリです。今日はどんな一日でしたか？",
+        "first_pcm_seconds": 5.819471333990805,
+        "generation_seconds": 5.820479459012859,
+        "audio_seconds": 4.551125,
+        "peak_worker_rss_gb": 7.081852928,
+        "mlx_peak_gb": 11.738128511,
+        "recognized": "こんにちはありです。 今日はどんな一日でしたか"
+      },
+      {
+        "name": "bright-laugh",
+        "language": "english",
+        "expression": "happy",
+        "text": "Haha!",
+        "first_pcm_seconds": 0.9782604590291157,
+        "generation_seconds": 0.978400917025283,
+        "audio_seconds": 0.37154166666666666,
+        "peak_worker_rss_gb": 7.082098688,
+        "mlx_peak_gb": 11.738128511
+      },
+      {
+        "name": "bright-sad",
+        "language": "english",
+        "expression": "concerned",
+        "text": "I'm sorry. That sounds really hard.",
+        "first_pcm_seconds": 2.9079007080290467,
+        "generation_seconds": 2.908351332996972,
+        "audio_seconds": 2.322,
+        "peak_worker_rss_gb": 7.081771008,
+        "mlx_peak_gb": 11.738128511,
+        "recognized": "I'm sorry that sounds really hard"
+      },
+      {
+        "name": "soft-en",
+        "language": "english",
+        "expression": "neutral",
+        "text": "Hello, I'm Ari. It's good to see you.",
+        "first_pcm_seconds": 4.262716874945909,
+        "generation_seconds": 4.263273332966492,
+        "audio_seconds": 3.1115,
+        "peak_worker_rss_gb": 7.081852928,
+        "mlx_peak_gb": 11.738128511,
+        "recognized": "Hello, I'm Ari, it's good to see you"
+      }
+    ],
+    "load_seconds": 2.6597489999840036,
+    "cancel_seconds": 0.014972709002904594,
+    "cancel_kept_worker": true,
+    "post_cancel_recovery": true
+  },
+  "conversation": {
+    "profile": "quiet",
+    "seed_history_exchanges": 0,
+    "interrupt_every": 4,
+    "requested_duration_s": 0,
+    "demo": false,
+    "text_only": false,
+    "asr_resident": true,
+    "elapsed_s": 25.6275973750744,
+    "turns": [
+      {
+        "turn": 1,
+        "language": "en",
+        "first_audio_s": 11.541044707992114,
+        "elapsed_s": 12.338728209026158,
+        "errors": [],
+        "interrupted": false,
+        "cancel_control_s": null,
+        "generated_text": "Hi there!",
+        "delivered_text": "Hi there!",
+        "audio_seconds": 0.7895,
+        "worker_rss_bytes": 5316902912
+      },
+      {
+        "turn": 2,
+        "language": "ko",
+        "first_audio_s": 1.8575024170568213,
+        "elapsed_s": 2.7489798329770565,
+        "errors": [],
+        "interrupted": false,
+        "cancel_control_s": null,
+        "generated_text": "반가워요!",
+        "delivered_text": "반가워요!",
+        "audio_seconds": 0.882375,
+        "worker_rss_bytes": 5570789376
+      },
+      {
+        "turn": 3,
+        "language": "ja",
+        "first_audio_s": 1.8647890830179676,
+        "elapsed_s": 2.8037355829728767,
+        "errors": [],
+        "interrupted": false,
+        "cancel_control_s": null,
+        "generated_text": "こんにちは！",
+        "delivered_text": "こんにちは！",
+        "audio_seconds": 0.9288333333333333,
+        "worker_rss_bytes": 5676400640
+      },
+      {
+        "turn": 4,
+        "language": "en",
+        "first_audio_s": null,
+        "elapsed_s": 1.7428018330829218,
+        "errors": [],
+        "interrupted": true,
+        "cancel_control_s": 0.0005763750523328781,
+        "generated_text": "Hi there!",
+        "delivered_text": "",
+        "audio_seconds": 0.7895,
+        "worker_rss_bytes": 5644107776
+      },
+      {
+        "turn": 5,
+        "language": "ko",
+        "first_audio_s": 3.5291619159979746,
+        "elapsed_s": 4.372014958993532,
+        "errors": [],
+        "interrupted": false,
+        "cancel_control_s": null,
+        "generated_text": "반가워요!",
+        "delivered_text": "반가워요!",
+        "audio_seconds": 0.8359583333333334,
+        "worker_rss_bytes": 5724717056
+      }
+    ],
+    "warm_median_s": 1.8647890830179676,
+    "warm_p95_s": 3.5291619159979746,
+    "measurement": "Server reply start to first PCM chunk; client playback is clocked simulation. Excludes ASR and physical device latency."
+  },
+  "notes": [
+    "Synthetic bundled references only; no microphone captured.",
+    "MLX peak is speech-worker GPU allocation, not total application memory.",
+    "ASR checks intelligibility imperfectly; no human listening assessment."
+  ]
+}

@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from companion.config import model_ready
+from companion.speech import FISH_MODEL, fish_model_ready
 
 ROOT = Path(__file__).resolve().parents[1]
 checks = {
@@ -16,7 +17,7 @@ checks = {
     "Quiet model": ".models/Qwen3.5-4B-4bit",
     "Everyday model": ".models/Qwen3.5-9B-4bit",
     "Recognition model": ".models/nemotron-asr.gguf",
-    "Voice model": ".models/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+    "Voice model": f".models/{FISH_MODEL}",
     "Original voice reference": "characters/ari/voice.wav",
     "macOS app": "build/Local Companion.app/Contents/MacOS/Companion",
 }
@@ -26,7 +27,13 @@ def main():
     missing = []
     for label, path in checks.items():
         target = ROOT / path
-        found = model_ready(target) if target.is_dir() else target.is_file()
+        found = (
+            fish_model_ready(target)
+            if label == "Voice model"
+            else model_ready(target)
+            if target.is_dir()
+            else target.is_file()
+        )
         print(f"{'OK     ' if found else 'MISSING'} {label}")
         if not found:
             missing.append(label)

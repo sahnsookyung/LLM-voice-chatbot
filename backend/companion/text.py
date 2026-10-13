@@ -1,6 +1,7 @@
 import re
 
 from .behavior import INTENTS
+from .capabilities import AVATAR_ACTIONS
 
 EXPRESSIONS = {
     "neutral",
@@ -23,6 +24,9 @@ class SpeechText:
         self.expression = "neutral"
         self.intent = None
         self.intent_prefix = ""
+        self.intent_complete = False
+        self.action = None
+        self.action_prefix = ""
         self.header_complete = False
         self.body_pending = ""
         self.dropping_tag = False
@@ -44,16 +48,17 @@ class SpeechText:
                 and not final
             ):
                 return "", []
-            match = re.match(r"\[mood=([^\]]+)\]\s*", candidate)
+            match = re.match(r"\[\s*mood\s*=\s*([^\]]+?)\s*\]\s*", candidate, re.IGNORECASE)
             if match:
-                self.expression = match[1] if match[1] in EXPRESSIONS else "neutral"
+                mood = match[1].strip().lower()
+                self.expression = mood if mood in EXPRESSIONS else "neutral"
                 visible = candidate[match.end() :]
             elif candidate.startswith("["):
                 visible = candidate.split("]", 1)[-1] if "]" in candidate else ""
             else:
                 visible = self.prefix
             self.started = True
-        if not self.header_complete:
+        if not self.intent_complete:
             self.intent_prefix += visible
             candidate = self.intent_prefix.lstrip()
             if not candidate and len(self.intent_prefix) < 64 and not final:
@@ -65,14 +70,36 @@ class SpeechText:
                 and not final
             ):
                 return "", []
-            match = re.match(r"\[intent=([^\]]+)\]\s*", candidate)
+            match = re.match(r"\[\s*intent\s*=\s*([^\]]+?)\s*\]\s*", candidate, re.IGNORECASE)
             if match:
-                self.intent = match[1] if match[1] in INTENTS else None
+                intent = match[1].strip().lower()
+                self.intent = intent if intent in INTENTS else None
+                visible = candidate[match.end() :]
+            else:
+                visible = candidate
+            self.intent_complete = True
+            self.prefix = self.intent_prefix = ""
+        if not self.header_complete:
+            self.action_prefix += visible
+            candidate = self.action_prefix.lstrip()
+            if not candidate and len(self.action_prefix) < 64 and not final:
+                return "", []
+            if (
+                candidate.startswith("[")
+                and "]" not in candidate
+                and len(candidate) < 64
+                and not final
+            ):
+                return "", []
+            match = re.match(r"\[\s*action\s*=\s*([^\]]+?)\s*\]\s*", candidate, re.IGNORECASE)
+            if match:
+                action = match[1].strip().lower()
+                self.action = action if action in (*AVATAR_ACTIONS, "none") else "invalid"
                 visible = candidate[match.end() :]
             else:
                 visible = candidate
             self.header_complete = True
-            self.prefix = self.intent_prefix = ""
+            self.action_prefix = ""
         visible = self.clean_body(visible, final)
         self.buffer += visible
         clauses = []
@@ -111,12 +138,13 @@ class SpeechText:
             text = text.split("]", 1)[1]
             self.dropping_tag = False
         output = []
-        markers = ("[mood=", "[intent=")
+        markers = ("[mood=", "[intent=", "[action=")
         while "[" in text:
             before, tail = text.split("[", 1)
             output.append(before)
             tail = "[" + tail
-            if any(tail.startswith(marker) for marker in markers):
+            compact = re.sub(r"\s+", "", tail).lower()
+            if any(compact.startswith(marker) for marker in markers):
                 if "]" in tail:
                     text = tail.split("]", 1)[1]
                     continue
@@ -126,7 +154,11 @@ class SpeechText:
                     else:
                         self.dropping_tag = True
                 return "".join(output)
-            if not final and any(marker.startswith(tail) for marker in markers):
+            if (
+                not final
+                and len(tail) < 64
+                and any(marker.startswith(compact) for marker in markers)
+            ):
                 self.body_pending = tail
                 return "".join(output)
             output.append("[")

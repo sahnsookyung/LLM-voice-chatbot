@@ -26,12 +26,17 @@ struct ChatMessage: Identifiable {
   @Published var characterName = "Ari"
   @Published var characterID = "ari"
   @Published var visualMode = UserDefaults.standard.string(forKey: "ariVisualMode") ?? "illustration" {
-    didSet { UserDefaults.standard.set(visualMode, forKey: "ariVisualMode"); animate(overlayAppearanceEvent) }
+    didSet {
+      UserDefaults.standard.set(visualMode, forKey: "ariVisualMode")
+      animate(overlayAppearanceEvent)
+      syncAvatarCapabilities()
+    }
   }
   @Published var overlayVisible = UserDefaults.standard.object(forKey: "ariOverlayVisible") as? Bool ?? true {
     didSet {
       UserDefaults.standard.set(overlayVisible, forKey: "ariOverlayVisible")
       setOverlayVisibility?(overlayVisible)
+      syncAvatarCapabilities()
     }
   }
   let wardrobeCatalog: WardrobeCatalog
@@ -295,6 +300,7 @@ struct ChatMessage: Identifiable {
       conversationID = event["conversation_id"] as? String ?? ""
       demo = event["demo"] as? Bool ?? false
       characterID = event["character_id"] as? String ?? "ari"
+      syncAvatarCapabilities()
       await loadCharacter()
     case "state":
       state = (event["state"] as? String ?? "idle").capitalized
@@ -377,7 +383,16 @@ struct ChatMessage: Identifiable {
   }
   func sendText(_ text: String) {
     notice = ""
+    syncAvatarCapabilities()
     command(["type": "text", "text": text, "speak": speak])
+  }
+  func syncAvatarCapabilities() {
+    guard connected else { return }
+    command([
+      "type": "avatar", "avatar_mode": visualMode == "model" ? "model" : "illustration",
+      "avatar_visible": overlayVisible,
+      "reduced_motion": NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
+    ])
   }
   func beginPTT() {
     guard connected, !microphoneRequested, !listening else { return }
@@ -439,6 +454,7 @@ struct ChatMessage: Identifiable {
         // Push-to-talk does not play a reply while recording, so it needs no echo canceller.
         if !releasePending { try audio.startCapture(voiceProcessing: mode == "handsfree") }
         inputStatus = audio.captureFormat
+        syncAvatarCapabilities()
         command(["type": "start", "mode": mode])
       } catch {
         mute()

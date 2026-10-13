@@ -1,0 +1,12 @@
+This model is licensed under the Fish Audio Research License, Copyright © 39 AI, INC. All Rights Reserved.
+
+Built with Fish Audio.
+
+Model: Fish Audio S2 Pro, converted/quantized by mlx-community to 8-bit MLX weights.
+Conversion: mlx-community/fish-audio-s2-pro-8bit @ c8d4481b3f7cbfe64d855c8b7cda7739502fc3ff
+License source: fishaudio/s2-pro @ 1de9996b6be38b745688de084d87a5633f714e4e, LICENSE.md
+https://huggingface.co/fishaudio/s2-pro/blob/1de9996b6be38b745688de084d87a5633f714e4e/LICENSE.md
+
+This application does not modify the downloaded weights. It caches reference
+tokens, supplies delivery tags, and resamples generated audio for playback.
+The model's Research License is separate from the application's MIT license.

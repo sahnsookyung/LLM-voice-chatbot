@@ -36,6 +36,7 @@ class Command(BaseModel):
         "language",
         "character",
         "pressure",
+        "avatar",
     ]
     text: str = Field(default="", max_length=16000)
     mode: Literal["ptt", "handsfree"] = "ptt"
@@ -46,6 +47,9 @@ class Command(BaseModel):
     language: Literal["auto", "english", "korean", "japanese"] = "auto"
     character_id: str = Field(default="ari", pattern=r"^[a-z0-9_-]{1,64}$")
     pressure: Literal["normal", "warning", "critical"] = "normal"
+    avatar_mode: Literal["illustration", "model"] = "illustration"
+    avatar_visible: bool = True
+    reduced_motion: bool = False
 
 
 class MemoryInput(BaseModel):

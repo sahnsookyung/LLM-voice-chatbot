@@ -2,6 +2,8 @@
 
 A native macOS conversation companion for Apple Silicon, with English, Korean, and Japanese speech, a floating animated character, and local history. Built for a 48 GB M4 Pro Mac while leaving room for everyday apps.
 
+**Built with Fish Audio.** Speech runs locally with **Fish Audio S2 Pro, 8-bit MLX**. The model is free for personal/non-commercial use under its [Research License](third_party/fish-audio/LICENSE.md); commercial use requires a separate Fish Audio license.
+
 Open **`build/Local Companion.app`** after setup. Click **Talk**, speak, then click **Send voice**, or hold **Control–Option–Space** to talk from any app. The microphone meter shows input level. Hands-free is explicit and stays on until muted. Escape stops a reply. The menu-bar sparkle restores the chat/character, toggles click-through, mutes, and quits.
 
 The character starts near the lower-right corner of the chat's display. Use **Show avatar / Hide avatar** in the app header, **Show desktop avatar** in the Character tab, or **Command–Shift–H** while the app is active. The menu-bar sparkle also has the toggle. Visibility survives restart; hiding pauses rendering, and showing retains the current position and look. The source `renderer/index.html` requires Vite; opening it directly is not a way to launch the app.
@@ -16,15 +18,19 @@ In the **Character** tab, **Desktop wardrobe** selects the overlay's outfit, hai
 
 The Character tab's 3D gesture buttons include **Cute twirl**, **Shrug**, **Raise Arms** and **Point**. Replies also carry conversational intent: greetings wave, explanations use Explain, acknowledgements sometimes nod, and uncertainty sometimes shrugs. Ordinary conversation occasionally shifts or steps. Optional movements have both turn and time cooldowns; concerned, annoyed and sleepy replies suppress automatic gestures. Spoken gestures wait for playback to start; text-only replies gesture immediately. Reduced Motion still applies, and interruption cancels the previous gesture smoothly.
 
-Reply mood tags drive the face before speech starts. New turns clear the previous mood; internal mood/intent tags are removed from displayed and spoken text. The current cloned-voice TTS uses text and a fixed voice reference, without explicit emotional acting control. Matching face tags does not guarantee matching vocal prosody, and local-model language quality and intent choices can still vary.
+You can also ask Ari to wave, nod, shrug, point, raise her arms or twirl. Reply action tags select one supported animation and use the same speech/cancellation timing. A friendly laugh request can produce a synthesized chuckle with a happy expression. A dance request currently offers a twirl; a full dance routine and dedicated laugh-body animation are not implemented. Hidden avatars, illustration mode and Reduced Motion disable requested body actions, and Ari is told that current view state. These capabilities are supplied separately from your saved personality.
+
+Reply mood tags drive both the face and Fish's vocal delivery. New turns clear the previous mood; internal mood/intent/action tags are removed from displayed and spoken text. Only a happy standalone laughter interjection becomes a chuckle event; ordinary happy sentences and serious replies do not automatically laugh. Acting instructions are confined to synthesis and never stored in the chat transcript. These controls guide the model but do not guarantee perfect emotional delivery or pronunciation.
 
 The studio's **Reference look** selector and **Wardrobe & Hair** gallery include three new outfits and three hairstyles. Select a look to swap the studio illustration or compare it alongside VRoid. **Auto reload** picks up saved workspace artwork within about three seconds; **Reload artwork** refreshes it immediately. These are complete reference illustrations, not interchangeable 3D clothing/hair meshes, and the selection is local to the studio. See [the look library and authoring workflow](docs/ARI-LOOKS.md).
 
-Choose **Character → Voice** to switch between Original, Bright, and Soft, then use **Preview voice** to audition a sample. Bright and Soft are original higher-pitched adult voices generated locally; selection is saved per character. Only their small reference clips are used during conversation.
+Choose **Character → Voice** to switch between Original, Bright, and Soft, then use **Preview voice** to audition a Fish-generated sample. Bright and Soft are original higher-pitched adult voices generated locally; selection is saved per character. Their original reference clips are retained for cloning. Imported voices without a Fish preview play their reference clip.
+
+The pinned MLX Fish implementation generates a complete phrase before returning audio. Playback then uses bounded 24 kHz packets, with Stop checked during generation and a process-termination fallback. This is phrase-based synthesis, not Fish's CUDA streaming server; expect more startup delay than the old Qwen voice. Both voices and dialogue remain offline after installation.
 
 ## Setup and build
 
-Requirements: Apple Silicon, macOS 15+, Xcode with its Metal toolchain, Node.js, and [uv](https://docs.astral.sh/uv/). Setup uses Python 3.12 and isolated inference environments. Allow roughly 25 GB of disk for runtime models, creation weights, dependencies, and caches.
+Requirements: Apple Silicon, macOS 15+, Xcode with its Metal toolchain, Node.js, and [uv](https://docs.astral.sh/uv/). Setup uses Python 3.12 and isolated inference environments. Allow roughly 35 GB of disk for runtime models, creation weights, dependencies, and caches. Fish's weights and codec alone download about 6.7 GB.
 
 ```sh
 xcodebuild -downloadComponent MetalToolchain
@@ -39,6 +45,8 @@ open "build/Local Companion.app"
 ```
 
 Ari's generated reference is included in `characters/ari/voice.wav`; regenerating it is optional. The app bundle stores this workspace's absolute path and launches its Python environment. Keep the workspace in place or rebuild after moving it. This is an ad-hoc-signed local development app, not a standalone notarized installer. It does not copy gigabytes of models inside the `.app`.
+
+For an existing installation, download the new speech model with `HF_HUB_DISABLE_XET=1 .venv/bin/python scripts/download_models.py voice`, then quit and reopen the app. Voice selections and history are preserved; old Qwen runtime weights are no longer loaded or automatically deleted.
 
 ```sh
 .venv/bin/python scripts/doctor.py
@@ -57,7 +65,7 @@ If setup fails during a network interruption, rerun the model download command; 
 - Native SwiftUI conversation, history, approved-memory editing/deletion, export, personality editor, language/profile controls, and global push-to-talk.
 - Floating nonactivating AppKit panel, full-body and portrait illustrations, and an optional Three.js/VRM character with expressions, gaze, blinking, speech-driven mouth motion and gestures. Reduced Motion and hidden-window throttling are supported; imported layered art retains Pixi.
 - Original adult character Ari, an in-app palette/personality character creator, plus a validated layered-PNG/voice ZIP import format. Live2D and MCP are not required.
-- CPU streaming Nemotron recognition, Pipecat Silero/Smart Turn, oMLX 4-bit dialogue, and an isolated persistent MLX-Audio BF16 voice worker.
+- CPU streaming Nemotron recognition, Pipecat Silero/Smart Turn, oMLX 4-bit dialogue, and an isolated persistent Fish S2 Pro 8-bit MLX voice worker.
 - Bounded input/output queues, turn identifiers, actual-playback acknowledgments, interruption handling, idle unloading, and memory-pressure response.
 - SQLite history using acknowledged speech for future assistant context. No embeddings or automatically inferred personal memory.
 
@@ -69,6 +77,8 @@ Data normally lives in `~/Library/Application Support/LocalVoiceCompanion`. `LVC
 # Real models; simulates timed playback, never opens a microphone.
 PYTHONPATH=backend .venv/bin/python scripts/benchmark.py --profile everyday --turns 6
 PYTHONPATH=backend .venv/bin/python scripts/test_voice_pipeline.py
+PYTHONPATH=backend .venv/bin/python scripts/check_fish_speech.py --transcribe
+PYTHONPATH=backend .runtime/tts/bin/python -m unittest discover -s tests -p test_pcm_conversion.py
 PYTHONPATH=backend .venv/bin/python scripts/benchmark.py --profile everyday --turns 100 --with-recognition --interrupt-every 10
 
 # Optional 30-minute pacing, while using your normal desktop workload.

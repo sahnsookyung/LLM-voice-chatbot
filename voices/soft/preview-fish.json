@@ -1,0 +1,15 @@
+{
+  "engine": "Fish Audio S2 Pro",
+  "model": "mlx-community/fish-audio-s2-pro-8bit",
+  "revision": "c8d4481b3f7cbfe64d855c8b7cda7739502fc3ff",
+  "runtime": "mlx-audio@94c7716212b2228f178d2f9c7619a591fd1b0b78",
+  "text": "Hello, I'm Ari. It's good to see you.",
+  "expression": "neutral",
+  "language": "english",
+  "reference_sha256": "f23fdada1da9e1bd589ebb00f34e4fa4207c732fc56d3b2fe356b34b1f3fe462",
+  "sample_sha256": "e112aca95dc4aaf59f430a7400c5a692288c410ae7d3249fca17014ba8f6387a",
+  "sample_rate": 24000,
+  "duration_seconds": 3.1115,
+  "date": "2026-10-14",
+  "note": "Original synthetic adult reference; no human voice or remote inference."
+}

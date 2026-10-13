@@ -239,7 +239,7 @@ import Foundation
   }
   func applyGesture(turn: String, gesture: String, waitForAudio: Bool = false) {
     guard turn == currentTurn,
-      ["wave", "explain", "nod", "shrug", "shift", "step"].contains(gesture)
+      ["wave", "explain", "nod", "shrug", "shift", "step", "twirl", "raise-arms", "point"].contains(gesture)
     else { return }
     if waitForAudio { pendingGesture = gesture } else { onGesture?(gesture) }
   }

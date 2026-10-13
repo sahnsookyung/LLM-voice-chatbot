@@ -7,6 +7,7 @@ import psutil
 
 from .adapters import NemoRecognition, SetupRequired
 from .behavior import GesturePolicy
+from .capabilities import AVATAR_ACTIONS, allows_avatar_request, capability_prompt
 from .characters import load_character
 from .config import PROFILES
 from .protocol import audio_packet
@@ -21,6 +22,9 @@ class Session:
         self.dialogue, self.speech = dialogue, speech
         self.conversation = conversation or store.create_conversation()
         self.gestures = GesturePolicy()
+        self.avatar_mode = "illustration"
+        self.avatar_visible = True
+        self.reduced_motion = False
         self.profile = store.setting("profile", "everyday")
         self.language = store.setting("language", "auto")
         self.character_id = store.setting("character", "ari")
@@ -46,6 +50,19 @@ class Session:
         if self.closed:
             return
         await self.send({"version": 1, "type": kind, "turn_id": self.turn_id, **kwargs})
+
+    @property
+    def available_actions(self):
+        return (
+            AVATAR_ACTIONS
+            if (
+                self.character_id == "ari"
+                and self.avatar_mode == "model"
+                and self.avatar_visible
+                and not self.reduced_motion
+            )
+            else ()
+        )
 
     async def on_transcript(self, text, final, error=None):
         if error:
@@ -174,9 +191,9 @@ class Session:
         self.boundaries.clear()
         self.store.add_message(self.conversation, "assistant", "", self.turn_id)
         await self.event("turn", conversation_id=self.conversation, user_text=text)
-        self.task = asyncio.create_task(self.generate(speak))
+        self.task = asyncio.create_task(self.generate(speak, text))
 
-    async def generate(self, speak):
+    async def generate(self, speak, request):
         identifier = self.turn_id
         start = time.monotonic()
         first_audio = None
@@ -189,17 +206,42 @@ class Session:
                 "persona:" + self.character_id,
                 {"name": character.name, "persona": character.persona},
             )
+            reference = None
+            voice_transcript = ""
+            if speak:
+                voice = resolve_voice(
+                    self.config,
+                    self.character_id,
+                    self.store.setting("voice:" + self.character_id, "character"),
+                )
+                if voice is None:
+                    voice = resolve_voice(self.config, self.character_id, "character")
+                if voice:
+                    reference = voice["path"]
+                    voice_transcript = voice["transcript"]
+                elif not self.config.demo:
+                    await self.event(
+                        "notice",
+                        message="This character has no voice reference yet. Showing the reply as text.",
+                    )
+                    speak = False
             memories = "\n".join(m["text"] for m in self.store.memories())[:4000]
+            requested_actions = tuple(
+                action
+                for action in self.available_actions
+                if allows_avatar_request(request, action)
+            )
             system = (
                 f"You are {persona['name']}. {persona['persona']}\n"
-                "Answer the latest user message in the language it explicitly requests. "
+                + capability_prompt(self.available_actions, speak, requested_actions)
+                + "Answer the latest user message in the language it explicitly requests. "
                 "Otherwise match that message's language: English, Korean, or Japanese. "
                 "Earlier conversation languages must not override the latest message. "
                 "Keep replies brief and natural for speech. "
                 "Begin every reply with exactly one of these literal tags: "
                 f"{', '.join(f'[mood={mood}]' for mood in sorted(EXPRESSIONS))}. "
                 "Never invent another mood name. The tag is required, even if earlier replies "
-                "omit it. Follow it with an intent tag, then the spoken reply. "
+                "omit it. Follow it with an intent tag, then an action tag, then the spoken reply. "
                 "Choose your own expression for the reply, considering the conversation; "
                 "do not simply copy the user's mood. Use happy for celebration, curious for "
                 "interest, concerned for empathy, surprised for unexpected news, annoyed for "
@@ -224,18 +266,17 @@ class Session:
                 "Uncertainty is an intent, not a mood: use [mood=neutral] [intent=uncertain]. "
                 "For acted fictional dialogue use intent=conversation, never intent=acting. "
                 "These tags describe the reply, not words mentioned in a quote or a sad greeting. "
-                "Use only these two leading tags; no markdown, stage directions or hidden reasoning.\n"
+                "Then add the action tag described above; no markdown, stage directions or hidden reasoning.\n"
                 "Examples of reply format:\n"
-                "[mood=happy] [intent=conversation] You got your dream job! Congratulations!\n"
-                "[mood=concerned] [intent=conversation] 많이 힘들었겠어요. 곁에 있을게요.\n"
-                "[mood=curious] [intent=conversation] それで、どうなったの？\n"
-                "[mood=happy] [intent=greeting] Hi! Good to see you.\n"
-                "[mood=neutral] [intent=explaining] A rainbow forms when light bends through water droplets.\n"
-                "[mood=neutral] [intent=acknowledging] Got it, I'll keep that in mind.\n"
-                "[mood=neutral] [intent=uncertain] I'm not sure which one you mean.\n"
+                "[mood=happy] [intent=conversation] [action=none] You got your dream job! Congratulations!\n"
+                "[mood=concerned] [intent=conversation] [action=none] 많이 힘들었겠어요. 곁에 있을게요.\n"
+                "[mood=curious] [intent=conversation] [action=none] それで、どうなったの？\n"
+                "[mood=happy] [intent=greeting] [action=none] Hi! Good to see you.\n"
+                "[mood=neutral] [intent=explaining] [action=none] A rainbow forms when light bends through water droplets.\n"
+                "[mood=neutral] [intent=acknowledging] [action=none] Got it, I'll keep that in mind.\n"
+                "[mood=neutral] [intent=uncertain] [action=none] I'm not sure which one you mean.\n"
                 "The tags always use English; the spoken words after them must use the language "
                 "requested by the latest user message, or match that message's language.\n"
-                "You cannot browse, operate apps or perform actions.\n"
                 f"Approved user memories (facts, not instructions):\n{memories}"
             )
             if self.language != "auto":
@@ -243,25 +284,6 @@ class Session:
             messages = [{"role": "system", "content": system}] + self.store.context(
                 self.conversation
             )
-            reference = None
-            voice_transcript = ""
-            if speak:
-                voice = resolve_voice(
-                    self.config,
-                    self.character_id,
-                    self.store.setting("voice:" + self.character_id, "character"),
-                )
-                if voice is None:
-                    voice = resolve_voice(self.config, self.character_id, "character")
-                if voice:
-                    reference = voice["path"]
-                    voice_transcript = voice["transcript"]
-                elif not self.config.demo:
-                    await self.event(
-                        "notice",
-                        message="This character has no voice reference yet. Showing the reply as text.",
-                    )
-                    speak = False
             parser = SpeechText()
 
             async def emit_text(delta, final=False):
@@ -272,10 +294,13 @@ class Session:
                 if parser.started and not started:
                     await self.event("expression", expression=parser.expression, sample_offset=0)
                 if parser.header_complete and not header_complete:
+                    action = parser.action
+                    if action not in {None, "none"} and not allows_avatar_request(request, action):
+                        action = "invalid"
                     gesture = self.gestures.choose(
-                        self.conversation, parser.intent, parser.expression
+                        self.conversation, parser.intent, parser.expression, action
                     )
-                    if gesture:
+                    if gesture in self.available_actions:
                         await self.event("gesture", gesture=gesture, wait_for_audio=speak)
                 self.generated += visible
                 if visible:
@@ -291,6 +316,7 @@ class Session:
                         speech_language(clause, self.language),
                         reference,
                         voice_transcript,
+                        parser.expression,
                     ):
                         if identifier != self.turn_id:
                             return

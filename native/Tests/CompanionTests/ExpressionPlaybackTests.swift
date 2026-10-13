@@ -37,10 +37,33 @@ final class ExpressionPlaybackTests: XCTestCase {
       audio.applyGesture(turn: "hello", gesture: "wave")
       audio.applyGesture(turn: "explanation", gesture: "explain")
       audio.applyGesture(turn: "explanation", gesture: "invalid")
-      audio.applyGesture(turn: "explanation", gesture: "twirl")
+      audio.applyGesture(turn: "explanation", gesture: "dance")
       audio.stopPlayback()
       audio.applyGesture(turn: "explanation", gesture: "explain")
       XCTAssertEqual(applied, ["cancel", "wave", "cancel", "explain", "cancel"])
+    }
+  }
+  func testExplicitAvatarActionsWaitForSpeechAndCancelLikeConversationalActions() async {
+    await MainActor.run {
+      let audio = AudioController()
+      defer { audio.close() }
+      var applied: [String] = []
+      audio.onGesture = { applied.append($0) }
+      for gesture in ["twirl", "raise-arms", "point"] {
+        applied = []
+        audio.beginTurn(gesture)
+        audio.applyGesture(turn: gesture, gesture: gesture, waitForAudio: true)
+        XCTAssertEqual(applied, ["cancel"])
+        audio.playbackStarted(turn: gesture)
+        audio.playbackStarted(turn: gesture)
+        XCTAssertEqual(applied, ["cancel", gesture])
+        audio.beginTurn("next")
+        audio.applyGesture(turn: gesture, gesture: gesture)
+        XCTAssertEqual(applied, ["cancel", gesture, "cancel"])
+      }
+      audio.applyGesture(turn: "next", gesture: "laugh")
+      audio.applyGesture(turn: "next", gesture: "dance")
+      XCTAssertEqual(applied, ["cancel", "point", "cancel"])
     }
   }
   func testNewTurnClearsPreviousMoodAndRejectsStaleExpressionEvents() async {

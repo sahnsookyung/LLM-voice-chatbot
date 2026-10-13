@@ -3,6 +3,8 @@
 import random
 import time
 
+from .capabilities import AVATAR_ACTIONS
+
 INTENTS = {"greeting", "explaining", "acknowledging", "uncertain", "conversation"}
 
 
@@ -15,16 +17,25 @@ class GesturePolicy:
         self.last_optional_turn = -4
         self.last_optional_time = -float("inf")
 
-    def choose(self, conversation, intent, expression):
+    def choose(self, conversation, intent, expression, action=None):
         if conversation != self.conversation:
             self.conversation = conversation
             self.turn = 0
             self.last_optional_turn = -4
             self.last_optional_time = -float("inf")
         self.turn += 1
+        # Keep serious replies still even if the model invents an action request.
+        if expression in {"concerned", "annoyed", "sleepy"}:
+            return None
+        if action not in {None, "none"}:
+            # Explicit requests bypass random/cooldown decisions, but malformed
+            # actions fail closed and serious replies never get playful movement.
+            if action not in AVATAR_ACTIONS:
+                return None
+            return action
         # A missing/invalid intent fails quietly. Empathy and irritation must not
         # acquire a cheerful wave, a dismissive shrug, or random footwork.
-        if intent not in INTENTS or expression in {"concerned", "annoyed", "sleepy"}:
+        if intent not in INTENTS:
             return None
         if intent == "greeting":
             return "wave"

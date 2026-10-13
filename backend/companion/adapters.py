@@ -272,15 +272,18 @@ class LocalSpeech:
         self.config, self.process = config, None
         self.lock = asyncio.Lock()
         self.synthesizing = False
+        self.peak_memory_bytes = 0
 
     async def prepare(self):
         if self.process and self.process.returncode is None:
             return
         python = self.config.runtime / "tts/bin/python"
-        model = self.config.models / "Qwen3-TTS-12Hz-0.6B-Base-bf16"
-        if not python.is_file() or not model_ready(model):
+        from .speech import FISH_MODEL, fish_model_ready
+
+        model = self.config.models / FISH_MODEL
+        if not python.is_file() or not fish_model_ready(model):
             raise SetupRequired(
-                "The local speech runtime is missing. Run scripts/setup.sh --models."
+                "Fish Audio S2 Pro or its speech runtime is missing. Run scripts/setup.sh --models."
             )
         env = {
             **os.environ,
@@ -312,7 +315,7 @@ class LocalSpeech:
             await self.close()
             raise
 
-    async def generate(self, text, language, reference, transcript):
+    async def generate(self, text, language, reference, transcript, expression="neutral"):
         async with self.lock:
             await self.prepare()
             process = self.process
@@ -322,6 +325,7 @@ class LocalSpeech:
                 "language": language,
                 "reference": str(reference),
                 "transcript": transcript,
+                "expression": expression,
             }
             process.stdin.write((json.dumps(request) + "\n").encode())
             await process.stdin.drain()
@@ -329,11 +333,16 @@ class LocalSpeech:
             completed = False
             try:
                 while True:
-                    line = await asyncio.wait_for(process.stdout.readline(), 30)
+                    # Fish's MLX provider returns a whole phrase before its first
+                    # PCM. Bound that wait without confusing it with a stall.
+                    line = await asyncio.wait_for(process.stdout.readline(), 120)
                     if not line:
                         raise RuntimeError("Speech worker stopped unexpectedly")
                     result = json.loads(line)
                     if result["type"] == "done":
+                        self.peak_memory_bytes = max(
+                            self.peak_memory_bytes, result.get("peak_memory_bytes", 0)
+                        )
                         completed = True
                         self.synthesizing = False
                         return
@@ -342,7 +351,7 @@ class LocalSpeech:
                     if result["type"] == "audio":
                         yield base64.b64decode(result["pcm"], validate=True)
             finally:
-                # Cooperative cancel is observed between generator yields; enforce a deadline.
+                # The worker checks cancellation every semantic frame; enforce a deadline.
                 if not completed and process.returncode is None:
                     try:
                         process.stdin.write(b'{"type":"cancel"}\n')
@@ -531,7 +540,7 @@ class DemoDialogue:
 
 
 class DemoSpeech:
-    async def generate(self, text, language, reference, transcript):
+    async def generate(self, text, language, reference, transcript, expression="neutral"):
         # Quiet tone deliberately sounds unlike a real model and exists only for playback tests.
         for start in range(0, 24000, 7680):
             n = min(7680, 24000 - start)

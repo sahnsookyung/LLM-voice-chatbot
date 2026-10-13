@@ -40,7 +40,7 @@ async def test_voice_selection_preview_and_persistence(tmp_path):
         assert (await client.get(url)).json()["selected"] == "bright"
         clip = await client.get(url + "/bright/audio")
         assert clip.status_code == 200 and clip.content[:4] == b"RIFF"
-        assert clip.content == (ROOT / "voices/bright/preview-english.wav").read_bytes()
+        assert clip.content == (ROOT / "voices/bright/preview-fish.wav").read_bytes()
         assert (await client.get(url + "/missing/audio")).status_code == 404
     app.state.store.close()
     app = create_app(config)
@@ -79,7 +79,7 @@ async def test_reply_uses_the_selected_voice_reference(tmp_path):
     selected = []
 
     class Speech(DemoSpeech):
-        async def generate(self, text, language, reference, transcript):
+        async def generate(self, text, language, reference, transcript, expression="neutral"):
             selected.append((reference, transcript))
             yield bytes(2400)
 

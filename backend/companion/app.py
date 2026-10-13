@@ -214,7 +214,7 @@ def create_app(config: Config):
         voice = resolve_voice(config, identifier, voice_id)
         if voice is None:
             raise HTTPException(404, "Voice not found")
-        preview = voice["path"].with_name("preview-english.wav")
+        preview = voice["path"].with_name("preview-fish.wav")
         return FileResponse(preview if preview.is_file() else voice["path"], media_type="audio/wav")
 
     @app.get("/characters/{identifier}/assets/{name:path}")
@@ -337,6 +337,10 @@ def create_app(config: Config):
                         await session.event("character", character_id=command.character_id)
                     elif command.type == "pressure":
                         await session.pressure(command.pressure)
+                    elif command.type == "avatar":
+                        session.avatar_mode = command.avatar_mode
+                        session.avatar_visible = command.avatar_visible
+                        session.reduced_motion = command.reduced_motion
                 except ValidationError:
                     await session.event("error", message="Invalid application command")
                 except (SetupRequired, ValueError, OSError) as error:

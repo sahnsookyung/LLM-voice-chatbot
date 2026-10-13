@@ -12,8 +12,8 @@ MODELS = {
     "quiet": ("mlx-community/Qwen3.5-4B-4bit", "0e7ffd5c629ef7719d4cbc04069232580bfa9d9c"),
     "everyday": ("mlx-community/Qwen3.5-9B-4bit", "8b2b98c00a6b4d291155e4890773ca8f769aee53"),
     "voice": (
-        "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
-        "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "mlx-community/fish-audio-s2-pro-8bit",
+        "c8d4481b3f7cbfe64d855c8b7cda7739502fc3ff",
     ),
     "design": (
         "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",

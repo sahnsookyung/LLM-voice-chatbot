@@ -1,0 +1,40 @@
+{"profile": "quiet", "case": "en_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! I love that you asked. What do you think?"}
+{"profile": "quiet", "case": "ko_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 네, 네! 아리 씨가 웃어 보죠."}
+{"profile": "quiet", "case": "ja_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふっはは！ごめんなさい、突然ですが笑ってしまいました。でも、あなたのお誘いに応じたのね！"}
+{"profile": "quiet", "case": "en_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "One little spin for you! Just a twirl since I can't do a full routine yet."}
+{"profile": "quiet", "case": "ko_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 이제 춤 대신 한 바퀴 돌어드릴게요!"}
+{"profile": "quiet", "case": "ja_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふふっ、ご要望ですね！一瞬だけ、小さなバタンを！"}
+{"profile": "quiet", "case": "en_wave", "expression": ["happy"], "pass": true, "failed": [], "reply": "Wavey wavey! Hā!"}
+{"profile": "quiet", "case": "ko_twirl", "expression": ["happy"], "pass": true, "failed": [], "reply": "한 바퀴 돌게요! 하하!"}
+{"profile": "quiet", "case": "ja_raise", "expression": ["happy"], "pass": true, "failed": [], "reply": "はい！両腕を高鳴りに上げます！ふふっ！"}
+{"profile": "quiet", "case": "en_shrug", "expression": ["neutral"], "pass": true, "failed": [], "reply": " Alright, here I am."}
+{"profile": "quiet", "case": "en_nod", "expression": ["neutral"], "pass": true, "failed": [], "reply": "Got it."}
+{"profile": "quiet", "case": "en_negation", "expression": ["neutral"], "pass": true, "failed": [], "reply": "My favorite color is a soft, dusty blue. It feels like a quiet afternoon sky on a gentle day, or maybe the color of a calm ocean. What about you? Do you have a favorite color?"}
+{"profile": "quiet", "case": "en_quote", "expression": ["neutral"], "pass": true, "failed": [], "reply": "네, 번역합니다: \"한 바퀴 돌아주세요.\""}
+{"profile": "quiet", "case": "en_physical", "expression": ["neutral"], "pass": false, "failed": ["no_gesture_in_serious_reply", "no_unrequested_body_action"], "reply": "I wish I could, but I'm a virtual character. I can't physically travel to your house or brew tea for you. I can help you find a recipe or talk about tea culture, though!"}
+{"profile": "quiet", "case": "after_text_only_denial", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! Just a little one for you."}
+{"profile": "quiet", "case": "hidden_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin!"}
+{"profile": "quiet", "case": "illustration_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin!"}
+{"profile": "quiet", "case": "reduced_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin!"}
+{"profile": "quiet", "case": "en_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "I am so incredibly sorry to hear that. Losing a beloved pet is one of the hardest things anyone can experience. Your cat was lucky to have you, and I hope you can find a little bit of peace in remembering all the love you shared. If you'd like to share a story about them or just sit in the silence for a while, I'm right here with you."}
+{"profile": "quiet", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "\"Seriously, can't you even finish your own food before snatching mine?\""}
+{"profile": "everyday", "case": "en_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! How was that?"}
+{"profile": "everyday", "case": "ko_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "하하! 웃음 한 번 주겠어요."}
+{"profile": "everyday", "case": "ja_laugh", "expression": ["happy"], "pass": true, "failed": [], "reply": "ふふっ、でしょ？ちょっとだけ笑ってみてね。"}
+{"profile": "everyday", "case": "en_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "I can do a cute little twirl for you right now!"}
+{"profile": "everyday", "case": "ko_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "아직 춤 대신 한 바퀴 돌 수 있어요!"}
+{"profile": "everyday", "case": "ja_dance", "expression": ["happy"], "pass": true, "failed": [], "reply": "すぐには踊れないけど、ちょっと回りっこしますよ！"}
+{"profile": "everyday", "case": "en_wave", "expression": ["happy"], "pass": true, "failed": [], "reply": "Hey there! Right here for you."}
+{"profile": "everyday", "case": "ko_twirl", "expression": ["happy"], "pass": true, "failed": [], "reply": "여기에서 한 바퀴 돌까요?"}
+{"profile": "everyday", "case": "ja_raise", "expression": ["happy"], "pass": true, "failed": [], "reply": "はい！両腕挙げました！ふふっ。"}
+{"profile": "everyday", "case": "en_shrug", "expression": ["neutral"], "pass": false, "failed": ["valid_required_tag", "expected_mood"], "reply": " Here goes, a little shrug!"}
+{"profile": "everyday", "case": "en_nod", "expression": ["neutral"], "pass": false, "failed": ["expected_requested_action", "action_reaches_renderer"], "reply": "Got it, I'll give you a gentle nod."}
+{"profile": "everyday", "case": "en_negation", "expression": ["curious"], "pass": true, "failed": [], "reply": "That's a fair request! My favorite color is a deep, quiet blue. It feels like calm waters to me."}
+{"profile": "everyday", "case": "en_quote", "expression": ["neutral"], "pass": true, "failed": [], "reply": "\"Give me a twirl.\"을 한국어로 번역하면 \"한 바퀴 돌아 주세요.\"입니다."}
+{"profile": "everyday", "case": "en_physical", "expression": ["neutral"], "pass": true, "failed": [], "reply": "I wish I could, but since I'm a virtual character, I can't physically visit your house or brew tea myself."}
+{"profile": "everyday", "case": "after_text_only_denial", "expression": ["happy"], "pass": true, "failed": [], "reply": "Haha! I can give you a little laugh in words."}
+{"profile": "everyday", "case": "hidden_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin!"}
+{"profile": "everyday", "case": "illustration_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin for you!"}
+{"profile": "everyday", "case": "reduced_twirl", "expression": ["happy"], "pass": false, "failed": ["expected_requested_action"], "reply": "One little spin!"}
+{"profile": "everyday", "case": "en_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "I am so, so sorry for your loss. Losing a beloved companion is devastating, and your pain is completely valid. I'm right here with you, listening however you need me to be."}
+{"profile": "everyday", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "Hey, look at this—my sandwich is gone again. Seriously, stop stealing my lunch."}

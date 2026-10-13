@@ -1,0 +1,15 @@
+{
+  "engine": "Fish Audio S2 Pro",
+  "model": "mlx-community/fish-audio-s2-pro-8bit",
+  "revision": "c8d4481b3f7cbfe64d855c8b7cda7739502fc3ff",
+  "runtime": "mlx-audio@94c7716212b2228f178d2f9c7619a591fd1b0b78",
+  "text": "Hi! I'm happy you're here.",
+  "expression": "happy",
+  "language": "english",
+  "reference_sha256": "9a28c3433d0e2e0c6e2acf8e3af8ed629c1ee635cb22c3fed900b0d9299b1981",
+  "sample_sha256": "a852b2f2a106bcfd118bb9c08a53f574143568fb7c7a636de9534aebe45b9465",
+  "sample_rate": 24000,
+  "duration_seconds": 1.9040416666666666,
+  "date": "2026-10-14",
+  "note": "Original synthetic adult reference; no human voice or remote inference."
+}

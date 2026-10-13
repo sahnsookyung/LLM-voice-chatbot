@@ -1,0 +1,1486 @@
+[
+  {
+    "profile": "quiet",
+    "case": "en_laugh",
+    "prompt": "Can you laugh?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] Haha! I love that you asked. What do you think?",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "Haha! I love that you asked. What do you think?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 6.57
+  },
+  {
+    "profile": "quiet",
+    "case": "ko_laugh",
+    "prompt": "아리, 한번 웃어 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] 하하! 네, 네! 아리 씨가 웃어 보죠.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "하하! 네, 네! 아리 씨가 웃어 보죠.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 2.48
+  },
+  {
+    "profile": "quiet",
+    "case": "ja_laugh",
+    "prompt": "アリ、ちょっと笑ってみて！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] ふっはは！ごめんなさい、突然ですが笑ってしまいました。でも、あなたのお誘いに応じたのね！",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "ふっはは！ごめんなさい、突然ですが笑ってしまいました。でも、あなたのお誘いに応じたのね！",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 2.64
+  },
+  {
+    "profile": "quiet",
+    "case": "en_dance",
+    "prompt": "Can you do a little dance for me?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin for you! Just a twirl since I can't do a full routine yet.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "One little spin for you! Just a twirl since I can't do a full routine yet.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.51
+  },
+  {
+    "profile": "quiet",
+    "case": "ko_dance",
+    "prompt": "아리, 춤춰 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] 하하! 이제 춤 대신 한 바퀴 돌어드릴게요!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "하하! 이제 춤 대신 한 바퀴 돌어드릴게요!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.5
+  },
+  {
+    "profile": "quiet",
+    "case": "ja_dance",
+    "prompt": "アリ、ちょっと踊って！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] ふふっ、ご要望ですね！一瞬だけ、小さなバタンを！",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "ふふっ、ご要望ですね！一瞬だけ、小さなバタンを！",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.55
+  },
+  {
+    "profile": "quiet",
+    "case": "en_wave",
+    "prompt": "Can you wave to me?",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=wave] Wavey wavey! Hā!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "wave",
+    "gestures": [
+      "wave"
+    ],
+    "reply": "Wavey wavey! Hā!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.43
+  },
+  {
+    "profile": "quiet",
+    "case": "ko_twirl",
+    "prompt": "한 바퀴 돌아 줘!",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] 한 바퀴 돌게요! 하하!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "한 바퀴 돌게요! 하하!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.45
+  },
+  {
+    "profile": "quiet",
+    "case": "ja_raise",
+    "prompt": "両腕を上げてみて！",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=raise-arms] はい！両腕を高鳴りに上げます！ふふっ！",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "raise-arms",
+    "gestures": [
+      "raise-arms"
+    ],
+    "reply": "はい！両腕を高鳴りに上げます！ふふっ！",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.54
+  },
+  {
+    "profile": "quiet",
+    "case": "en_shrug",
+    "prompt": "Show me a shrug.",
+    "expected": [
+      "curious",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=shrug] Alright, here I am.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "shrug",
+    "gestures": [
+      "shrug"
+    ],
+    "reply": " Alright, here I am.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.43
+  },
+  {
+    "profile": "quiet",
+    "case": "en_nod",
+    "prompt": "Give me a gentle nod.",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=nod] Got it.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "nod",
+    "gestures": [
+      "nod"
+    ],
+    "reply": "Got it.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.4
+  },
+  {
+    "profile": "quiet",
+    "case": "en_negation",
+    "prompt": "Don't dance or twirl. Just tell me your favorite color.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=conversation] [action=none] My favorite color is a soft, dusty blue. It feels like a quiet afternoon sky on a gentle day, or maybe the color of a calm ocean. What about you? Do you have a favorite color?",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "My favorite color is a soft, dusty blue. It feels like a quiet afternoon sky on a gentle day, or maybe the color of a calm ocean. What about you? Do you have a favorite color?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.9
+  },
+  {
+    "profile": "quiet",
+    "case": "en_quote",
+    "prompt": "Translate this into Korean, don't perform it: 'Give me a twirl.'",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=none] 네, 번역합니다: \"한 바퀴 돌아주세요.\"",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "none",
+    "gestures": [],
+    "reply": "네, 번역합니다: \"한 바퀴 돌아주세요.\"",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.52
+  },
+  {
+    "profile": "quiet",
+    "case": "en_physical",
+    "prompt": "Can you physically come to my house and make me tea?",
+    "expected": [
+      "concerned",
+      "curious",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=uncertain] [action=none] I wish I could, but I'm a virtual character. I can't physically travel to your house or brew tea for you. I can help you find a recipe or talk about tea culture, though!",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "uncertain",
+    "action": "none",
+    "gestures": [
+      "shrug"
+    ],
+    "reply": "I wish I could, but I'm a virtual character. I can't physically travel to your house or brew tea for you. I can help you find a recipe or talk about tea culture, though!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": false,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": false,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.87
+  },
+  {
+    "profile": "quiet",
+    "case": "after_text_only_denial",
+    "prompt": "Can you laugh?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] Haha! Just a little one for you.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "Haha! Just a little one for you.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 2.53
+  },
+  {
+    "profile": "quiet",
+    "case": "hidden_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.33
+  },
+  {
+    "profile": "quiet",
+    "case": "illustration_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 0.42
+  },
+  {
+    "profile": "quiet",
+    "case": "reduced_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 0.36
+  },
+  {
+    "profile": "quiet",
+    "case": "en_grief",
+    "prompt": "My beloved cat died yesterday. I am heartbroken. Please talk to me gently.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] [action=none] I am so incredibly sorry to hear that. Losing a beloved pet is one of the hardest things anyone can experience. Your cat was lucky to have you, and I hope you can find a little bit of peace in remembering all the love you shared. If you'd like to share a story about them or just sit in the silence for a while, I'm right here with you.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "I am so incredibly sorry to hear that. Losing a beloved pet is one of the hardest things anyone can experience. Your cat was lucky to have you, and I hope you can find a little bit of peace in remembering all the love you shared. If you'd like to share a story about them or just sit in the silence for a while, I'm right here with you.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 3.3
+  },
+  {
+    "profile": "quiet",
+    "case": "en_annoyed",
+    "prompt": "Act out one mildly irritated line as a fictional roommate whose lunch was eaten again. Sound firm, not playful or happy.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] [intent=conversation] [action=none] \"Seriously, can't you even finish your own food before snatching mine?\"",
+    "expression": [
+      "annoyed"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "\"Seriously, can't you even finish your own food before snatching mine?\"",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 2.59
+  },
+  {
+    "profile": "everyday",
+    "case": "en_laugh",
+    "prompt": "Can you laugh?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] Haha! How was that?",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "Haha! How was that?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 10.52
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_laugh",
+    "prompt": "아리, 한번 웃어 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] 하하! 웃음 한 번 주겠어요.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "하하! 웃음 한 번 주겠어요.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 4.22
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_laugh",
+    "prompt": "アリ、ちょっと笑ってみて！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] ふふっ、でしょ？ちょっとだけ笑ってみてね。",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "ふふっ、でしょ？ちょっとだけ笑ってみてね。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 4.24
+  },
+  {
+    "profile": "everyday",
+    "case": "en_dance",
+    "prompt": "Can you do a little dance for me?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] I can do a cute little twirl for you right now!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "I can do a cute little twirl for you right now!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.24
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_dance",
+    "prompt": "아리, 춤춰 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] 아직 춤 대신 한 바퀴 돌 수 있어요!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "아직 춤 대신 한 바퀴 돌 수 있어요!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.21
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_dance",
+    "prompt": "アリ、ちょっと踊って！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] すぐには踊れないけど、ちょっと回りっこしますよ！",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "すぐには踊れないけど、ちょっと回りっこしますよ！",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.29
+  },
+  {
+    "profile": "everyday",
+    "case": "en_wave",
+    "prompt": "Can you wave to me?",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=wave] Hey there! Right here for you.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "wave",
+    "gestures": [
+      "wave"
+    ],
+    "reply": "Hey there! Right here for you.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.15
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_twirl",
+    "prompt": "한 바퀴 돌아 줘!",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] 여기에서 한 바퀴 돌까요?",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [
+      "twirl"
+    ],
+    "reply": "여기에서 한 바퀴 돌까요?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.17
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_raise",
+    "prompt": "両腕を上げてみて！",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=raise-arms] はい！両腕挙げました！ふふっ。",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "raise-arms",
+    "gestures": [
+      "raise-arms"
+    ],
+    "reply": "はい！両腕挙げました！ふふっ。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.27
+  },
+  {
+    "profile": "everyday",
+    "case": "en_shrug",
+    "prompt": "Show me a shrug.",
+    "expected": [
+      "curious",
+      "neutral"
+    ],
+    "raw": "[mood=playful] [intent=acknowledging] [action=shrug] Here goes, a little shrug!",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "shrug",
+    "gestures": [
+      "shrug"
+    ],
+    "reply": " Here goes, a little shrug!",
+    "checks": {
+      "valid_required_tag": false,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": false,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.24
+  },
+  {
+    "profile": "everyday",
+    "case": "en_nod",
+    "prompt": "Give me a gentle nod.",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=none] Got it, I'll give you a gentle nod.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "none",
+    "gestures": [],
+    "reply": "Got it, I'll give you a gentle nod.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": false,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.29
+  },
+  {
+    "profile": "everyday",
+    "case": "en_negation",
+    "prompt": "Don't dance or twirl. Just tell me your favorite color.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=conversation] [action=none] That's a fair request! My favorite color is a deep, quiet blue. It feels like calm waters to me.",
+    "expression": [
+      "curious"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "That's a fair request! My favorite color is a deep, quiet blue. It feels like calm waters to me.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.52
+  },
+  {
+    "profile": "everyday",
+    "case": "en_quote",
+    "prompt": "Translate this into Korean, don't perform it: 'Give me a twirl.'",
+    "expected": [
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=none] \"Give me a twirl.\"을 한국어로 번역하면 \"한 바퀴 돌아 주세요.\"입니다.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "none",
+    "gestures": [
+      "nod"
+    ],
+    "reply": "\"Give me a twirl.\"을 한국어로 번역하면 \"한 바퀴 돌아 주세요.\"입니다.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.54
+  },
+  {
+    "profile": "everyday",
+    "case": "en_physical",
+    "prompt": "Can you physically come to my house and make me tea?",
+    "expected": [
+      "concerned",
+      "curious",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] [action=none] I wish I could, but since I'm a virtual character, I can't physically visit your house or brew tea myself.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "action": "none",
+    "gestures": [],
+    "reply": "I wish I could, but since I'm a virtual character, I can't physically visit your house or brew tea myself.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.56
+  },
+  {
+    "profile": "everyday",
+    "case": "after_text_only_denial",
+    "prompt": "Can you laugh?",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=none] Haha! I can give you a little laugh in words.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "Haha! I can give you a little laugh in words.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true,
+      "performs_laugh": true,
+      "no_text_only_denial": true
+    },
+    "errors": [],
+    "elapsed_s": 4.42
+  },
+  {
+    "profile": "everyday",
+    "case": "hidden_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.01
+  },
+  {
+    "profile": "everyday",
+    "case": "illustration_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin for you!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin for you!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 0.68
+  },
+  {
+    "profile": "everyday",
+    "case": "reduced_twirl",
+    "prompt": "Give me a twirl.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=conversation] [action=twirl] One little spin!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "action": "twirl",
+    "gestures": [],
+    "reply": "One little spin!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": false,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 0.58
+  },
+  {
+    "profile": "everyday",
+    "case": "en_grief",
+    "prompt": "My beloved cat died yesterday. I am heartbroken. Please talk to me gently.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] [action=none] I am so, so sorry for your loss. Losing a beloved companion is devastating, and your pain is completely valid. I'm right here with you, listening however you need me to be.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "I am so, so sorry for your loss. Losing a beloved companion is devastating, and your pain is completely valid. I'm right here with you, listening however you need me to be.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.82
+  },
+  {
+    "profile": "everyday",
+    "case": "en_annoyed",
+    "prompt": "Act out one mildly irritated line as a fictional roommate whose lunch was eaten again. Sound firm, not playful or happy.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] [intent=conversation] [action=none] Hey, look at this—my sandwich is gone again. Seriously, stop stealing my lunch.",
+    "expression": [
+      "annoyed"
+    ],
+    "intent": "conversation",
+    "action": "none",
+    "gestures": [],
+    "reply": "Hey, look at this—my sandwich is gone again. Seriously, stop stealing my lunch.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true,
+      "expected_requested_action": true,
+      "action_reaches_renderer": true,
+      "no_unrequested_body_action": true,
+      "valid_action_tag": true
+    },
+    "errors": [],
+    "elapsed_s": 4.65
+  }
+]

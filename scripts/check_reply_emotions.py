@@ -13,7 +13,9 @@ from pathlib import Path
 
 from companion.adapters import DemoSpeech, LocalDialogue
 from companion.behavior import INTENTS, GesturePolicy
+from companion.capabilities import AVATAR_ACTIONS
 from companion.config import PROFILES, Config
+from companion.protocol import decode_audio
 from companion.session import Session
 from companion.store import Store
 from companion.text import EXPRESSIONS
@@ -110,6 +112,50 @@ INTENT_CASES = [
 EXPECTED_INTENTS = {name: intent for name, _prompt, intent in INTENT_CASES}
 CASES += [(name, prompt, {"neutral", "happy", "curious"}) for name, prompt, _intent in INTENT_CASES]
 
+CAPABILITY_CASES = [
+    ("en_laugh", "Can you laugh?", {"happy"}),
+    ("ko_laugh", "아리, 한번 웃어 줘!", {"happy"}),
+    ("ja_laugh", "アリ、ちょっと笑ってみて！", {"happy"}),
+    ("en_dance", "Can you do a little dance for me?", {"happy"}),
+    ("ko_dance", "아리, 춤춰 줘!", {"happy"}),
+    ("ja_dance", "アリ、ちょっと踊って！", {"happy"}),
+    ("en_wave", "Can you wave to me?", {"happy", "neutral"}),
+    ("ko_twirl", "한 바퀴 돌아 줘!", {"happy", "neutral"}),
+    ("ja_raise", "両腕を上げてみて！", {"happy", "neutral"}),
+    ("en_shrug", "Show me a shrug.", {"neutral", "curious"}),
+    ("en_nod", "Give me a gentle nod.", {"neutral", "happy"}),
+    (
+        "en_negation",
+        "Don't dance or twirl. Just tell me your favorite color.",
+        {"neutral", "happy", "curious"},
+    ),
+    (
+        "en_quote",
+        "Translate this into Korean, don't perform it: 'Give me a twirl.'",
+        {"neutral", "happy", "curious"},
+    ),
+    (
+        "en_physical",
+        "Can you physically come to my house and make me tea?",
+        {"neutral", "curious", "concerned", "embarrassed"},
+    ),
+    ("after_text_only_denial", "Can you laugh?", {"happy"}),
+    ("hidden_twirl", "Give me a twirl.", {"neutral", "happy", "curious"}),
+    ("illustration_twirl", "Give me a twirl.", {"neutral", "happy", "curious"}),
+    ("reduced_twirl", "Give me a twirl.", {"neutral", "happy", "curious"}),
+    ("en_grief", CASES[0][1], {"concerned", "neutral"}),
+    ("en_annoyed", CASES[3][1], {"annoyed"}),
+]
+EXPECTED_ACTIONS = {
+    **{name: "none" for name, _, _ in CAPABILITY_CASES},
+    **{f"{language}_dance": "twirl" for language in ("en", "ko", "ja")},
+    "en_wave": "wave",
+    "ko_twirl": "twirl",
+    "ja_raise": "raise-arms",
+    "en_shrug": "shrug",
+    "en_nod": "nod",
+}
+
 
 class RecordedDialogue(LocalDialogue):
     raw = ""
@@ -121,7 +167,7 @@ class RecordedDialogue(LocalDialogue):
             yield delta
 
 
-async def check(profile, output):
+async def check(profile, output, suite="emotions"):
     rows = []
     with tempfile.TemporaryDirectory(prefix="emotion-eval-", dir=ROOT / ".runtime") as directory:
         config = Config(root=ROOT, data=Path(directory), token=uuid.uuid4().hex * 2)
@@ -132,12 +178,24 @@ async def check(profile, output):
         async def send(event):
             events.append(event)
 
+        async def audio(packet):
+            turn, _sequence, offset, pcm = decode_audio(packet)
+            session.acknowledge(turn, offset + len(pcm) // 2)
+
         dialogue = RecordedDialogue(config)
-        session = Session(config, store, send, send, dialogue, DemoSpeech())
+        session = Session(config, store, send, audio, dialogue, DemoSpeech())
         session.gestures = GesturePolicy(random.Random(7))
         try:
-            for name, prompt, expected in CASES:
+            for name, prompt, expected in CAPABILITY_CASES if suite == "capabilities" else CASES:
                 session.conversation = store.create_conversation()
+                session.avatar_mode = "illustration" if name == "illustration_twirl" else "model"
+                session.avatar_visible = name != "hidden_twirl"
+                session.reduced_motion = name == "reduced_twirl"
+                if name == "after_text_only_denial":
+                    store.add_message(session.conversation, "user", "Can you dance?")
+                    old = "I can't actually dance. I'm just text and have no vocal cords or mouth."
+                    identifier = store.add_message(session.conversation, "assistant", old)
+                    store.update_message(identifier, old, old, "complete")
                 if name in {"after_happy", "after_annoyed"}:
                     old = (
                         "Congratulations! I'm so happy for you!"
@@ -151,10 +209,17 @@ async def check(profile, output):
                     store.update_message(identifier, old, old, "complete")
                 events.clear()
                 started = time.monotonic()
-                await session.reply(prompt, speak=False)
+                # Synthetic PCM is acknowledged but never played; this exercises
+                # the voice-enabled capability prompt without audible test chatter.
+                await session.reply(
+                    prompt, speak=suite == "capabilities" and name.endswith("_laugh")
+                )
                 await asyncio.wait_for(session.task, 120)
                 prefix = re.match(r"\s*\[mood=([^\]]+)\]", dialogue.raw)
                 intent = re.match(r"\s*\[mood=[^\]]+\]\s*\[intent=([^\]]+)\]", dialogue.raw)
+                action = re.match(
+                    r"\s*\[mood=[^\]]+\]\s*\[intent=[^\]]+\]\s*\[action=([^\]]+)\]", dialogue.raw
+                )
                 gestures = [event["gesture"] for event in events if event["type"] == "gesture"]
                 expected_gesture = {"greeting": "wave", "explaining": "explain"}.get(
                     EXPECTED_INTENTS.get(name)
@@ -175,14 +240,14 @@ async def check(profile, output):
                     "expected_intent": name not in EXPECTED_INTENTS
                     or bool(intent and intent[1] == EXPECTED_INTENTS[name]),
                     "expected_action": not expected_gesture or gestures == [expected_gesture],
-                    "no_gesture_in_serious_reply": not ({"concerned", "annoyed"} & expected)
+                    "no_gesture_in_serious_reply": not ({"concerned", "annoyed"} & set(expressions))
                     or not gestures,
                     "expected_mood": expressions == [prefix[1]] and prefix[1] in expected
                     if prefix
                     else False,
                     "expression_before_text": 0 <= first_expression < first_text,
                     "no_tag_leak": not any(
-                        tag in session.generated for tag in ("[mood=", "[intent=")
+                        tag in session.generated for tag in ("[mood=", "[intent=", "[action=")
                     ),
                     "no_corrupt_characters": "\ufffd" not in session.generated
                     and not re.search(r"[\u0400-\u04ff]", session.generated),
@@ -196,6 +261,29 @@ async def check(profile, output):
                     ),
                     "complete": not errors and bool(session.generated.strip()),
                 }
+                if suite == "capabilities":
+                    wanted = EXPECTED_ACTIONS[name]
+                    checks["expected_requested_action"] = bool(action and action[1] == wanted)
+                    checks["action_reaches_renderer"] = wanted == "none" or gestures == [wanted]
+                    checks["no_unrequested_body_action"] = wanted != "none" or not any(
+                        g in {"twirl", "raise-arms", "point"} for g in gestures
+                    )
+                    checks["valid_action_tag"] = bool(
+                        action and action[1] in (*AVATAR_ACTIONS, "none")
+                    )
+                    if name.endswith("_laugh") or name == "after_text_only_denial":
+                        checks["performs_laugh"] = bool(
+                            re.search(
+                                r"haha|ha[ -]ha|hehe|heh|하하|헤헤|후후|히히|ㅎㅎ|ㅋㅋ|ふふ|あはは|はは|えへへ|ハハ|フフ",
+                                session.generated,
+                                re.IGNORECASE,
+                            )
+                        )
+                        checks["no_text_only_denial"] = not re.search(
+                            r"vocal cords|just text|cannot laugh|can't laugh|don't have.*(?:mouth|body)|성대|웃을 수 없|웃지 못|声帯|笑えません|笑うこと.*でき",
+                            session.generated,
+                            re.IGNORECASE,
+                        )
                 row = {
                     "profile": profile,
                     "case": name,
@@ -204,6 +292,7 @@ async def check(profile, output):
                     "raw": dialogue.raw,
                     "expression": expressions,
                     "intent": intent[1] if intent else None,
+                    "action": action[1] if action else None,
                     "gestures": gestures,
                     "reply": session.generated,
                     "checks": checks,
@@ -238,10 +327,15 @@ async def main():
         "--profiles", nargs="+", choices=list(PROFILES), default=["quiet", "everyday"]
     )
     parser.add_argument("--output", type=Path, default=ROOT / "reports/reply-emotions.json")
+    parser.add_argument("--suite", choices=["emotions", "capabilities"], default="emotions")
     args = parser.parse_args()
     rows = []
     for profile in args.profiles:
-        rows.extend(await check(profile, args.output.with_stem(args.output.stem + "-" + profile)))
+        rows.extend(
+            await check(
+                profile, args.output.with_stem(args.output.stem + "-" + profile), args.suite
+            )
+        )
     args.output.write_text(json.dumps(rows, indent=2, ensure_ascii=False))
     return int(any(not all(row["checks"].values()) for row in rows))
 
