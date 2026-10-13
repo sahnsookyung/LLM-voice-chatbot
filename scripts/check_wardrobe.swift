@@ -9,9 +9,11 @@ final class WardrobeCheck: NSObject, WKNavigationDelegate {
   let path=URL(fileURLWithPath:CommandLine.arguments[1])
   let output=URL(fileURLWithPath:CommandLine.arguments[2])
   let outfits=["original","tailored","streetwear","linen"]
-  let hair=["original","bob","ponytail","braid"]
+  let hair=["original","bob","ponytail","braid","twintails"]
+  var catalogCount=0
   var phase=0,index=0,frames=0,started=Date(),readyAt=Date(),peak=0.0
   var reloaded=false,capturing=false
+  var cycled=Set<String>()
   func fail(_ message:String)->Never {print("FAIL:",message);exit(1)}
   func command(_ text:String){web.evaluateJavaScript(text){_,error in if let error{self.fail(error.localizedDescription)}}}
   func run(){
@@ -20,7 +22,7 @@ final class WardrobeCheck: NSObject, WKNavigationDelegate {
     window=NSWindow(contentRect:web.frame,styleMask:[.titled],backing:.buffered,defer:false);window.title="Ari wardrobe checks";window.contentView=web;window.orderFrontRegardless()
     try! FileManager.default.createDirectory(at:output,withIntermediateDirectories:true)
     web.loadFileURL(path,allowingReadAccessTo:path.deletingLastPathComponent())
-    DispatchQueue.main.asyncAfter(deadline:.now()+240){self.fail("timed out: phase \(self.phase), combination \(self.index)")}
+    DispatchQueue.main.asyncAfter(deadline:.now()+900){self.fail("timed out: phase \(self.phase), combination \(self.index)")}
   }
   func pick(_ outfit:String,_ hair:String){
     command("document.querySelector('#outfit').value='\(outfit)';document.querySelector('#outfit').dispatchEvent(new Event('change'));document.querySelector('#hairstyle').value='\(hair)';document.querySelector('#hairstyle').dispatchEvent(new Event('change'))")
@@ -43,14 +45,14 @@ final class WardrobeCheck: NSObject, WKNavigationDelegate {
   }
   func poll(){
     if capturing{return}
-    web.evaluateJavaScript("JSON.stringify({s:window.characterStatus(),outfit:document.querySelector('#outfit')?.value,hair:document.querySelector('#hairstyle')?.value,canvases:document.querySelectorAll('canvas').length})"){value,error in
+    web.evaluateJavaScript("JSON.stringify({s:window.characterStatus(),outfit:document.querySelector('#outfit')?.value,hair:document.querySelector('#hairstyle')?.value,canvases:document.querySelectorAll('canvas').length,catalogCount:document.querySelector('#outfit').options.length*document.querySelector('#hairstyle').options.length,cycle:document.querySelector('#wardrobe-status').textContent,cycleStopped:document.querySelector('#wardrobe-stop').disabled})"){value,error in
       guard error==nil,let s=value as? String,let d=s.data(using:.utf8),let result=try? JSONSerialization.jsonObject(with:d) as? [String:Any],let state=result["s"] as? [String:Any] else{self.fail("studio status unavailable")}
       if let error=state["modelError"] as? String,!error.isEmpty{self.fail(error)}
       let key=state["appliedWardrobe"] as? String ?? "",loading=state["modelLoading"] as? Bool ?? true,count=state["frames"] as? Int ?? 0
-      let expected="\(self.outfits[min(self.index/4,3)])/\(self.hair[self.index%4])"
+      let expected="\(self.outfits[min(self.index/self.hair.count,3)])/\(self.hair[self.index%self.hair.count])"
       switch self.phase {
       case 0:
-        if state["loaded"] as? Bool==true{self.phase=1;self.pick("original","original")}
+        if state["loaded"] as? Bool==true{self.catalogCount=result["catalogCount"] as? Int ?? 0;self.phase=1;self.pick("original","original")}
       case 1:
         if !loading,key==expected,count>self.frames+3{
           guard result["canvases"] as? Int==1,state["bones"] as? Int==54,(state["footError"] as? Double ?? 1)<0.001 else{self.fail("rig/canvas/foot contract: \(key)")}
@@ -60,7 +62,7 @@ final class WardrobeCheck: NSObject, WKNavigationDelegate {
           print("PASS: \(key), \(state["drawCalls"] ?? "?") draws, \(state["triangles"] ?? "?") triangles; one canvas, face expression and feet retained")
           self.capture(key.replacingOccurrences(of:"/",with:"-")){
             self.frames=count;self.index+=1
-            if self.index<16{self.pick(self.outfits[self.index/4],self.hair[self.index%4])}
+            if self.index<self.outfits.count*self.hair.count{self.pick(self.outfits[self.index/self.hair.count],self.hair[self.index%self.hair.count])}
             else{self.phase=2;self.started=Date();self.command("for(let i=0;i<40;i++){const o=document.querySelector('#outfit'),h=document.querySelector('#hairstyle');o.value=['original','tailored','streetwear','linen'][i%4];o.dispatchEvent(new Event('change'));h.value=['original','bob','ponytail','braid'][(i+1)%4];h.dispatchEvent(new Event('change'));}document.querySelector('#outfit').value='streetwear';document.querySelector('#outfit').dispatchEvent(new Event('change'));document.querySelector('#hairstyle').value='ponytail';document.querySelector('#hairstyle').dispatchEvent(new Event('change'))")}
             self.poll()
           };return
@@ -109,13 +111,65 @@ final class WardrobeCheck: NSObject, WKNavigationDelegate {
         if Date().timeIntervalSince(self.started)>5{
           guard (state["garmentDeflection"] as? Double ?? 9)<0.7 else{self.fail("skirt did not settle")}
           print("PASS: linen skirt rig remains bounded during twirl and settles")
-          self.phase=10;self.command("document.querySelector('#mode').value='illustration';document.querySelector('#mode').dispatchEvent(new Event('change'))")
+          self.phase=15;self.pick("streetwear","twintails")
         }
       case 10:
+        if !loading,(result["cycle"] as? String ?? "").hasPrefix("Look "){
+          guard result["canvases"] as? Int==1 else{self.fail("cycle leaked canvases")}
+          self.cycled.insert(key)
+        }
+        if (result["cycle"] as? String ?? "").hasPrefix("Finished all \(self.catalogCount) "){
+          guard self.cycled.count==self.catalogCount,result["cycleStopped"] as? Bool==true else{self.fail("cycle skipped combinations or did not stop")}
+          print("PASS: Cycle all \(self.catalogCount) looks button visits every combination and finishes")
+          self.phase=11;self.command("document.querySelector('#wardrobe-cycle').click()")
+        }
+      case 11:
+        if !loading,key=="original/original"{
+          self.command("document.querySelector('#wardrobe-stop').click()");self.started=Date();self.phase=12
+        }
+      case 12:
+        if Date().timeIntervalSince(self.started)>3{
+          guard key=="original/original",result["cycleStopped"] as? Bool==true,(result["cycle"] as? String ?? "").hasPrefix("Cycle stopped") else{self.fail("stopped cycle kept changing selections")}
+          print("PASS: Stop cycle keeps the selected pair and stable status")
+          self.phase=13;self.started=Date();self.command("document.querySelector('#wardrobe-cycle').click();window.companion({visible:false})")
+        }
+      case 13:
+        if Date().timeIntervalSince(self.started)>3{
+          guard key=="original/original",result["cycleStopped"] as? Bool==true else{self.fail("hidden cycle kept changing selections")}
+          print("PASS: hiding the character stops wardrobe cycling")
+          self.phase=14;self.command("window.companion({visible:true});document.querySelector('#mode').value='illustration';document.querySelector('#mode').dispatchEvent(new Event('change'))")
+        }
+      case 14:
         if state["mode"] as? String=="illustration"{
           guard result["canvases"] as? Int==0 else{self.fail("leaked renderer after leaving 3D")}
           print("PASS: leaving 3D disposes the active renderer")
           print("PASS: wardrobe integration completed");exit(0)
+        }
+      case 15:
+        if !loading,key=="streetwear/twintails"{self.phase=19;self.started=Date();self.command("window.companion({reducedMotion:false,gesture:'cancel',angle:0})")}
+      case 19:
+        if Date().timeIntervalSince(self.started)>2{
+          guard let angles=state["braidTipLeanDegrees"] as? [Double],angles.count==2,angles.allSatisfy({$0.isFinite && $0<35}) else{self.fail("idle twin tails do not hang downward: \(state["braidTipLeanDegrees"] ?? "missing")")}
+          print("PASS: twin-tail tips hang downward at idle: \(state["braidTipLeanDegrees"] ?? "?") degrees from vertical")
+          self.phase=16;self.capture("streetwear-twintails-idle"){
+            self.peak=0;self.started=Date();self.command("window.companion({gesture:'twirl',gestureSpeed:1.5,angle:0})");self.poll()
+          };return
+        }
+      case 16:
+        guard let speed=state["hairSpeed"] as? Double,speed.isFinite,let deflection=state["hairDeflection"] as? Double,deflection.isFinite,deflection<3 else{self.fail("unstable twin tails")}
+        self.peak=max(self.peak,speed)
+        if Date().timeIntervalSince(self.started)>1.8{
+          self.phase=17;self.capture("streetwear-twintails-twirl"){self.poll()};return
+        }
+      case 17:
+        if Date().timeIntervalSince(self.started)>7{
+          guard self.peak>0.02,(state["hairSpeed"] as? Double ?? 9)<self.peak * 0.7 else{self.fail("twin tails did not move and settle")}
+          print("PASS: twin tails move and settle after a fast twirl")
+          self.phase=18;self.started=Date();self.command("window.companion({reducedMotion:true,angle:90})")
+        }
+      case 18:
+        if Date().timeIntervalSince(self.started)>0.3{
+          self.phase=10;self.capture("streetwear-twintails-profile"){self.command("window.companion({angle:0});document.querySelector('#wardrobe-cycle').click()");self.poll()};return
         }
       default:break
       }

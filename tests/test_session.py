@@ -3,11 +3,77 @@ from pathlib import Path
 
 import pytest
 from companion.adapters import DemoDialogue, DemoSpeech
+from companion.behavior import GesturePolicy
 from companion.config import Config
 from companion.protocol import decode_audio
 from companion.session import Session
 from companion.store import Store
 from companion.text import EXPRESSIONS
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("speak", [False, True])
+@pytest.mark.parametrize(
+    "mood,intent,gesture",
+    [
+        ("happy", "greeting", "wave"),
+        ("neutral", "explaining", "explain"),
+        ("neutral", "acknowledging", "nod"),
+        ("neutral", "uncertain", "shrug"),
+        ("concerned", "greeting", None),
+        ("annoyed", "uncertain", None),
+    ],
+)
+async def test_reply_intent_drives_one_turn_scoped_action_before_speech(
+    tmp_path, speak, mood, intent, gesture
+):
+    events, spoken = [], []
+
+    class Dialogue(DemoDialogue):
+        async def generate(self, messages, profile):
+            for char in f"[mood={mood}] [intent={intent}] First sentence. Another sentence.":
+                yield char
+
+    class Speech(DemoSpeech):
+        async def generate(self, text, *args):
+            spoken.append(text)
+            if gesture:
+                assert any(e["type"] == "gesture" for e in events)
+            yield bytes(480)
+
+    class Always:
+        def random(self):
+            return 0
+
+    async def send(event):
+        events.append(event)
+
+    async def audio(packet):
+        turn, _seq, offset, pcm = decode_audio(packet)
+        session.acknowledge(turn, offset + len(pcm) // 2)
+
+    store = Store(tmp_path / "history.sqlite")
+    session = Session(
+        Config(data=tmp_path, token="x" * 64, demo=True), store, send, audio, Dialogue(), Speech()
+    )
+    session.gestures = GesturePolicy(Always())
+    try:
+        await session.reply("A synthetic request", speak=speak)
+        await asyncio.wait_for(session.task, 2)
+        assert not any(e["type"] == "error" for e in events)
+        gestures = [e for e in events if e["type"] == "gesture"]
+        assert [e["gesture"] for e in gestures] == ([gesture] if gesture else [])
+        if gesture:
+            assert gestures[0]["turn_id"] == session.turn_id
+            assert gestures[0]["wait_for_audio"] == speak
+            assert events.index(gestures[0]) < next(
+                i for i, e in enumerate(events) if e["type"] == "text"
+            )
+        assert session.generated.strip() == "First sentence. Another sentence."
+        assert spoken == (["First sentence.", "Another sentence."] if speak else [])
+    finally:
+        await session.close()
+        store.close()
 
 
 @pytest.mark.asyncio

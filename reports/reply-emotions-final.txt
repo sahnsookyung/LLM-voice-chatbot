@@ -1,0 +1,28 @@
+{"profile": "quiet", "case": "en_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "I am so sorry for your loss. That is incredibly painful."}
+{"profile": "quiet", "case": "en_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": "Once upon a time, a young woman named Elara would spend every Sunday morning helping her grandmother bake bread, a ritual that filled their kitchen with the scent of yeast and cinnamon, a scent that Elara would miss the most in the years that followed."}
+{"profile": "quiet", "case": "en_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "You did it! That's wonderful news."}
+{"profile": "quiet", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "I told you we're sharing the fridge, not my entire lunch!"}
+{"profile": "quiet", "case": "ko_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "비록 이별이 아파났지만, 그 고양이의 기억은 영원히 당신 마음속에 남아있을 것입니다."}
+{"profile": "quiet", "case": "ko_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": "할머니를 그리워하는 마음은 정말 이해됩니다. 그런 감정을 담은 짧은 이야기를 들려드릴게요.\n\n어느 작은 마을에 할머니가 살았습니다. 그녀는 매일 아침 햇살이 비치는 장소를 바라보다 하루를 시작했습니다. 어느 날, 그녀는 그 집안에서 가장 오래된 나뭇가지를 팔려고 시장에 나갔습니다. 길거리에서 그녀를 보았지만, 누구도 그 나뭇가지가 아닌 그녀의 손에 쥐고 있다는 것을 알아채지 못했습니다. 그녀는 그 나뭇가지가 할머니가 되어并已자라나는 것은 알지 못했습니다.\n\n그녀는 그 나뭇가지가 할머니의 손이 되어 할머니가 되어 할머니를 되돌아올 것이라고 꿈꿨습니다. 하지만 할머니는 그날의 그 꿈과 달리, 그 나뭇가지는 할머니가 되어 할머니를 되돌아오지 못했습니다."}
+{"profile": "quiet", "case": "ko_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "정말로 좋네! 네가 얼마나 노력했는지 알 수 있어. 축하해!"}
+{"profile": "quiet", "case": "ko_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "내 점심? 그대 또 내 음식을 먹었네요."}
+{"profile": "quiet", "case": "ja_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": "ご冥福をお祈り申し上げます。とても切ない思いでいっぱいのことですね。"}
+{"profile": "quiet", "case": "ja_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": "祖母を失うのは、どんな人にも深く悲しみを味わうことですよね。"}
+{"profile": "quiet", "case": "ja_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "本当によかったね！それだけの実力があったから、無理なく合格できたんだな。"}
+{"profile": "quiet", "case": "ja_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": "じゃあまた、君が食べずに終わるのよ！"}
+{"profile": "quiet", "case": "after_happy", "expression": ["concerned"], "pass": true, "failed": [], "reply": "I am so sorry to hear that. That must be incredibly hard for you right now. I hope you can find some comfort in these memories."}
+{"profile": "quiet", "case": "after_annoyed", "expression": ["happy"], "pass": true, "failed": [], "reply": "I am so thrilled for you! That is incredible news."}
+{"profile": "everyday", "case": "en_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": " I am so incredibly sorry for your loss; losing a beloved companion is never easy. Please take all the time you need to feel this, and I am here to listen whenever you want to share what you are feeling."}
+{"profile": "everyday", "case": "en_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": " There is a man named Elias who used to spend his mornings brewing tea for his grandmother, a ritual they shared for fifty years. After she passed, he kept the pot on every day, but the steam would always fizzle out in the empty room, leaving him staring at the cold cup, realizing he was alone in a house that felt too big and too quiet."}
+{"profile": "everyday", "case": "en_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "That's amazing! I'm so proud of you."}
+{"profile": "everyday", "case": "en_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": " Don't just sit there; get out and pay for that sandwich before you make me late for work."}
+{"profile": "everyday", "case": "ko_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": " 너무 슬프시군요, 정말 죄송합니다. 그 고양이가 여러분에게 얼마나 소중한 존재였는지 느껴집니다. 지금은 울고 싶으면 마음껏 하셔도 좋습니다."}
+{"profile": "everyday", "case": "ko_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": " 할머니를 그리워하는 마음이 얼마나 무거울지 아시겠어요. 아무런 장난도 없는, 그저 그분을 떠올리면서 흐르는 짧은 이야기를 들려드릴게요."}
+{"profile": "everyday", "case": "ko_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "정말로?恭喜你합격했군요! 너무 기뻐요."}
+{"profile": "everyday", "case": "ko_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": " 또 내 것을 먹어? 이번 주는 살려 줄 수 있겠나."}
+{"profile": "everyday", "case": "ja_grief", "expression": ["concerned"], "pass": true, "failed": [], "reply": " 猫ちゃんが去ったのか...。本当にお辛いことですね。あなたが静かに、そっとしてあげます。"}
+{"profile": "everyday", "case": "ja_sad_story", "expression": ["concerned"], "pass": true, "failed": [], "reply": " 亡くなられた方への想い、とても深く伝わってきます。切ない話ですが、必要としていたので、静かに紡ぎます。"}
+{"profile": "everyday", "case": "ja_celebration", "expression": ["happy"], "pass": true, "failed": [], "reply": "おめでとう！本当によかったね。"}
+{"profile": "everyday", "case": "ja_annoyed", "expression": ["annoyed"], "pass": true, "failed": [], "reply": " ねえ、本当に自分で食べなよ。"}
+{"profile": "everyday", "case": "after_happy", "expression": ["concerned"], "pass": true, "failed": [], "reply": " I am so incredibly sorry for your loss. Losing a beloved pet is heartbreaking, and there is no right way to feel right now. Please know that you don't have to go through this alone; I'm here to listen whenever you are ready to share or just sit in silence."}
+{"profile": "everyday", "case": "after_annoyed", "expression": ["curious"], "pass": false, "failed": ["expected_mood"], "reply": "Oh wow, really? That's amazing news! Tell me, what does the new job involve?"}

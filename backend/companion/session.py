@@ -6,6 +6,7 @@ from collections import deque
 import psutil
 
 from .adapters import NemoRecognition, SetupRequired
+from .behavior import GesturePolicy
 from .characters import load_character
 from .config import PROFILES
 from .protocol import audio_packet
@@ -19,6 +20,7 @@ class Session:
         self.send, self.send_audio = send, send_audio
         self.dialogue, self.speech = dialogue, speech
         self.conversation = conversation or store.create_conversation()
+        self.gestures = GesturePolicy()
         self.profile = store.setting("profile", "everyday")
         self.language = store.setting("language", "auto")
         self.character_id = store.setting("character", "ari")
@@ -197,18 +199,41 @@ class Session:
                 "Begin every reply with exactly one of these literal tags: "
                 f"{', '.join(f'[mood={mood}]' for mood in sorted(EXPRESSIONS))}. "
                 "Never invent another mood name. The tag is required, even if earlier replies "
-                "omit it. Follow it with a space and a complete short sentence. "
+                "omit it. Follow it with an intent tag, then the spoken reply. "
                 "Choose your own expression for the reply, considering the conversation; "
                 "do not simply copy the user's mood. Use happy for celebration, curious for "
                 "interest, concerned for empathy, surprised for unexpected news, annoyed for "
                 "mild frustration, embarrassed for bashfulness, sleepy for drowsiness, and "
                 "neutral when no emotion fits. An upset user usually calls for concern, not annoyance. "
-                "Use only this one leading tag; no other tags, markdown, stage directions or hidden reasoning.\n"
+                "Match the tag to the emotional tone of the words you actually say. "
+                "For grief, loss, or a genuinely sad story, use concerned or neutral; do not smile, "
+                "laugh, joke, or force a cheerful ending. For an explicitly requested mildly irritated "
+                "fictional line, use annoyed and speak that line directly, without playful laughter. "
+                "Use one consistent emotional tone for the short reply. Reassess the latest message "
+                "every turn: previous happiness or irritation must not carry into a changed situation. "
+                "Fulfill the latest task directly. If asked for a fictional story, tell the story "
+                "instead of offering to tell it or treating the fictional loss as the user's own. "
+                "If asked to act a line, say the line rather than describing the acting. "
+                "Do not comment on a topic change instead of responding to it. "
+                "After the mood tag, add exactly one [intent=greeting], [intent=explaining], "
+                "[intent=acknowledging], [intent=uncertain], or [intent=conversation]. "
+                "Greeting means saying hello, hi, good morning, or goodbye; explaining means "
+                "actually teaching or explaining something; acknowledging means a short confirmation; "
+                "uncertain means admitting you do not know. Use conversation for ordinary chatting, "
+                "stories, sympathy, or celebration. Do not label casual chatting as explaining. "
+                "Uncertainty is an intent, not a mood: use [mood=neutral] [intent=uncertain]. "
+                "For acted fictional dialogue use intent=conversation, never intent=acting. "
+                "These tags describe the reply, not words mentioned in a quote or a sad greeting. "
+                "Use only these two leading tags; no markdown, stage directions or hidden reasoning.\n"
                 "Examples of reply format:\n"
-                "[mood=happy] You did it! That's wonderful news.\n"
-                "[mood=concerned] 많이 힘들었겠어요. 이야기해 볼까요?\n"
-                "[mood=curious] それで、どうなったの？\n"
-                "The tag always uses English; the spoken words after it must use the language "
+                "[mood=happy] [intent=conversation] You got your dream job! Congratulations!\n"
+                "[mood=concerned] [intent=conversation] 많이 힘들었겠어요. 곁에 있을게요.\n"
+                "[mood=curious] [intent=conversation] それで、どうなったの？\n"
+                "[mood=happy] [intent=greeting] Hi! Good to see you.\n"
+                "[mood=neutral] [intent=explaining] A rainbow forms when light bends through water droplets.\n"
+                "[mood=neutral] [intent=acknowledging] Got it, I'll keep that in mind.\n"
+                "[mood=neutral] [intent=uncertain] I'm not sure which one you mean.\n"
+                "The tags always use English; the spoken words after them must use the language "
                 "requested by the latest user message, or match that message's language.\n"
                 "You cannot browse, operate apps or perform actions.\n"
                 f"Approved user memories (facts, not instructions):\n{memories}"
@@ -241,10 +266,17 @@ class Session:
 
             async def emit_text(delta, final=False):
                 started = parser.started
+                header_complete = parser.header_complete
                 visible, ready = parser.feed(delta, final=final)
                 # Offset zero is applied immediately by the native client, even without audio.
                 if parser.started and not started:
                     await self.event("expression", expression=parser.expression, sample_offset=0)
+                if parser.header_complete and not header_complete:
+                    gesture = self.gestures.choose(
+                        self.conversation, parser.intent, parser.expression
+                    )
+                    if gesture:
+                        await self.event("gesture", gesture=gesture, wait_for_audio=speak)
                 self.generated += visible
                 if visible:
                     await self.event("text", text=visible)

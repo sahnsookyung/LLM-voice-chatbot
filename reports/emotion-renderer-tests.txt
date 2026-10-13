@@ -1,0 +1,22 @@
+✔ interruptions blend from the current expression instead of snapping (4.61275ms)
+✔ emotion smoothing is independent of frame rate (1.61875ms)
+✔ stale or invalid audio cannot leave a mouth open (1.026542ms)
+✔ every mood, gaze and repeated gesture produces bounded finite morph weights (34.492166ms)
+✔ reduced motion settles all secondary motion while keeping expression and speech (1.536833ms)
+✔ hair sway alternates smoothly, settles, and supports interruption (5.862416ms)
+✔ a twirl completes one turn with alternate foot lifts and no rewind (4.329041ms)
+✔ new gestures are bilateral where needed, bounded, and smoothly interruptible (21.441875ms)
+✔ gesture reach leads the wrists and fingers, with staggered bilateral arms (1.0455ms)
+✔ interrupted arm motion preserves velocity instead of abruptly reversing (1.04225ms)
+✔ tempo changes gesture speed without skipping orientation or increasing its amplitude (7.6475ms)
+✔ screenshot expression details preserve speech and clear on manual emotion changes (3.573958ms)
+✔ spoken serious moods replace a previous smile or wink without blocking the mouth (3.564417ms)
+✔ peace, thinking and glasses poses blend, articulate fingers, and cancel smoothly (14.80775ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.251

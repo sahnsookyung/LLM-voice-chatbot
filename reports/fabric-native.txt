@@ -1,0 +1,18 @@
+PASS: cloud-sweater/double-buns, round glasses, none headwear; 29 draws
+PASS: sunny-sweater/soft-waves, none glasses, none headwear; 26 draws
+PASS: school-cardigan/low-pigtails, none glasses, none headwear; 30 draws
+PASS: school-cardigan-brown/soft-waves, round glasses, none headwear; 32 draws
+PASS: school-vest/half-up, none glasses, none headwear; 32 draws
+PASS: navy-blouse/soft-waves, round glasses, none headwear; 32 draws
+PASS: pink-sailor/low-pigtails, none glasses, none headwear; 32 draws
+PASS: ruffle-dress/half-up, none glasses, none headwear; 35 draws
+PASS: black-jacket/soft-waves, none glasses, none headwear; 27 draws
+PASS: butter-coat/original, none glasses, beret headwear; 32 draws
+PASS: forest-pinafore/twintails, none glasses, none headwear; 32 draws
+PASS: original/double-buns, round glasses, beret headwear; 32 draws
+PASS: posed double-peace, feet and framing retained
+PASS: posed peace-eye, feet and framing retained
+PASS: posed thinking, feet and framing retained
+PASS: posed adjust-glasses, feet and framing retained
+PASS: expression detail blends with speech
+PASS: style-board native checks complete

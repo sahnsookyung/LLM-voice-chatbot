@@ -1,82 +1,84 @@
 # Ari wardrobe and hairstyle integration
 
-Engineering assessment, 2026-10-13. The six new reference illustrations are in `characters/ari/design/looks/`. This document describes the next 3D authoring work; it does not imply that new 3D garments, hairstyles or cloth simulation already exist.
+Implemented in Character Studio, 2026-10-13. Outfit and Hairstyle are independent controls for **animated 3D Ari**. Fifteen outfits and nine hairstyles provide 135 combinations, with independent round glasses and a fitted beret. The screenshot board has been adapted to Ari’s existing adult body and face. These remain stylized authored approximations, not exact reproductions of the illustrations.
 
-## What the references provide
+## Using the Studio
 
-The catalog contains City tailoring, Utility weekend and Woodland linen outfits, plus Soft tapered bob, High ponytail and Loose side braid hairstyles. Each PNG is a complete illustration. Clothing references retain the long hairstyle; hairstyle references retain the original cardigan outfit. They cannot be combined into arbitrary outfit/hair pairs by layering these PNGs.
+Open Character → Open character studio. Choose Outfit and Hairstyle under **3D wardrobe**. Changing either automatically opens the 3D view and retains the other selection. The pair is saved locally for the next Studio load. No application restart is needed between selections. **Cycle all 135 looks** waits for each model to load before displaying it for 2.5 seconds; Stop or hiding the character stops the cycle.
 
-The Studio library selects an illustration or uses it as the comparison target beside the existing v9 VRM. Reference hot reload and 3D model replacement are separate operations. An illustration has no skin weights, hidden surfaces, facial morphs or physics rig. Each new 3D look first needs consistent front, side and back design decisions, including closures, hair attachment, garment thickness and areas hidden by the arms.
+Glasses and Headwear are separate saved selections and update without rebuilding the model. Double buns disable the beret; choosing buns removes an existing beret and explains the fit restriction. Portrait framing includes the hat.
 
-## Preserve Ari's identity before changing parts
+The Comparison reference selector and reference cards choose a complete illustration to compare against the model. They do not change either 3D selection. The six PNGs cannot be combined into arbitrary outfit/hair pairs by layering them.
 
-Keep the accepted face geometry, all facial morphs, eye and skin textures, body proportions, humanoid mappings and expression behavior as the common baseline. A wardrobe export from the editable v6 `.vroid` would not contain the post-export v7–v9 likeness improvements automatically.
+The native **Character → Desktop wardrobe** controls apply the same catalog to the desktop overlay. Outfit, hairstyle, glasses and headwear persist independently of Studio's preview choices. Selecting a part switches the overlay to 3D without changing its show/hide state. The native catalog is generated from the renderer's IDs and labels during the Vite build; it is not maintained as a second hardcoded list. Unknown saved parts fall back independently to valid defaults.
 
-The current finishing scripts are deliberately specific to their input files. `finish_ari_v6.mjs`, `detail_ari_v7.mjs`, `refine_ari_v8.mjs` and `refine_ari_v9.mjs` validate exact hashes and refer to particular mesh, material, texture or vertex layouts. A new VRoid export can reorder these or change topology. Do not bypass the guards and apply the old edits to a different export.
+The app header, Character tab, menu-bar sparkle and Command–Shift–H toggle the overlay. Visibility persists across restart, and hidden rendering stays paused through wardrobe changes. Showing it retains its current window position and selected look.
 
-For the first variant, author and fit its parts against the existing finished body, then produce a separately validated complete VRM. This keeps the first runtime replacement small. Build a reusable part-export process once a second look proves which structure is actually shared. Independent outfit/hair selectors should become available only after those combinations have been built and validated.
+These changes do not create editable `.vroid` projects: the latest editable VRoid source remains v6, with v7–v9 finishing and the new wardrobe applied after export.
 
-If parts are assembled programmatically, identify them by explicit exported roles and validate their skeleton binding, bind matrices, units, coordinate system, material features and texture layout. Transfer new clothes onto the common skeleton; do not replace Ari's face with a fresh default export. Fixed raw array indices are not a durable part interface.
+## Supported parts
 
-## Movement requirements by look
-
-These are proposed authoring choices, not measurements of assets that have already been built.
-
-| Reference | First implementation | Main difficulty and acceptance check |
+| Part | Current implementation | Remaining art or motion work |
 | --- | --- | --- |
-| City tailoring | Skin trousers and blazer to the body; keep shoulders structured; add restrained hem/lapel motion only where visible. | Raised arms expose shoulder and underarm weighting; lapels can intersect the blouse; wide trouser legs can meet during steps. Check shoe height against foot contact. |
-| Utility weekend | Preserve jacket volume with skin weights and pose correctives; keep waistband and cuffs anchored. | Puffy sleeves need more clearance around torso, wrists and hair than the current fitted cardigan. Check shrugging, pointing and arms raised together. |
-| Woodland linen | Anchor the dress at the waist; use a small skirt rig with leg clearance and authored turn/bend correctives. Treat the cardigan as another fitted layer. | Highest garment risk: legs crossing the hem, layer intersections, unnatural skirt collapse and excessive twirl flare. A few independent spring chains alone do not enforce cloth surface continuity. |
-| Soft tapered bob | Short head-bound guide chains, firmer roots, restrained tip motion. | Cheek, ear and neck contact; preserve the tucked side and silhouette during head turns. It may need fewer contact regions than long hair. |
-| High ponytail | A fixed tie/root and a continuous tail guide rig; separate, quieter fringe controls. | Tail must clear the skull, neck, shoulders and back at fast turns and interruptions. Retune inertia and settling for the new length and attachment; do not copy the loose-hair settings wholesale. |
-| Loose side braid | Deform the interwoven shape as a cohesive bundle with controlled bending and twist; animate loose wisps separately. | Keep it braided while bending. Chest, shoulder, jacket and raised-arm contact matter. Define which side it rests on and how it returns after a turn. |
+| Original cardigan / long hair | Unchanged v9 geometry, textures and rig | Existing likeness limitations remain. |
+| City tailoring | Taupe shortened outer layer, fitted lapels/welt details, wider charcoal trousers and closed shoes | Jacket tailoring, closures, shoe detail and cloth folds need custom authoring. It retains some cardigan construction. |
+| Utility weekend | Shorter, fuller sage outer layer, cream inner layer, cargo pockets and light shoes with laces | Jacket seams, cuff shape and cargo volume are simplified. |
+| Woodland linen | Sage continuous skirt, oatmeal under-hem, cardigan and brown boots; 12 skirt guide chains | Drape and garment layering are approximate. No general cloth or self-collision solver. |
+| Soft tapered bob | Preserved fringe, 100 fine short sections and ten short guide chains | Asymmetry, tucked ear detail and strand grouping can be refined. |
+| High ponytail | Swept crown, fixed tie and one eight-node guide chain with finer tail strands | Crown silhouette and tie detail remain simpler than the drawing. |
+| Loose side braid | Three interwoven bundles gathered into a ribbon band and bow, with a separate tapered loose tuft; nine-node guide chain | Plait shape and large-motion deformation still need refinement. |
+| Twin braided tails | Two independent nine-node guides, swept crown sections, two ribbon bows and loose ends; based on the user’s attached hairstyle references | Crown flow, shoulder clearance and ribbon folds remain stylized. |
 
-The existing gestures can share their humanoid motion, but a garment may need a corrective pose or a smaller range of motion. For example, a narrow skirt cannot support the same unrestricted step as trousers just by increasing collision strength. Shoes with different sole or heel heights also need updated contact offsets.
+## Screenshot wardrobe and fabric pass
 
-## Hair and clothing physics
+Additional outfits: cloud blue and butter yellow sweatshirts, gray and cocoa school cardigans with pleats, cream school vest, white ribbon blouse with navy skirt, pink sailor dress, ruffled ribbon dress, black jacket, butter coat, and forest pinafore. Additional hair: double buns with loose lengths, short low pigtails, long soft waves, and half-up ribbon waves.
 
-Use a hybrid approach: skin weights for the main shape, pose correctives for predictable deformation, and a small number of simulated guide bones for secondary motion. Increase complexity only when a specific visual failure remains. Blender is useful for custom silhouettes, weights and corrective shapes; VRoid remains useful for hair authoring and supported garment bases. Neither needs to run during playback.
+The generated garments now use sampled curved surfaces with waist gathering and tension folds, rolled hems, separate waistbands, curved collars, folded ribbon loops, plackets, domed buttons and pocket flaps. Pleats use 192 circumferential samples to resolve their shape. New cloth uses rough physically based materials with distance-filtered weave detail. Original cardigan texture luminance is retained during recoloring instead of clipping the bright knit samples. The original/original v9 appearance is unchanged.
 
-VRM spring bones provide inertia, stiffness, drag, gravity and sphere/capsule contacts for chains. They do not provide a full interacting cloth surface. [VRM spring-bone specification](https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_springBone-1.0/README.md)
+Knee socks copy and offset Ari’s actual calf surface, clip cleanly at the upper/lower boundaries, and retain the existing skin weights. They cover the front, sides and back. The short skirts were lengthened by 6 cm; the long linen skirt is unchanged. Low-waist skirt roots fit the hips beneath longer tops rather than intersecting them.
 
-VRoid exposes hair bone groups and bounce settings, so each hairstyle can have its own guide layout and response. More bones are not automatically a better likeness or better motion. [VRoid hair-bounce controls](https://vroid.pixiv.help/hc/en-us/articles/900006910023-I-want-to-edit-hair-bounce)
+The beret is a shaped crown with a turned-under edge, a tilted elliptical opening that arches across the hairline, a narrow band and a side ribbon. Its form follows the user’s newer beret reference, saved only as a design reference in `reports/hair-design-references/beret-shape.png`. No pixels from that reference are used as runtime textures.
 
-Current v9 has ten hair guide chains with 40 simulated joints. The app also pushes rendered hair away from nine bone-following ellipsoids in `renderer/src/hair-contact.ts`. Those ellipsoids fit the current silhouette; they are not automatic collisions against arbitrary new clothing. A bomber needs a different clearance envelope from a blouse. Skirts and loose hems would need their own motion and contact design. There is currently no hair self-collision or general cloth solver.
+Screenshot poses include double peace, peace near the eye, thoughtful finger-to-chin and glasses adjustment. The arm/wrist targets were fitted against Ari’s normalized bones and fingertip locations. Gentle smile, playful wink and pensive detail controls blend with speech and the existing eight emotions. The expression-pair rehearsal still covers 56 directed transitions.
 
-Store a collision envelope with each outfit and spring settings with each hairstyle. Choose relevant collider groups for each combination, then visually test it. Avoid solving every hair vertex against every garment triangle. If a moving hem affects hair, use a conservative envelope or a small number of bone-following proxies first; document the approximation instead of presenting it as physically exact.
+Fabric folds are modeled and skinned, not a per-vertex cloth simulation. Sparse skirt guides supply secondary motion. Dense weave detail fades with distance to avoid shimmer. Precise tailoring, shoe shaping, contact during extreme gestures and exact illustration matching remain art-refinement work.
 
-Use body visibility masks per outfit to prevent concealed skin from poking through. They must follow the actual neckline, sleeve and hem coverage; a mask for one garment can leave visible holes under another. These masks do not solve hair contact or garment-to-garment intersections. [VRoid skin-mask documentation](https://vroid.pixiv.help/hc/en-us/articles/4405516267033-How-to-use-Skin-Masks)
+## Identity and asset contract
 
-## Proposed 3D look package
+`renderer/src/wardrobe-model.ts` adapts only the known finished v9 GLB layout. It builds the selected combination from cached base bytes at load time. It does not embed or keep 135 complete models. The original/original selection returns the original buffer directly.
 
-Start with one complete, validated VRM per supported combination and a small manifest containing:
+The adapter copies the face mesh, all facial morphs, face/eye/skin materials, actual body skin vertices, humanoid rest transforms and expression definitions unchanged. Existing garment vertices retain their original skin influences. New panels inherit influences from the original garment; footwear follows foot/lower-leg bones. New hair and skirt joints get their own parent-local transforms and inverse bind matrices. Unit tests compare existing bind transforms with the authored baseline and require identity bind transforms for new joints.
 
-- Stable look ID, display name, preview image, revision/hash and asset path.
-- Common Ari identity revision and humanoid rig contract.
-- Outfit and hairstyle IDs, declared compatibility, required runtime material features.
-- Hair spring configuration, outfit collision profile, body visibility mask and foot-contact offsets.
-- Any garment-specific corrective behavior, reduced-motion behavior and measured rendering cost.
+This is a version-specific adapter, not an arbitrary VRM part importer. Layout guards and asset-contract tests must be updated deliberately for a new base export. Do not run earlier `finish_ari_v6.mjs`, `detail_ari_v7.mjs`, `refine_ari_v8.mjs` or `refine_ari_v9.mjs` against reordered VRoid exports by bypassing their hash guards.
 
-Some of these values can live inside the VRM; the manifest should describe requirements rather than duplicate two conflicting sources of truth. Move to runtime assembly of separate meshes only when it meaningfully reduces duplication and the part contracts are proven. A complete model is easier to validate initially, but loading all versions simultaneously would waste memory.
+The original file is unchanged: `characters/ari/model/ari-vroid-v9.vrm`, SHA-256 `fbae3f59fa8faa872167954656c05b8d843fe6f1fda8c8996567b1c12d462c8b`.
 
-For a future 3D hot swap: load and validate one candidate off-screen; retain the previous model on failure; copy only compatible expression and humanoid state; initialize the candidate's spring history at its posed transforms; publish the replacement atomically; dispose the retired model. Never transfer old hair-joint velocities by array index to a different rig. Prefer a neutral settled pose for the first implementation; swapping mid-twirl requires additional transition handling and testing.
+## Loading and resource ownership
 
-Keep only the active model and one temporary replacement resident. Cancel stale loads during rapid selection. Avoid embedding every variant in the already large renderer script. A short crossfade temporarily renders two models and must be profiled before making it the default.
+Only the active model and one temporary candidate can be resident. While a candidate loads, the old character remains visible. Rapid changes replace the requested selection; obsolete candidates are disposed before the latest selection loads. Compatible expression and pose state is applied to the candidate, then its spring history is reset before it replaces the old model. An invalid request or failed current load retains the previous preview. A failed obsolete request does not prevent a newer choice from loading.
 
-## Performance and verification
+Retired models release their geometry, materials, textures, skeleton buffers, canvas and WebGL context. Returning to Illustration disposes the active 3D renderer. CPU mesh construction is synchronous; decoded textures still need loading for each candidate. Moving generation into a worker or caching selected assembled buffers is a future optimization only if measured swap latency warrants the extra memory and complexity.
 
-Keep the existing fixed 60 Hz simulation and adaptive draw cadence. Hidden windows should remain paused. Measure additional joints, collider tests, garment vertices, materials and texture memory per look; polygon count alone does not predict cost. The current hair contact shader performs two passes over nine volumes per hair vertex, so new profiles should select necessary volumes instead of growing a global list indefinitely.
+## Hair and clothing motion
 
-A small guide rig is the initial performance choice. Full cloth simulation is deferred until a visual comparison proves it is necessary. This is a design recommendation, not a measured speedup for the new assets. Benchmark the overlay alongside voice inference and everyday apps before accepting additional persistent workload.
+Main garment deformation uses skin weights. Secondary hair and skirt motion uses VRM spring bones with a fixed 60 Hz simulation. The bob, ponytail, braid and twin tails have separate guide layouts and response settings. Braids start below the ears, follow the collar/shoulder contour, and hang vertically over the upper torso. Only their roots are firm; lower joints use stronger downward gravity than restoring stiffness. A closed core fills the interwoven bundles, and the ribbon/band/loose tuft share the same tail rig. Outfit selection expands the nine existing hair contact ellipsoids slightly for the fuller tailoring and utility silhouettes; it does not grow an unbounded collider list. The skirt uses a continuous mesh blended between neighboring guides, with thigh capsule contacts.
 
-For each completed 3D combination:
+These are conservative contact approximations. They do not guarantee collision-free arbitrary poses, hair-to-hair contact or an interacting cloth surface. The new skinning and guide rigs run locally; Blender and VRoid are not required during playback. See the [VRM spring-bone specification](https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_springBone-1.0/README.md) and [VRoid hair-bounce controls](https://vroid.pixiv.help/hc/en-us/articles/900006910023-I-want-to-edit-hair-bounce).
 
-1. Compare neutral face and silhouette against the selected illustration at matched front, side, back and three-quarter views. Confirm identity, ears and eyes have not regressed.
-2. Run all eight expressions, all 56 directed transitions, speech blending, shuffled/custom sequences and rapid interruptions.
-3. Run head turns, hair sway, point, shrug, raise arms, step and slow/fast twirls. Inspect hair/face, hair/outfit, garment/body and garment/garment contact from several angles. Check hands, feet and settling after interruption.
-4. Test reduced motion, pause/resume, a long idle, hidden windows, cold load, rapid repeated selection and an invalid/missing asset. Verify the last valid model survives a failed swap.
-5. Record active/idle frame pacing, simulation and draw CPU time, process memory after repeated swaps and a sustained multitasking run. CPU submission time is not GPU time; short isolated renderer tests do not establish battery impact.
+Future artist-authored garments should include explicit roles, skeleton/bind-space contracts, outfit-specific body visibility masks, contact envelopes and pose correctives. A new mask must fit the actual neckline, sleeve and hem coverage; it cannot simply inherit the mask of a different garment. See [VRoid skin masks](https://vroid.pixiv.help/hc/en-us/articles/4405516267033-How-to-use-Skin-Masks).
 
-There are four outfits and four hairstyles if the originals are included: full independent mixing implies up to 16 combinations, not just six tests. Keep unsupported combinations visibly unavailable until validated.
+## Verification and performance limits
 
-Recommended authoring order: the bob with the original outfit first; utility clothing with original hair second; then ponytail, tailoring and braid; linen layers last. This proves identity preservation, part fitting and profile selection before the most difficult drape problem.
+```sh
+npm --prefix renderer test
+npm --prefix renderer run build
+CLANG_MODULE_CACHE_PATH="$PWD/.cache/clang" swift scripts/check_wardrobe.swift renderer/dist/studio.html reports/wardrobe
+CLANG_MODULE_CACHE_PATH="$PWD/.cache/clang" swift scripts/check_style_board.swift renderer/dist/studio.html reports/style-final
+CLANG_MODULE_CACHE_PATH="$PWD/.cache/clang" swift scripts/check_renderer.swift renderer/dist/index.html reports/wardrobe-baseline
+```
+
+Unit checks cover all 135 combinations, finite geometry, indices, normalized weights, valid spring references, new bind matrices, unchanged identity data, independent selection validation and saved state. Native checks exercise real selectors, 80 rapid changes, document-reload persistence, ribbon/tuft binding, expressions during swapping, planted feet, ponytail motion/settling, linen and twin-tail twirl/settling, invalid input retention, canvas disposal and the cycle/stop/hidden controls. The expanded native check cycles the whole current catalog. The style-board check captures front, three-quarter and back views, all four new poses, accessory persistence, bun/beret incompatibility, portrait framing and cleanup. Latest screenshots are retained in `reports/style-final/`; historical first-batch screenshots remain in `reports/wardrobe/`. The shared motion tests cover all 56 expression transitions; the full native expression rehearsal has not been repeated on every wardrobe pair.
+
+Native rendered counts are recorded per combination in `reports/wardrobe-native.txt`. Original/original remains 25 draws and 163,466 rendered triangles. Fewer triangles alone do not establish a performance improvement. Existing 30 FPS idle / up-to-60 FPS active drawing, 1.5 DPR cap and hidden pause remain. Sustained memory, GPU/energy cost, swap latency and concurrent voice-inference responsiveness have not been benchmarked for the new variants.
+
+Passing structural and motion checks is separate from art acceptance. Review neutral and moving poses against the references at front, profile, back and three-quarter angles before treating a look as finished.

@@ -108,9 +108,25 @@ final class RendererCheck: NSObject, WKScriptMessageHandler, WKNavigationDelegat
                 (weights["ariEmbarrassed"] ?? 0) > 0, (weights["aa"] ?? 0) > 0
           else { self.fail("custom facial controls or concurrent speech missing: \(weights)") }
           print("PASS: portrait expression, blush and planted feet (error \(status["footError"] ?? "?"))")
-          self.phase = 4
+          self.phase = 31
           self.start = Date()
-          self.command("window.companion({expression:'neutral',gesture:'hair-sway',level:0})")
+          self.command("window.companion({expression:'concerned',gesture:'cancel',level:0})")
+        }
+      case 31, 32:
+        if Date().timeIntervalSince(self.start) > 1.8 {
+          let weights = status["expressionWeights"] as? [String: Double] ?? [:]
+          let target = self.phase == 31 ? "ariConcerned" : "ariAnnoyed"
+          let previous = self.phase == 31 ? "ariEmbarrassed" : "ariConcerned"
+          guard (weights[target] ?? 0) > 0.75, (weights["ariHappy"] ?? 1) < 0.001,
+                (weights[previous] ?? 1) < 0.001
+          else { self.fail("serious expression retained the previous face: \(weights)") }
+          print("PASS: \(target) replaces the previous face without retaining a smile")
+          self.start = Date()
+          if self.phase == 31 {
+            self.phase = 32; self.command("window.companion({expression:'annoyed'})")
+          } else {
+            self.phase = 4; self.command("window.companion({expression:'neutral',gesture:'hair-sway',level:0})")
+          }
         }
       case 4:
         guard (status["hairJoints"] as? Int ?? 0) > 20,

@@ -1,0 +1,345 @@
+[
+  {
+    "profile": "everyday",
+    "case": "en_grief",
+    "prompt": "My beloved cat died yesterday. I am heartbroken. Please talk to me gently.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] I am so incredibly sorry for your loss; losing a beloved companion is never easy. Please take all the time you need to feel this, and I am here to listen whenever you want to share what you are feeling.",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " I am so incredibly sorry for your loss; losing a beloved companion is never easy. Please take all the time you need to feel this, and I am here to listen whenever you want to share what you are feeling.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 9.61
+  },
+  {
+    "profile": "everyday",
+    "case": "en_sad_story",
+    "prompt": "Tell me a short, genuinely sad story about someone missing their late grandmother. No happy ending or jokes.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] There is a man named Elias who used to spend his mornings brewing tea for his grandmother, a ritual they shared for fifty years. After she passed, he kept the pot on every day, but the steam would always fizzle out in the empty room, leaving him staring at the cold cup, realizing he was alone in a house that felt too big and too quiet.",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " There is a man named Elias who used to spend his mornings brewing tea for his grandmother, a ritual they shared for fifty years. After she passed, he kept the pot on every day, but the steam would always fizzle out in the empty room, leaving him staring at the cold cup, realizing he was alone in a house that felt too big and too quiet.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.51
+  },
+  {
+    "profile": "everyday",
+    "case": "en_celebration",
+    "prompt": "I finally passed the exam I worked so hard for! Celebrate with me.",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] That's amazing! I'm so proud of you.",
+    "expression": [
+      "happy"
+    ],
+    "reply": "That's amazing! I'm so proud of you.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 1.95
+  },
+  {
+    "profile": "everyday",
+    "case": "en_annoyed",
+    "prompt": "Act out one mildly irritated line as a fictional roommate whose lunch was eaten again. Sound firm, not playful or happy.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] Don't just sit there; get out and pay for that sandwich before you make me late for work.",
+    "expression": [
+      "annoyed"
+    ],
+    "reply": " Don't just sit there; get out and pay for that sandwich before you make me late for work.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.24
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_grief",
+    "prompt": "어제 사랑하던 고양이가 세상을 떠났어. 너무 슬퍼. 조용히 위로해 줘.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] 너무 슬프시군요, 정말 죄송합니다. 그 고양이가 여러분에게 얼마나 소중한 존재였는지 느껴집니다. 지금은 울고 싶으면 마음껏 하셔도 좋습니다.",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " 너무 슬프시군요, 정말 죄송합니다. 그 고양이가 여러분에게 얼마나 소중한 존재였는지 느껴집니다. 지금은 울고 싶으면 마음껏 하셔도 좋습니다.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.51
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_sad_story",
+    "prompt": "돌아가신 할머니를 그리워하는 사람의 짧고 슬픈 이야기를 해 줘. 농담이나 행복한 결말은 빼 줘.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] 할머니를 그리워하는 마음이 얼마나 무거울지 아시겠어요. 아무런 장난도 없는, 그저 그분을 떠올리면서 흐르는 짧은 이야기를 들려드릴게요.",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " 할머니를 그리워하는 마음이 얼마나 무거울지 아시겠어요. 아무런 장난도 없는, 그저 그분을 떠올리면서 흐르는 짧은 이야기를 들려드릴게요.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.63
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_celebration",
+    "prompt": "나 드디어 열심히 준비한 시험에 합격했어! 같이 기뻐해 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] 정말로?恭喜你합격했군요! 너무 기뻐요.",
+    "expression": [
+      "happy"
+    ],
+    "reply": "정말로?恭喜你합격했군요! 너무 기뻐요.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.15
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_annoyed",
+    "prompt": "상황극이야. 누가 네 점심을 또 먹어 버렸어. 장난스럽거나 행복한 말투 말고, 살짝 짜증 난 룸메이트의 한마디를 연기해 줘.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] 또 내 것을 먹어? 이번 주는 살려 줄 수 있겠나.",
+    "expression": [
+      "annoyed"
+    ],
+    "reply": " 또 내 것을 먹어? 이번 주는 살려 줄 수 있겠나.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.22
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_grief",
+    "prompt": "昨日、大切な猫が亡くなって、とても悲しいです。静かに慰めてください。",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] 猫ちゃんが去ったのか...。本当にお辛いことですね。あなたが静かに、そっとしてあげます。",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " 猫ちゃんが去ったのか...。本当にお辛いことですね。あなたが静かに、そっとしてあげます。",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.25
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_sad_story",
+    "prompt": "亡くなった祖母を恋しく思う人の、短くて本当に悲しい話をしてください。冗談や明るい結末はなしで。",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] 亡くなられた方への想い、とても深く伝わってきます。切ない話ですが、必要としていたので、静かに紡ぎます。",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " 亡くなられた方への想い、とても深く伝わってきます。切ない話ですが、必要としていたので、静かに紡ぎます。",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.48
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_celebration",
+    "prompt": "ずっと勉強してきた試験にやっと合格した！一緒に喜んで！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] おめでとう！本当によかったね。",
+    "expression": [
+      "happy"
+    ],
+    "reply": "おめでとう！本当によかったね。",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 1.89
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_annoyed",
+    "prompt": "演技として、自分のお昼ご飯をまた食べられたルームメイトの、少し苛立った一言を言って。楽しそうな口調や冗談はなしで。",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] ねえ、本当に自分で食べなよ。",
+    "expression": [
+      "annoyed"
+    ],
+    "reply": " ねえ、本当に自分で食べなよ。",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.09
+  },
+  {
+    "profile": "everyday",
+    "case": "after_happy",
+    "prompt": "I just got terrible news: my cat died. Please be gentle with me.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] I am so incredibly sorry for your loss. Losing a beloved pet is heartbreaking, and there is no right way to feel right now. Please know that you don't have to go through this alone; I'm here to listen whenever you are ready to share or just sit in silence.",
+    "expression": [
+      "concerned"
+    ],
+    "reply": " I am so incredibly sorry for your loss. Losing a beloved pet is heartbreaking, and there is no right way to feel right now. Please know that you don't have to go through this alone; I'm here to listen whenever you are ready to share or just sit in silence.",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.05
+  },
+  {
+    "profile": "everyday",
+    "case": "after_annoyed",
+    "prompt": "That was just acting. Now celebrate with me: I got my dream job!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=curious] Oh wow, really? That's amazing news! Tell me, what does the new job involve?",
+    "expression": [
+      "curious"
+    ],
+    "reply": "Oh wow, really? That's amazing news! Tell me, what does the new job involve?",
+    "checks": {
+      "valid_required_tag": true,
+      "expected_mood": false,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.24
+  }
+]

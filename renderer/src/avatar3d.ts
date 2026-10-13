@@ -12,6 +12,7 @@ import {HairContact} from './hair-contact';
 import type {Framing} from './types';
 import {defaultWardrobe, type WardrobeSelection} from './wardrobe';
 import {buildWardrobeModel} from './wardrobe-model';
+import {AccessoryRig,type Accessories} from './accessories';
 
 let baseBytes:ArrayBuffer|undefined;
 
@@ -27,6 +28,7 @@ export class Avatar3D {
   private euler = new Euler();
   private lost = false;
   private disposed = false;
+  private shaderError = false;
   private bounds = new Box3();
   private morphMeshes = 0;
   private blush = {value:0};
@@ -46,10 +48,13 @@ export class Avatar3D {
   private profile = new URLSearchParams(location.search).has('profile');
   private cpuTotals = {steps:0,draws:0,pose:0,vrm:0,contact:0,simulation:0,draw:0};
   private wardrobe:WardrobeSelection={...defaultWardrobe};
+  private accessories?:AccessoryRig;
+  private framing:Framing='full';
+  private accessoryHeight=0;
 
   private constructor(private host: HTMLElement, private onError: (message: string) => void) {
     this.renderer = new WebGLRenderer({alpha: true, antialias: true, powerPreference: 'low-power'});
-    this.renderer.debug.onShaderError = () => this.onError('Ari’s material shader could not compile.');
+    this.renderer.debug.onShaderError = () => {this.shaderError=true;this.onError('Ari’s material shader could not compile.');};
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
     this.renderer.outputColorSpace = SRGBColorSpace;
     // MToon already defines the illustration's colors; filmic mapping washes them out.
@@ -118,6 +123,7 @@ export class Avatar3D {
         .filter(joint=>joint.bone.name.includes('Hair')&&joint.child&&!joint.child.children.some(child=>child.name.includes('Hair')))
         .map(joint=>joint.child!);
       avatar.garmentRest=[...(vrm.springBoneManager?.joints??[])].filter(joint=>joint.bone.name.startsWith('Skirt')).map(joint=>({bone:joint.bone,rotation:joint.bone.quaternion.clone()}));
+      avatar.accessories=new AccessoryRig(vrm);
       host.appendChild(avatar.renderer.domElement);
       return avatar;
     } catch (error) {
@@ -127,15 +133,17 @@ export class Avatar3D {
   }
 
   resize(framing: Framing) {
+    this.framing=framing;
     const width = Math.max(1, this.host.clientWidth);
     const height = Math.max(1, this.host.clientHeight);
-    const modelHeight = this.bounds.max.y - this.bounds.min.y;
+    const top=this.bounds.max.y+this.accessoryHeight;
+    const modelHeight = top - this.bounds.min.y;
     const span = framing === 'full'
       ? Math.max(modelHeight * 1.38, 1.4 * height / width)
-      : Math.max(.57, .48 * height / width);
+      : Math.max(.57+this.accessoryHeight, .48 * height / width);
     const center = framing === 'full'
-      ? (this.bounds.max.y + this.bounds.min.y) / 2
-      : this.bounds.max.y - .27;
+      ? (top + this.bounds.min.y) / 2
+      : this.bounds.max.y - .27+this.accessoryHeight/2;
     this.camera.left = -span * width / height / 2;
     this.camera.right = -this.camera.left;
     this.camera.top = span / 2;
@@ -153,12 +161,15 @@ export class Avatar3D {
     if(immediate)this.turn=this.targetTurn;
   }
 
+  setAccessories(value:Accessories){this.accessories?.set(value);this.accessoryHeight=value.headwear==='beret'?.075:0;this.resize(this.framing);}
+
   prime(w:Record<string,number>,reduced:boolean) {
     this.update(w,0,reduced);
     this.vrm?.scene.updateMatrixWorld(true);
     this.vrm?.springBoneManager?.reset();
     for(const joint of this.hairRest)joint.previous.copy(joint.bone.quaternion);
     this.draw();
+    if(this.shaderError)throw new Error('Ari’s material shader could not compile.');
   }
 
   private bone(name: VRMHumanBoneName, x = 0, y = 0, z = 0) {
@@ -188,17 +199,18 @@ export class Avatar3D {
       const open = Math.max(0,Math.min(1,w[`${side}Open`]??0));
       const curl = 1-open*.82,grip=(w[`${side}Grip`]??0)*(1-open);
       const point = side === 'right' ? w.point??0 : 0;
+      const peace=w[`${side}Peace`]??0,pinch=side==='right'?(w.rightPinch??0):0;
       for (const [index,finger] of (['Index', 'Middle', 'Ring', 'Little'] as const).entries()) {
-        const extended = finger==='Index'?1-point:1;
-        const fist = finger==='Index'?0:point;
-        const spread=[.045,.012,-.018,-.06][index]*(.3+open*.7)*(1-point);
+        const extended = finger==='Index'?1-Math.max(point,peace,pinch*.65):finger==='Middle'?1-peace:1;
+        const fist = finger==='Index'?pinch*.30:finger==='Middle'?Math.max(point,pinch):Math.max(point,peace,pinch);
+        const spread=[.045,.012,-.018,-.06][index]*(.3+open*.7)*(1-point)+peace*[.17,-.12,0,0][index];
         this.bone(`${side}${finger}Proximal`, 0, sign*spread, sign * (([.12,.18,.24,.30][index]*curl+grip)*extended + .75*fist));
         this.bone(`${side}${finger}Intermediate`, 0, 0, sign * (([.18,.24,.30,.36][index]*curl+grip)*extended + .90*fist));
         this.bone(`${side}${finger}Distal`, 0, 0, sign * ((.08+index*.025)*curl*extended + .45*fist));
       }
       this.bone(`${side}ThumbMetacarpal`,0,sign*(.08+open*.08),sign*.04);
-      this.bone(`${side}ThumbProximal`,0,sign*(.07+point*.28),sign*(.08*curl+point*.12));
-      this.bone(`${side}ThumbDistal`,0,0,sign*(.10*curl+point*.25));
+      this.bone(`${side}ThumbProximal`,0,sign*(.07+point*.28+pinch*.42+peace*.45),sign*(.08*curl+point*.12+peace*.6+pinch*.16));
+      this.bone(`${side}ThumbDistal`,0,0,sign*(.10*curl+point*.25+pinch*.35));
     }
   }
 
@@ -280,6 +292,10 @@ export class Avatar3D {
       drawSubmissionMsP95:p95(this.drawTimes,this.drawCount),
       hairTipRadius:Math.max(0,...this.hairTips.map(bone=>{const p=this.root.worldToLocal(bone.getWorldPosition(new Vector3()));return Math.hypot(p.x,p.z);})),
       hairTips:this.hairTips.length,
+      braidTipLeanDegrees:this.hairTips.filter(bone=>/^Hair(Braid|Twin)/.test(bone.name)).map(bone=>{
+        const direction=bone.getWorldPosition(new Vector3()).sub(bone.parent!.getWorldPosition(new Vector3())).normalize();
+        return Math.acos(Math.max(-1,Math.min(1,-direction.y)))*180/Math.PI;
+      }),
       blush: this.blush.value,
       hairJoints: this.hairRest.length,
       garmentJoints:this.garmentRest.length,
@@ -307,6 +323,7 @@ export class Avatar3D {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.accessories?.dispose();this.accessories=undefined;
     VRMUtils.deepDispose(this.scene); // Includes MToon textures and skeleton buffers.
     this.vrm = undefined;
     this.hairRest = [];

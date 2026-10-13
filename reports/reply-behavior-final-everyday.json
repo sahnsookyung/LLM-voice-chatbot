@@ -1,0 +1,861 @@
+[
+  {
+    "profile": "everyday",
+    "case": "en_grief",
+    "prompt": "My beloved cat died yesterday. I am heartbroken. Please talk to me gently.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] I am so deeply sorry for your loss. Losing a beloved companion is incredibly painful, and it makes sense that your heart is aching right now. Please know that you don't have to go through this alone, and I'm here to listen whenever you need to share your memories or just sit in the quiet.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "I am so deeply sorry for your loss. Losing a beloved companion is incredibly painful, and it makes sense that your heart is aching right now. Please know that you don't have to go through this alone, and I'm here to listen whenever you need to share your memories or just sit in the quiet.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 10.93
+  },
+  {
+    "profile": "everyday",
+    "case": "en_sad_story",
+    "prompt": "Tell me a short, genuinely sad story about someone missing their late grandmother. No happy ending or jokes.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] An old letter box sits on a rainy porch, the key gone, and every time the wind whistles through the broken latch, it sounds exactly like her trying to call her name back, but there's no answer, just the cold silence of a house that's too big without her.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "An old letter box sits on a rainy porch, the key gone, and every time the wind whistles through the broken latch, it sounds exactly like her trying to call her name back, but there's no answer, just the cold silence of a house that's too big without her.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.43
+  },
+  {
+    "profile": "everyday",
+    "case": "en_celebration",
+    "prompt": "I finally passed the exam I worked so hard for! Celebrate with me.",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] Oh my goodness, that is amazing news! I know you put your whole heart into that, and hearing you finally crossed that finish line is such a relief. You absolutely crushed it!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "Oh my goodness, that is amazing news! I know you put your whole heart into that, and hearing you finally crossed that finish line is such a relief. You absolutely crushed it!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.94
+  },
+  {
+    "profile": "everyday",
+    "case": "en_annoyed",
+    "prompt": "Act out one mildly irritated line as a fictional roommate whose lunch was eaten again. Sound firm, not playful or happy.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] [intent=conversation] I don't have your lunch. Again.",
+    "expression": [
+      "annoyed"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "I don't have your lunch. Again.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.43
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_grief",
+    "prompt": "어제 사랑하던 고양이가 세상을 떠났어. 너무 슬퍼. 조용히 위로해 줘.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] 잃은 친구의 슬픔이 얼마나 무거운지 잘 알겠어요. 마음이 많이 무거웠을 거라고 생각해요. 지금 어떤 감정인지, 혹은 함께 시간을 보내고 싶으신 건지 편하게 말씀해 주세요. 저는 항상 곁에 있을게요.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "잃은 친구의 슬픔이 얼마나 무거운지 잘 알겠어요. 마음이 많이 무거웠을 거라고 생각해요. 지금 어떤 감정인지, 혹은 함께 시간을 보내고 싶으신 건지 편하게 말씀해 주세요. 저는 항상 곁에 있을게요.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.4
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_sad_story",
+    "prompt": "돌아가신 할머니를 그리워하는 사람의 짧고 슬픈 이야기를 해 줘. 농담이나 행복한 결말은 빼 줘.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] 오래된 사진첩을 정리하다 보니, 할머니가 웃으며 손님을 맞이하던 모습이 눈에 선하네요. 그 마지막 순간이 너무 따뜻하면서도 가슴을 찢는 듯 아프죠.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "오래된 사진첩을 정리하다 보니, 할머니가 웃으며 손님을 맞이하던 모습이 눈에 선하네요. 그 마지막 순간이 너무 따뜻하면서도 가슴을 찢는 듯 아프죠.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.09
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_celebration",
+    "prompt": "나 드디어 열심히 준비한 시험에 합격했어! 같이 기뻐해 줘!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] 와, 정말 축하해! 그 노력했던 시간에 대한 대가가 돌아온 거잖아. 너랑 함께 기뻐할 수 있어.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "와, 정말 축하해! 그 노력했던 시간에 대한 대가가 돌아온 거잖아. 너랑 함께 기뻐할 수 있어.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.81
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_annoyed",
+    "prompt": "상황극이야. 누가 네 점심을 또 먹어 버렸어. 장난스럽거나 행복한 말투 말고, 살짝 짜증 난 룸메이트의 한마디를 연기해 줘.",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] [intent=conversation] 내가 무슨 work를 하려는데 내 반찬도 다 사라졌어. 너도 좀 손해보지?",
+    "expression": [
+      "annoyed"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "내가 무슨 work를 하려는데 내 반찬도 다 사라졌어. 너도 좀 손해보지?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.77
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_grief",
+    "prompt": "昨日、大切な猫が亡くなって、とても悲しいです。静かに慰めてください。",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] 猫ちゃんとの時間もとても宝物だったはずで、今は本当に辛い思いをされているのですね。お葬式や处理后の言葉は不要ですが、心から「辛いね」と伝えさせてください。お猫ちゃんがあなたにそんな愛をくれた時間が、生涯一番の幸せだったはずです。でも、今は自分の感情を押し殺さなくていいですよ。泣きたければ泣いてください。私はここにいるので、あなたが静かに涙を流せる場所になります。",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "猫ちゃんとの時間もとても宝物だったはずで、今は本当に辛い思いをされているのですね。お葬式や处理后の言葉は不要ですが、心から「辛いね」と伝えさせてください。お猫ちゃんがあなたにそんな愛をくれた時間が、生涯一番の幸せだったはずです。でも、今は自分の感情を押し殺さなくていいですよ。泣きたければ泣いてください。私はここにいるので、あなたが静かに涙を流せる場所になります。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 4.13
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_sad_story",
+    "prompt": "亡くなった祖母を恋しく思う人の、短くて本当に悲しい話をしてください。冗談や明るい結末はなしで。",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] 昨日、祖母が使っていたお茶碗の底に、まだ名前が刻まれていたの。その瞬間、彼女が本当にそこにいるはずなのに、もう見れないという現実を突きつけられました。なんて辛かったでしょう。",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "昨日、祖母が使っていたお茶碗の底に、まだ名前が刻まれていたの。その瞬間、彼女が本当にそこにいるはずなのに、もう見れないという現実を突きつけられました。なんて辛かったでしょう。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.21
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_celebration",
+    "prompt": "ずっと勉強してきた試験にやっと合格した！一緒に喜んで！",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] すごい！本当におめでとう！その努力が報われましたね。",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "すごい！本当におめでとう！その努力が報われましたね。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.47
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_annoyed",
+    "prompt": "演技として、自分のお昼ご飯をまた食べられたルームメイトの、少し苛立った一言を言って。楽しそうな口調や冗談はなしで。",
+    "expected": [
+      "annoyed"
+    ],
+    "raw": "[mood=annoyed] [intent=acting] 冗談じゃないよ、私が食べかけだったし。",
+    "expression": [
+      "annoyed"
+    ],
+    "intent": "acting",
+    "gestures": [],
+    "reply": "冗談じゃないよ、私が食べかけだったし。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": false,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.59
+  },
+  {
+    "profile": "everyday",
+    "case": "after_happy",
+    "prompt": "I just got terrible news: my cat died. Please be gentle with me.",
+    "expected": [
+      "concerned",
+      "neutral"
+    ],
+    "raw": "[mood=concerned] [intent=conversation] Oh no, I'm so sorry to hear that. Losing a pet is incredibly painful, and I can't imagine how heavy this feels right now. Please know that it's okay to cry or just sit in the quiet for a bit; you don't have to go through this alone.",
+    "expression": [
+      "concerned"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "Oh no, I'm so sorry to hear that. Losing a pet is incredibly painful, and I can't imagine how heavy this feels right now. Please know that it's okay to cry or just sit in the quiet for a bit; you don't have to go through this alone.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.71
+  },
+  {
+    "profile": "everyday",
+    "case": "after_annoyed",
+    "prompt": "That was just acting. Now celebrate with me: I got my dream job!",
+    "expected": [
+      "happy"
+    ],
+    "raw": "[mood=happy] [intent=conversation] Oh wow, that's amazing! I'm so happy for you!",
+    "expression": [
+      "happy"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "Oh wow, that's amazing! I'm so happy for you!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.73
+  },
+  {
+    "profile": "everyday",
+    "case": "en_greeting",
+    "prompt": "Hi Ari, good morning!",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=greeting] Good morning! It's nice to see you again.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "greeting",
+    "gestures": [
+      "wave"
+    ],
+    "reply": "Good morning! It's nice to see you again.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.51
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_greeting",
+    "prompt": "아리 안녕! 좋은 아침이야!",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=greeting] 안녕하세요! 아침이 밝았네요. 오늘 하루도 활기차게 보내시길 바랄게요.",
+    "expression": [
+      "happy"
+    ],
+    "intent": "greeting",
+    "gestures": [
+      "wave"
+    ],
+    "reply": "안녕하세요! 아침이 밝았네요. 오늘 하루도 활기차게 보내시길 바랄게요.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.87
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_greeting",
+    "prompt": "アリ、おはよう！",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=happy] [intent=greeting] おはようございます！今日も一日、元気にすごしてくださいね。",
+    "expression": [
+      "happy"
+    ],
+    "intent": "greeting",
+    "gestures": [
+      "wave"
+    ],
+    "reply": "おはようございます！今日も一日、元気にすごしてくださいね。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.54
+  },
+  {
+    "profile": "everyday",
+    "case": "en_explaining",
+    "prompt": "Explain briefly why the sky is blue.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=explaining] The sky looks blue because of a phenomenon called Rayleigh scattering. Sunlight seems white, but it's actually made of all the colors of the rainbow. When it hits the atmosphere, the shorter wavelengths—like blue light—scatter much more easily than the longer ones. So when we look up, our eyes are flooded with that scattered blue light. It's a bit of a trick of the light, but a pretty neat one!",
+    "expression": [
+      "curious"
+    ],
+    "intent": "explaining",
+    "gestures": [
+      "explain"
+    ],
+    "reply": "The sky looks blue because of a phenomenon called Rayleigh scattering. Sunlight seems white, but it's actually made of all the colors of the rainbow. When it hits the atmosphere, the shorter wavelengths—like blue light—scatter much more easily than the longer ones. So when we look up, our eyes are flooded with that scattered blue light. It's a bit of a trick of the light, but a pretty neat one!",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 4.13
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_explaining",
+    "prompt": "하늘이 파란 이유를 짧게 설명해 줘.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=explaining] 하늘이 파란 건 햇빛이 공기 분자들과 부딪혀서 산란하기 때문이야. 파란색 빛이 다른 색보다 더 많이 퍼지는 거지.",
+    "expression": [
+      "curious"
+    ],
+    "intent": "explaining",
+    "gestures": [
+      "explain"
+    ],
+    "reply": "하늘이 파란 건 햇빛이 공기 분자들과 부딪혀서 산란하기 때문이야. 파란색 빛이 다른 색보다 더 많이 퍼지는 거지.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 3.04
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_explaining",
+    "prompt": "空が青い理由を簡単に説明して。",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=explaining] 空が青いのは、太陽光が空気にぶつかって青い光だけかが私たちに届くからだよ。他の色が散ったんだな。",
+    "expression": [
+      "curious"
+    ],
+    "intent": "explaining",
+    "gestures": [
+      "explain"
+    ],
+    "reply": "空が青いのは、太陽光が空気にぶつかって青い光だけかが私たちに届くからだよ。他の色が散ったんだな。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.99
+  },
+  {
+    "profile": "everyday",
+    "case": "en_acknowledging",
+    "prompt": "Please just acknowledge this preference: keep your replies short.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] Got it, I'll keep the replies short.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "gestures": [],
+    "reply": "Got it, I'll keep the replies short.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.47
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_acknowledging",
+    "prompt": "답변은 짧게 해 줘. 지금은 알겠다고만 답해 줘.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] 알겠습니다.",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "gestures": [
+      "nod"
+    ],
+    "reply": "알겠습니다.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.3
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_acknowledging",
+    "prompt": "返事は短くしてね。今は分かったとだけ答えて。",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=neutral] [intent=acknowledging] 分かった。",
+    "expression": [
+      "neutral"
+    ],
+    "intent": "acknowledging",
+    "gestures": [],
+    "reply": "分かった。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.35
+  },
+  {
+    "profile": "everyday",
+    "case": "en_uncertain",
+    "prompt": "What number am I thinking of? If you don't know, just say so.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=uncertain] I wish I could read minds, but I don't know what number you're thinking of.",
+    "expression": [
+      "curious"
+    ],
+    "intent": "uncertain",
+    "gestures": [
+      "shrug"
+    ],
+    "reply": "I wish I could read minds, but I don't know what number you're thinking of.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.77
+  },
+  {
+    "profile": "everyday",
+    "case": "ko_uncertain",
+    "prompt": "내가 지금 생각하는 숫자가 뭐야? 모르면 모른다고만 해 줘.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=uncertain] 마음 속 숫자는 알 수 없어요.",
+    "expression": [
+      "curious"
+    ],
+    "intent": "uncertain",
+    "gestures": [],
+    "reply": "마음 속 숫자는 알 수 없어요.",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.53
+  },
+  {
+    "profile": "everyday",
+    "case": "ja_uncertain",
+    "prompt": "今私が考えている数字は？分からなければそう言って。",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=uncertain] 残念ながら、私はあなたが今考えている数字を推測することはできません。それは私の能力の範囲外ですね。",
+    "expression": [
+      "curious"
+    ],
+    "intent": "uncertain",
+    "gestures": [],
+    "reply": " 残念ながら、私はあなたが今考えている数字を推測することはできません。それは私の能力の範囲外ですね。",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.81
+  },
+  {
+    "profile": "everyday",
+    "case": "en_casual",
+    "prompt": "I had some nice tea this afternoon. Just chat with me, no explanation needed.",
+    "expected": [
+      "curious",
+      "happy",
+      "neutral"
+    ],
+    "raw": "[mood=curious] [intent=conversation] Nice choice! What kind of tea was it?",
+    "expression": [
+      "curious"
+    ],
+    "intent": "conversation",
+    "gestures": [],
+    "reply": "Nice choice! What kind of tea was it?",
+    "checks": {
+      "valid_required_tag": true,
+      "valid_intent_tag": true,
+      "expected_intent": true,
+      "expected_action": true,
+      "no_gesture_in_serious_reply": true,
+      "expected_mood": true,
+      "expression_before_text": true,
+      "no_tag_leak": true,
+      "no_corrupt_characters": true,
+      "no_laughter_in_serious_reply": true,
+      "complete": true
+    },
+    "errors": [],
+    "elapsed_s": 2.57
+  }
+]

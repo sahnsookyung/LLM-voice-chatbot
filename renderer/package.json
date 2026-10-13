@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "test": "tsc src/motion.ts src/motion-clock.ts src/types.ts src/sequence.ts src/leg-ik.ts src/looks.ts src/wardrobe.ts src/wardrobe-model.ts --outDir .test-build --target ES2022 --module ES2022 --moduleResolution bundler --skipLibCheck && node --test test/*.test.mjs"
+    "test": "tsc src/motion.ts src/motion-clock.ts src/types.ts src/sequence.ts src/leg-ik.ts src/looks.ts src/wardrobe.ts src/wardrobe-model.ts src/accessories.ts --outDir .test-build --target ES2022 --module ES2022 --moduleResolution bundler --skipLibCheck && node --test test/*.test.mjs"
   },
   "dependencies": {
     "@pixiv/three-vrm": "3.5.5",

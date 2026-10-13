@@ -4,11 +4,19 @@ A native macOS conversation companion for Apple Silicon, with English, Korean, a
 
 Open **`build/Local Companion.app`** after setup. Click **Talk**, speak, then click **Send voice**, or hold **Control–Option–Space** to talk from any app. The microphone meter shows input level. Hands-free is explicit and stays on until muted. Escape stops a reply. The menu-bar sparkle restores the chat/character, toggles click-through, mutes, and quits.
 
-The character floats near the lower-right corner of the chat's display. **Show character** brings it back there if it is hidden or on another display. The source `renderer/index.html` requires Vite; opening it directly is not a way to launch the app.
+The character starts near the lower-right corner of the chat's display. Use **Show avatar / Hide avatar** in the app header, **Show desktop avatar** in the Character tab, or **Command–Shift–H** while the app is active. The menu-bar sparkle also has the toggle. Visibility survives restart; hiding pauses rendering, and showing retains the current position and look. The source `renderer/index.html` requires Vite; opening it directly is not a way to launch the app.
 
 The app starts with the microphone off. Audio capture and playback use AVAudioEngine. Talk uses direct microphone capture; hands-free enables echo cancellation. The Python service and inference workers bind only to loopback and require a per-launch token. There is no browser automation, tool execution, cloud inference, or automatic memory collection.
 
 Use **Character → Open character studio** (or **Character → Open character studio** in the menu bar) to explore the full-body art, eight expressions, and the optional VRoid 3D model. Appearance and Framing also control the floating character. The editable VRoid model has facial expressions, finger articulation and hair springs; its likeness is still unfinished. See [asset details and limitations](docs/ARI-3D.md).
+
+In the **Character** tab, **Desktop wardrobe** selects the overlay's outfit, hairstyle, glasses and headwear independently. All 15 outfits and nine hairstyles are available; choosing a look switches to 3D and saves it immediately, even while the avatar is hidden. The beret is unavailable with double buns. Studio keeps its own preview choices so experimenting there does not change the desktop look.
+
+**Randomize outfit on startup** is on by default. Each app launch picks a different outfit while keeping hair, accessories, appearance mode and visibility as selected. Turn it off to retain the current outfit across launches; this preference is saved. Opening a tab or reconnecting does not reroll the outfit.
+
+The Character tab's 3D gesture buttons include **Cute twirl**, **Shrug**, **Raise Arms** and **Point**. Replies also carry conversational intent: greetings wave, explanations use Explain, acknowledgements sometimes nod, and uncertainty sometimes shrugs. Ordinary conversation occasionally shifts or steps. Optional movements have both turn and time cooldowns; concerned, annoyed and sleepy replies suppress automatic gestures. Spoken gestures wait for playback to start; text-only replies gesture immediately. Reduced Motion still applies, and interruption cancels the previous gesture smoothly.
+
+Reply mood tags drive the face before speech starts. New turns clear the previous mood; internal mood/intent tags are removed from displayed and spoken text. The current cloned-voice TTS uses text and a fixed voice reference, without explicit emotional acting control. Matching face tags does not guarantee matching vocal prosody, and local-model language quality and intent choices can still vary.
 
 The studio's **Reference look** selector and **Wardrobe & Hair** gallery include three new outfits and three hairstyles. Select a look to swap the studio illustration or compare it alongside VRoid. **Auto reload** picks up saved workspace artwork within about three seconds; **Reload artwork** refreshes it immediately. These are complete reference illustrations, not interchangeable 3D clothing/hair meshes, and the selection is local to the studio. See [the look library and authoring workflow](docs/ARI-LOOKS.md).
 

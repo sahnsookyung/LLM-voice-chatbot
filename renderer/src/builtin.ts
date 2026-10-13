@@ -4,6 +4,7 @@ import {MotionClock} from './motion-clock';
 import type {Bridge, Framing, VisualMode} from './types';
 import {lookURL, type Look} from './looks';
 import {defaultWardrobe, parseWardrobe, wardrobeKey, type WardrobeSelection} from './wardrobe';
+import {defaultAccessories,parseAccessories,compatibleAccessories,type Accessories} from './accessories';
 export const asset=(path:string)=>new URL(`./ari/${path}`,document.baseURI).href;
 
 export class BuiltinAvatar {
@@ -18,6 +19,7 @@ export class BuiltinAvatar {
   private appliedWardrobe='';
   private modelLoading=false;
   private modelError='';
+  private accessories:Accessories={...defaultAccessories};
   constructor(private host:HTMLElement,private error:(message:string)=>void) {
     host.classList.add('avatar-stage');this.image.className='ari-art';this.image.alt='Ari, black-haired anime character';host.appendChild(this.image);
     this.observer=new ResizeObserver(()=>this.model?.resize(this.framing));this.observer.observe(host);
@@ -64,10 +66,17 @@ export class BuiltinAvatar {
       // selection; stale candidates are disposed before the newest one starts.
       while(this.active&&this.mode==='model'){
         const selection={...this.wardrobe},key=wardrobeKey(selection);
-        const model=await Avatar3D.create(this.host,this.error,selection);
+        let model:Avatar3D;
+        try{model=await Avatar3D.create(this.host,this.error,selection);}
+        catch(error){
+          // A failed obsolete load must not strand the newer requested look.
+          if(!this.active||this.mode!=='model')return;
+          if(key!==wardrobeKey(this.wardrobe))continue;
+          throw error;
+        }
         if(!this.active||this.mode!=='model'){model.dispose();return;}
         if(key!==wardrobeKey(this.wardrobe)){model.dispose();continue;}
-        try{model.resize(this.framing);model.setAngle(this.angle,true);model.prime(this.controller.step(0),this.controller.reduced);}
+        try{model.setAccessories(this.accessories);model.resize(this.framing);model.setAngle(this.angle,true);model.prime(this.controller.step(0),this.controller.reduced);}
         catch(error){model.dispose();throw error;}
         const previous=this.model;this.model=model;this.appliedWardrobe=key;previous?.dispose();
         this.image.hidden=true;this.last=0;this.clock.reset();this.schedule();break;
@@ -79,6 +88,8 @@ export class BuiltinAvatar {
   event(e:Bridge){
     this.controller.update(e);
     if(e.wardrobe){try{this.wardrobe=parseWardrobe(e.wardrobe);}catch{this.error('Unknown outfit or hairstyle. The current look is retained.');return;}}
+    if(e.accessories){try{this.accessories=parseAccessories(e.accessories);}catch{this.error('Unknown accessory. The current accessories are retained.');}}
+    if(e.wardrobe||e.accessories){this.accessories=compatibleAccessories(this.accessories,this.wardrobe.hair);this.model?.setAccessories(this.accessories);}
     if(e.referenceLook!==undefined)this.referenceLook=e.referenceLook;
     if(e.visualMode && (e.visualMode==='model'||e.visualMode==='illustration') && e.visualMode!==this.mode)void this.setMode(e.visualMode);
     if(e.framing && (e.framing==='full'||e.framing==='portrait')){this.framing=e.framing;this.model?.resize(this.framing);}
@@ -90,6 +101,6 @@ export class BuiltinAvatar {
     if(e.visible!==undefined){this.visible=e.visible;this.last=0;this.clock.reset();this.schedule();}
     if(e.wardrobe&&this.mode==='model')void this.loadModel();
   }
-  status(diagnostics=true){return {kind:'ari',mode:this.mode,framing:this.framing,expression:this.controller.expression,referenceLook:this.referenceLook?.id??'original',imageURL:this.imagePath,loaded:!!this.imagePath,modelReady:!!this.model,modelLoading:this.modelLoading,modelError:this.modelError,requestedWardrobe:{...this.wardrobe},appliedWardrobe:this.appliedWardrobe,visible:this.visible,frames:this.frames,...(diagnostics?this.model?.stats():{})};}
+  status(diagnostics=true){return {kind:'ari',mode:this.mode,framing:this.framing,expression:this.controller.expression,accessories:{...this.accessories},referenceLook:this.referenceLook?.id??'original',imageURL:this.imagePath,loaded:!!this.imagePath,modelReady:!!this.model,modelLoading:this.modelLoading,modelError:this.modelError,requestedWardrobe:{...this.wardrobe},appliedWardrobe:this.appliedWardrobe,visible:this.visible,frames:this.frames,...(diagnostics?this.model?.stats():{})};}
   dispose(){this.active=false;this.generation++;cancelAnimationFrame(this.frame);this.observer.disconnect();document.removeEventListener('visibilitychange',this.visibility);this.model?.dispose();this.host.replaceChildren();}
 }

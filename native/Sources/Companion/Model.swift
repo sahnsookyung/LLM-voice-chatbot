@@ -26,8 +26,20 @@ struct ChatMessage: Identifiable {
   @Published var characterName = "Ari"
   @Published var characterID = "ari"
   @Published var visualMode = UserDefaults.standard.string(forKey: "ariVisualMode") ?? "illustration" {
-    didSet { UserDefaults.standard.set(visualMode, forKey: "ariVisualMode"); animate(["visualMode": visualMode]) }
+    didSet { UserDefaults.standard.set(visualMode, forKey: "ariVisualMode"); animate(overlayAppearanceEvent) }
   }
+  @Published var overlayVisible = UserDefaults.standard.object(forKey: "ariOverlayVisible") as? Bool ?? true {
+    didSet {
+      UserDefaults.standard.set(overlayVisible, forKey: "ariOverlayVisible")
+      setOverlayVisibility?(overlayVisible)
+    }
+  }
+  let wardrobeCatalog: WardrobeCatalog
+  @Published private(set) var overlayLook: OverlayLook
+  @Published var randomizeOutfitOnStartup = OverlayLook.randomizesOnStartup(in: .standard) {
+    didSet { UserDefaults.standard.set(randomizeOutfitOnStartup, forKey: OverlayLook.randomizeOnStartupKey) }
+  }
+  var setOverlayVisibility: ((Bool) -> Void)?
   @Published var characterFraming = UserDefaults.standard.string(forKey: "ariFraming") ?? "full" {
     didSet {
       UserDefaults.standard.set(characterFraming, forKey: "ariFraming")
@@ -66,6 +78,10 @@ struct ChatMessage: Identifiable {
   private var shuttingDown = false
   let root: URL
   init() {
+    let catalog = WardrobeCatalog.load(from: Bundle.main.resourceURL?.appendingPathComponent("renderer/wardrobe-catalog.json"))
+    wardrobeCatalog = catalog
+    var random = SystemRandomNumberGenerator()
+    overlayLook = OverlayLook.loadForStartup(defaults: .standard, catalog: catalog, using: &random)
     let configured =
       ProcessInfo.processInfo.environment["LVC_ROOT"]
       ?? ((try? String(
@@ -92,6 +108,7 @@ struct ChatMessage: Identifiable {
     audio.onLevel = { [weak self] level in self?.animate(["level": level]) }
     audio.onInputLevel = { [weak self] level in self?.inputLevel = level }
     audio.onExpression = { [weak self] expression in self?.animate(["expression": expression]) }
+    audio.onGesture = { [weak self] gesture in self?.animate(["gesture": gesture]) }
     audio.onFailure = { [weak self] message in
       self?.mute()
       self?.notice = message
@@ -342,6 +359,10 @@ struct ChatMessage: Identifiable {
       audio.stopPlayback()
       if let i = messages.firstIndex(where: { $0.id == turn }) { messages[i].interrupted = true }
     case "done": latency = event["first_audio_seconds"] as? Double
+    case "gesture":
+      audio.applyGesture(
+        turn: turn, gesture: event["gesture"] as? String ?? "",
+        waitForAudio: event["wait_for_audio"] as? Bool ?? false)
     case "expression":
       audio.queueExpression(
         turn: turn, offset: (event["sample_offset"] as? NSNumber)?.uint64Value ?? 0,
@@ -460,6 +481,22 @@ struct ChatMessage: Identifiable {
     webView?.evaluateJavaScript(
       "window.companion && window.companion(\(json))", completionHandler: nil)
   }
+  var overlayAppearanceEvent: [String: Any] {
+    var event = overlayLook.bridge
+    event["visualMode"] = visualMode
+    event["framing"] = characterFraming
+    return event
+  }
+  func selectOverlayLook(_ keyPath: WritableKeyPath<OverlayLook, String>, _ value: String) {
+    var next = overlayLook
+    next[keyPath: keyPath] = value
+    overlayLook = next.normalized(in: wardrobeCatalog)
+    if let data = try? JSONEncoder().encode(overlayLook) {
+      UserDefaults.standard.set(data, forKey: OverlayLook.savedLookKey)
+    }
+    // Send the new look and 3D mode together, without briefly loading the old look.
+    visualMode = "model"
+  }
   func refresh() async {
     do {
       memories = try await request("memories") as? [[String: Any]] ?? []
@@ -486,10 +523,11 @@ struct ChatMessage: Identifiable {
         assets[name] = "data:image/png;base64," + data.base64EncodedString()
       }
       c["assets"] = assets
-      animate([
-        "character": c, "reducedMotion": NSWorkspace.shared.accessibilityDisplayShouldReduceMotion,
-        "visualMode": visualMode, "framing": characterFraming,
-      ])
+      var appearance = overlayAppearanceEvent
+      appearance["character"] = c
+      appearance["reducedMotion"] = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+      appearance["visible"] = overlayVisible && webView?.window?.occlusionState.contains(.visible) == true
+      animate(appearance)
     } catch { notice = error.localizedDescription }
   }
   func loadVoices() async {

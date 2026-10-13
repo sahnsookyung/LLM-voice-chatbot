@@ -11,7 +11,8 @@ import WebKit
         CommandMenu("Character") {
           Button("Open character studio") { delegate.openStudio() }
             .keyboardShortcut("a", modifiers: [.command, .shift])
-          Button("Show character") { delegate.showCharacter() }
+          Button("Show / hide avatar") { delegate.toggleCharacter() }
+            .keyboardShortcut("h", modifiers: [.command, .shift])
         }
       }
   }
@@ -31,6 +32,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
   var hotkey: EventHotKeyRef?
   var eventHandler: EventHandlerRef?
   var characterReady = false
+  private var characterPlaced = false
+  private var visibilityMenuItem: NSMenuItem?
   func applicationDidFinishLaunching(_ notification: Notification) {
     NSApp.setActivationPolicy(.regular)
     model = AppModel()
@@ -70,10 +73,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     web.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
     model.resizeCharacter = { [weak self] in self?.resizeCharacter() }
     model.openCharacterStudio = { [weak self] in self?.openStudio() }
+    model.setOverlayVisibility = { [weak self] visible in self?.applyOverlayVisibility(visible) }
     resizeCharacter()
-    presentCharacter()
+    applyOverlayVisibility(model.overlayVisible)
     model.showCharacter = { [weak self] in
-      self?.presentCharacter()
+      self?.model.overlayVisible = true
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 8) { [weak self] in
       guard let self, !self.characterReady else { return }
@@ -85,15 +89,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     let menu = NSMenu()
     for (title, action, key) in [
       ("Open conversation", #selector(openChat), ""),
-      ("Show character", #selector(showCharacter), ""),
+      (model.overlayVisible ? "Hide avatar" : "Show avatar", #selector(toggleCharacter), ""),
       ("Character studio", #selector(openStudio), ""),
-      ("Hide character", #selector(hideCharacter), ""),
       ("Toggle click-through", #selector(toggleClickThrough), ""),
       ("Mute microphone and stop", #selector(mute), ""),
       ("Quit Local Companion", #selector(quit), "q"),
     ] {
       let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
       item.target = self
+      if action == #selector(toggleCharacter) { visibilityMenuItem = item }
       menu.addItem(item)
     }
     status.menu = menu
@@ -143,7 +147,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     guard let event = message.body as? [String: String] else { return }
     if event["type"] == "ready" {
       characterReady = true
-      model.animate(["visualMode": model.visualMode, "framing": model.characterFraming])
+      var appearance = model.overlayAppearanceEvent
+      appearance["visible"] = model.overlayVisible && character.occlusionState.contains(.visible)
+      model.animate(appearance)
       Task { await model.loadCharacter() }
     }
     if event["type"] == "error" { model.notice = event["message"] ?? "Character renderer failed." }
@@ -154,7 +160,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
       let visible = window.occlusionState.contains(.visible)
       web.evaluateJavaScript("window.companion?.({visible:\(visible)})")
     } else if window === character {
-      model.animate(["visible": character.occlusionState.contains(.visible)])
+      model.animate(["visible": model.overlayVisible && character.occlusionState.contains(.visible)])
     }
   }
   func windowWillClose(_ notification: Notification) {
@@ -168,6 +174,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     NSApp.activate(ignoringOtherApps: true)
   }
   @objc func showCharacter() { model.showCharacter?() }
+  @objc func toggleCharacter() { model.overlayVisible.toggle() }
   private func resizeCharacter() {
     let height: CGFloat = model.characterFraming == "full" ? 540 : 375
     character.setContentSize(NSSize(width: 300, height: height))
@@ -212,20 +219,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     } else { decisionHandler(.allow) }
   }
   private func presentCharacter() {
-    if let screen = chat.screen ?? NSScreen.main {
+    if !characterPlaced, let screen = chat.screen ?? NSScreen.main {
       let area = screen.visibleFrame
       character.setFrameOrigin(
         NSPoint(
           x: max(area.minX, area.maxX - character.frame.width - 24),
           y: area.minY + 24))
+      characterPlaced = true
     }
     character.ignoresMouseEvents = false
     character.orderFrontRegardless()
     model.animate(["visible": true])
   }
-  @objc func hideCharacter() {
-    character.orderOut(nil)
-    model.animate(["visible": false])
+  private func applyOverlayVisibility(_ visible: Bool) {
+    if visible { presentCharacter() }
+    else { character.orderOut(nil); model.animate(["visible": false]) }
+    visibilityMenuItem?.title = visible ? "Hide avatar" : "Show avatar"
   }
   @objc func toggleClickThrough() { character.ignoresMouseEvents.toggle() }
   @objc func mute() { model.mute() }
@@ -302,12 +311,11 @@ struct CompanionView: View {
             } label: {
               Image(systemName: "square.and.pencil")
             }.help("New conversation").buttonStyle(.borderless)
-            Button {
-              model.showCharacter?()
-            } label: {
-              Label("Show character", systemImage: "person.crop.square")
-            }.help("Show character").buttonStyle(.borderless)
           }
+          Button { model.overlayVisible.toggle() } label: {
+            Label(model.overlayVisible ? "Hide avatar" : "Show avatar",
+                  systemImage: model.overlayVisible ? "eye.slash" : "eye")
+          }.help("Show or hide the desktop avatar (Command–Shift–H)").buttonStyle(.borderless)
         }.padding(.horizontal, 30).padding(.top, 32).padding(.bottom, 22)
         Divider().opacity(0.5)
         if !model.notice.isEmpty {
@@ -382,6 +390,7 @@ struct CompanionView: View {
     case "Character":
       ScrollView {
         VStack(alignment: .leading, spacing: 20) {
+          Toggle("Show desktop avatar", isOn: $model.overlayVisible)
           Picker("Character", selection: $model.characterID) {
             ForEach(model.characters.compactMap { $0["id"] as? String }, id: \.self) {
               id in
@@ -402,6 +411,7 @@ struct CompanionView: View {
                 Text("Portrait").tag("portrait")
               }
             }
+            overlayWardrobeControls
             Button("Open character studio", systemImage: "person.crop.rectangle") {
               model.openCharacterStudio?()
             }
@@ -410,9 +420,11 @@ struct CompanionView: View {
               : "Full body shows the neutral reference. Portrait shows eight emotion illustrations. Explore both in the studio.")
               .font(.callout).foregroundStyle(.secondary)
             if model.visualMode == "model" {
-              HStack {
-                ForEach(["wave", "nod", "explain", "shift", "step"], id: \.self) { gesture in
-                  Button(gesture.capitalized) { model.showCharacter?(); model.animate(["gesture": gesture]) }
+              LazyVGrid(columns: [GridItem(.adaptive(minimum: 110))], alignment: .leading) {
+                ForEach(["wave", "nod", "explain", "shift", "step", "twirl", "raise-arms", "shrug", "point"], id: \.self) { gesture in
+                  Button(gesture == "twirl" ? "Cute twirl" : gesture.replacingOccurrences(of: "-", with: " ").capitalized) {
+                    model.showCharacter?(); model.animate(["gesture": gesture])
+                  }
                 }
               }
             }
@@ -692,6 +704,39 @@ struct CompanionView: View {
           }.buttonStyle(.plain).font(.system(size: 12)).keyboardShortcut(.escape, modifiers: [])
         }
       }.padding(.horizontal, 26).padding(.bottom, 22)
+    }
+  }
+  private func lookBinding(_ key: WritableKeyPath<OverlayLook, String>) -> Binding<String> {
+    Binding(get: { model.overlayLook[keyPath: key] }, set: { model.selectOverlayLook(key, $0) })
+  }
+  private var overlayWardrobeControls: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text("Desktop wardrobe").font(.headline)
+      Toggle("Randomize outfit on startup", isOn: $model.randomizeOutfitOnStartup)
+      Text("Picks a different outfit next launch. Hair and accessories stay as selected. Turn off to keep your current outfit.")
+        .font(.caption).foregroundStyle(.secondary)
+      Picker("Outfit", selection: lookBinding(\.outfit)) {
+        ForEach(model.wardrobeCatalog.outfits) { Text($0.label).tag($0.id) }
+      }
+      Picker("Hairstyle", selection: lookBinding(\.hair)) {
+        ForEach(model.wardrobeCatalog.hairstyles) { Text($0.label).tag($0.id) }
+      }
+      HStack {
+        Picker("Glasses", selection: lookBinding(\.glasses)) {
+          Text("None").tag("none")
+          Text("Round frames").tag("round")
+        }
+        Picker("Headwear", selection: lookBinding(\.headwear)) {
+          Text("None").tag("none")
+          if model.overlayLook.hair != "double-buns" { Text("Butter beret").tag("beret") }
+        }
+      }
+      if model.overlayLook.hair == "double-buns" {
+        Text("Beret unavailable with double buns. Choose another hairstyle to wear it.")
+          .font(.caption).foregroundStyle(.secondary)
+      }
+      Text("Changes apply immediately to the 3D desktop avatar and are saved. Studio keeps its own preview selections.")
+        .font(.caption).foregroundStyle(.secondary)
     }
   }
   func suggestion(_ text: String) -> some View {

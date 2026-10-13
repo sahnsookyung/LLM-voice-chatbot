@@ -1,5 +1,7 @@
 import re
 
+from .behavior import INTENTS
+
 EXPRESSIONS = {
     "neutral",
     "happy",
@@ -19,6 +21,11 @@ class SpeechText:
         self.prefix = ""
         self.started = False
         self.expression = "neutral"
+        self.intent = None
+        self.intent_prefix = ""
+        self.header_complete = False
+        self.body_pending = ""
+        self.dropping_tag = False
         self.buffer = ""
         self.first = True
 
@@ -46,6 +53,27 @@ class SpeechText:
             else:
                 visible = self.prefix
             self.started = True
+        if not self.header_complete:
+            self.intent_prefix += visible
+            candidate = self.intent_prefix.lstrip()
+            if not candidate and len(self.intent_prefix) < 64 and not final:
+                return "", []
+            if (
+                candidate.startswith("[")
+                and "]" not in candidate
+                and len(candidate) < 64
+                and not final
+            ):
+                return "", []
+            match = re.match(r"\[intent=([^\]]+)\]\s*", candidate)
+            if match:
+                self.intent = match[1] if match[1] in INTENTS else None
+                visible = candidate[match.end() :]
+            else:
+                visible = candidate
+            self.header_complete = True
+            self.prefix = self.intent_prefix = ""
+        visible = self.clean_body(visible, final)
         self.buffer += visible
         clauses = []
         while self.buffer:
@@ -72,6 +100,38 @@ class SpeechText:
             clauses.append(self.buffer.strip())
             self.buffer = ""
         return visible, clauses
+
+    def clean_body(self, delta: str, final: bool) -> str:
+        """Models occasionally repeat metadata mid-reply; never speak those tags."""
+        text = self.body_pending + delta
+        self.body_pending = ""
+        if self.dropping_tag:
+            if "]" not in text:
+                return ""
+            text = text.split("]", 1)[1]
+            self.dropping_tag = False
+        output = []
+        markers = ("[mood=", "[intent=")
+        while "[" in text:
+            before, tail = text.split("[", 1)
+            output.append(before)
+            tail = "[" + tail
+            if any(tail.startswith(marker) for marker in markers):
+                if "]" in tail:
+                    text = tail.split("]", 1)[1]
+                    continue
+                if not final:
+                    if len(tail) < 64:
+                        self.body_pending = tail
+                    else:
+                        self.dropping_tag = True
+                return "".join(output)
+            if not final and any(marker.startswith(tail) for marker in markers):
+                self.body_pending = tail
+                return "".join(output)
+            output.append("[")
+            text = tail[1:]
+        return "".join(output) + text
 
 
 def speech_language(text: str, override: str) -> str:

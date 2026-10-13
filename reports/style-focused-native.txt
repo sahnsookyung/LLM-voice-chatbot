@@ -1,0 +1,7 @@
+PASS: posed double-peace, feet and framing retained
+PASS: posed peace-eye, feet and framing retained
+PASS: posed thinking, feet and framing retained
+PASS: posed adjust-glasses, feet and framing retained
+PASS: expression detail blends with speech
+PASS: independent accessories and wardrobe survive document reload
+PASS: style-board native checks complete

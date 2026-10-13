@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import {readFileSync, statSync, realpathSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
+import {outfits, hairstyles, wardrobeLabels} from './src/wardrobe';
 const design = new URL('../characters/ari/design/', import.meta.url);
 const catalog = () => {
   const value = JSON.parse(readFileSync(new URL('looks/catalog.json',design),'utf8'));
@@ -47,6 +48,11 @@ export default defineConfig({
       if(context.file.startsWith(fileURLToPath(new URL('looks/',design)))) return [];
     },
     generateBundle() {
+      // Native Character-tab choices use the renderer's exact IDs and labels.
+      this.emitFile({type:'asset',fileName:'wardrobe-catalog.json',source:JSON.stringify({
+        outfits:outfits.map(id=>({id,label:id==='original'?'Original cardigan':wardrobeLabels[id]})),
+        hairstyles:hairstyles.map(id=>({id,label:id==='original'?'Long layered hair':wardrobeLabels[id]})),
+      })});
       // WKWebView's file origin blocks ES modules. Ship one classic script;
       // keep the module entry in the source HTML for Vite development.
       for(const path of ['anime-reference-v2.png','full-body-neutral-v1.png','turnaround-v1.png',...['neutral','happy','curious','concerned','surprised','annoyed','embarrassed','sleepy'].map(e=>`emotions/${e}.png`)]) this.emitFile({type:'asset',fileName:`ari/${path}`,source:readFileSync(new URL(path,design))});

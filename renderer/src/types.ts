@@ -2,7 +2,7 @@ export type Layer = {id:string;image:string;x:number;y:number;z:number;pivot_x:n
 export type Character = {id?:string;width:number;height:number;procedural:boolean;palette?:string;layers:Layer[];assets?:Record<string,string>};
 export type Framing = 'portrait' | 'full';
 export type VisualMode = 'illustration' | 'model';
-export type Bridge = {expression?:string;level?:number;state?:string;visible?:boolean;character?:Character;reducedMotion?:boolean;framing?:Framing;visualMode?:VisualMode;gesture?:string;angle?:number;intensity?:number;gestureSpeed?:number;referenceLook?:import('./looks').Look|null;wardrobe?:import('./wardrobe').WardrobeSelection};
+export type Bridge = {expression?:string;level?:number;state?:string;visible?:boolean;character?:Character;reducedMotion?:boolean;framing?:Framing;visualMode?:VisualMode;gesture?:string;angle?:number;intensity?:number;gestureSpeed?:number;referenceLook?:import('./looks').Look|null;wardrobe?:import('./wardrobe').WardrobeSelection;accessories?:import('./accessories').Accessories;expressionDetail?:'none'|'soft-smile'|'playful'|'pensive'};
 declare global {interface Window {
   companion:(event:Bridge)=>void;
   characterStatus:(diagnostics?:boolean)=>Record<string,unknown>;

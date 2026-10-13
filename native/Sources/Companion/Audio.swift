@@ -17,12 +17,14 @@ import Foundation
   private var expectedOffset: UInt64 = 0
   private var envelopes: [(Int64, Float)] = []
   private var expressions: [(Int64, String)] = []
+  private var pendingGesture: String?
   private var timer: Timer?
   var onPCM: ((Data) -> Void)?
   var onAck: ((String, UInt64) -> Void)?
   var onLevel: ((Float) -> Void)?
   var onInputLevel: ((Float) -> Void)?
   var onExpression: ((String) -> Void)?
+  var onGesture: ((String) -> Void)?
   var onFailure: ((String) -> Void)?
   init() {
     engine.attach(player)
@@ -146,6 +148,8 @@ import Foundation
     currentTurn = turn
     expectedSequence = 0
     expectedOffset = 0
+    // Do not keep a previous smile or frown while a new reply's mood is pending.
+    onExpression?("neutral")
   }
   func accept(_ packet: Data) throws {
     guard packet.count >= 32, String(data: packet.prefix(4), encoding: .utf8) == "LVA1",
@@ -207,6 +211,8 @@ import Foundation
     currentTurn = nil
     envelopes = []
     expressions = []
+    pendingGesture = nil
+    onGesture?("cancel")
     onLevel?(0)
     if !tapping { engine.stop() }
   }
@@ -215,6 +221,7 @@ import Foundation
       let time = player.playerTime(forNodeTime: render)
     else { return }
     let sample = Int64(Double(time.sampleTime) * 24000 / time.sampleRate)
+    if sample > 0, let turn = currentTurn { playbackStarted(turn: turn) }
     while let expression = expressions.first, expression.0 <= sample {
       expressions.removeFirst()
       onExpression?(expression.1)
@@ -229,6 +236,17 @@ import Foundation
     } else {
       expressions.append((Int64(offset), expression))
     }
+  }
+  func applyGesture(turn: String, gesture: String, waitForAudio: Bool = false) {
+    guard turn == currentTurn,
+      ["wave", "explain", "nod", "shrug", "shift", "step"].contains(gesture)
+    else { return }
+    if waitForAudio { pendingGesture = gesture } else { onGesture?(gesture) }
+  }
+  func playbackStarted(turn: String) {
+    guard turn == currentTurn, let gesture = pendingGesture else { return }
+    pendingGesture = nil
+    onGesture?(gesture)
   }
   func close() {
     stopCapture()

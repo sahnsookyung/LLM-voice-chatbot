@@ -1,0 +1,35 @@
+PASS: original/original, 25 draws, 163466 triangles; one canvas, face expression and feet retained
+PASS: original/bob, 25 draws, 112010 triangles; one canvas, face expression and feet retained
+PASS: original/ponytail, 25 draws, 113842 triangles; one canvas, face expression and feet retained
+PASS: original/braid, 26 draws, 147322 triangles; one canvas, face expression and feet retained
+PASS: original/twintails, 26 draws, 194634 triangles; one canvas, face expression and feet retained
+PASS: tailored/original, 25 draws, 163612 triangles; one canvas, face expression and feet retained
+PASS: tailored/bob, 25 draws, 112156 triangles; one canvas, face expression and feet retained
+PASS: tailored/ponytail, 25 draws, 113988 triangles; one canvas, face expression and feet retained
+PASS: tailored/braid, 26 draws, 147468 triangles; one canvas, face expression and feet retained
+PASS: tailored/twintails, 26 draws, 194780 triangles; one canvas, face expression and feet retained
+PASS: streetwear/original, 26 draws, 164246 triangles; one canvas, face expression and feet retained
+PASS: streetwear/bob, 26 draws, 112790 triangles; one canvas, face expression and feet retained
+PASS: streetwear/ponytail, 26 draws, 114622 triangles; one canvas, face expression and feet retained
+PASS: streetwear/braid, 27 draws, 148102 triangles; one canvas, face expression and feet retained
+PASS: streetwear/twintails, 27 draws, 195414 triangles; one canvas, face expression and feet retained
+PASS: linen/original, 24 draws, 170110 triangles; one canvas, face expression and feet retained
+PASS: linen/bob, 24 draws, 118654 triangles; one canvas, face expression and feet retained
+PASS: linen/ponytail, 24 draws, 120486 triangles; one canvas, face expression and feet retained
+PASS: linen/braid, 25 draws, 153966 triangles; one canvas, face expression and feet retained
+PASS: linen/twintails, 25 draws, 201278 triangles; one canvas, face expression and feet retained
+PASS: 80 rapid independent selector changes settle on the final pair with one canvas
+PASS: outfit and hairstyle restored independently after document reload
+PASS: ponytail moves during fast twirl and settles; peak 3.1266624775228933, final 0.0012339095057562444 rad/s
+PASS: invalid combination retains the last valid animated model
+PASS: linen skirt rig remains bounded during twirl and settles
+PASS: twin-tail tips hang downward at idle: (
+    "1.337110839026281",
+    "1.180960529331139"
+) degrees from vertical
+PASS: twin tails move and settle after a fast twirl
+PASS: Cycle all 135 looks button visits every combination and finishes
+PASS: Stop cycle keeps the selected pair and stable status
+PASS: hiding the character stops wardrobe cycling
+PASS: leaving 3D disposes the active renderer
+PASS: wardrobe integration completed

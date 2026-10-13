@@ -88,3 +88,36 @@ test('tempo changes gesture speed without skipping orientation or increasing its
   const slow=turn(.65),fast=turn(1.5);assert.ok(fast.halfway.bodyYaw>slow.halfway.bodyYaw+2);
   for(const {m} of [slow,fast])assert.ok(Math.abs(settle(m,9).bodyYaw-Math.PI*2)<.001);
 });
+
+test('screenshot expression details preserve speech and clear on manual emotion changes',()=>{
+  const m=new MotionController(()=>.5);m.update({expressionDetail:'soft-smile'});
+  const gentle=settle(m);assert.ok(gentle.Happy>.3&&gentle.Happy<.4);
+  m.update({expressionDetail:'playful'});let playful=settle(m);assert.ok(playful.BlinkL>.9&&playful.BlinkR<.1);
+  m.update({level:.4});assert.ok(m.step(.1).JawOpen>.25);
+  m.update({expression:'concerned'});const manual=settle(m);assert.ok(manual.Wink<.001&&manual.Concerned>.75);
+  m.update({expressionDetail:'pensive'});const pensive=settle(m);assert.ok(pensive.Curious>.3&&pensive.Concerned>.1&&pensive.LookDown>.1);
+});
+
+test('spoken serious moods replace a previous smile or wink without blocking the mouth',()=>{
+  const m=new MotionController(()=>.5);m.update({expressionDetail:'playful'});settle(m);
+  for(const [mood,target] of [['concerned','Concerned'],['annoyed','Annoyed']]){
+    m.update({expression:mood});let w;
+    for(let i=0;i<90;i++){m.update({level:.35});w=m.step(1/60);}
+    assert.ok(w[target]>.79, mood);
+    assert.ok(w.Happy<.001&&w.Wink<.001,'no retained smile or playful wink');
+    assert.ok(w.JawOpen>.3,'speech remains independent of emotional mouth corners');
+  }
+});
+
+test('peace, thinking and glasses poses blend, articulate fingers, and cancel smoothly',()=>{
+  for(const gesture of ['double-peace','peace-eye','thinking','adjust-glasses']){
+    const m=new MotionController(()=>.5);m.update({gesture});const pose=settle(m,2.2,60);
+    assert.ok(pose.forearmLift>1.8&&Object.values(pose).every(Number.isFinite));
+    if(gesture.includes('peace'))assert.ok(pose.rightPeace>.9);
+    if(gesture==='double-peace')assert.ok(pose.leftPeace>.9);
+    if(gesture==='thinking')assert.ok(pose.point>.8);
+    if(gesture==='adjust-glasses')assert.ok(pose.rightPinch>.9);
+    m.update({gesture:'cancel'});const next=m.step(1/60);assert.ok(next.forearmLift>1.7);
+    const end=settle(m,3,60);for(const key of ['forearmLift','leftForearmLift','rightPeace','leftPeace','rightPinch','point'])assert.ok(Math.abs(end[key])<.001,key);
+  }
+});

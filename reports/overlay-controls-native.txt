@@ -1,0 +1,5 @@
+PASS: saved custom overlay loads while hidden without rendering
+PASS: show resumes the selected outfit, with one canvas
+PASS: hidden outfit swap retains the independent hairstyle and stays paused
+PASS: visible wardrobe change retains accessories, speech, expression and planted feet
+PASS: overlay appearance checks complete

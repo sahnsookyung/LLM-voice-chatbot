@@ -15,8 +15,20 @@ function worldMatrices(g){const worlds=[];
   function walk(i,parent){const n=g.nodes[i],world=parent.clone().multiply(n.matrix?new Matrix4().fromArray(n.matrix):new Matrix4().compose(new Vector3(...(n.translation??[0,0,0])),new Quaternion(...(n.rotation??[0,0,0,1])),new Vector3(...(n.scale??[1,1,1]))));worlds[i]=world;for(const c of n.children??[])walk(c,world);}
   for(const n of g.scenes[g.scene??0].nodes)walk(n,new Matrix4());return worlds;}
 const originalWorlds=worldMatrices(source.g);
-test('independent wardrobe state has sixteen unique pairs and survives persistence',()=>{
-  const pairs=wardrobeCombinations();assert.equal(pairs.length,16);assert.equal(new Set(pairs.map(wardrobeKey)).size,16);
+test('stockings wrap both calf surfaces and short skirts have a longer hem',()=>{
+  const {g,values}=read(buildWardrobeModel(original,{outfit:'navy-blouse',hair:'original'}));
+  const socks=g.meshes.find(m=>m.name==='Ari knee socks'),points=values(socks.primitives[0].attributes.POSITION);
+  const body=source.g.meshes[1].primitives.find(p=>p.material===8),bodyPoints=source.values(body.attributes.POSITION),normals=source.values(body.attributes.NORMAL);
+  const actual=new Set(points.map(p=>p.map(v=>v.toFixed(5)).join(',')));
+  for(const i of new Set(source.values(body.indices).flat())){
+    const p=bodyPoints[i];if(p[1]>.12&&p[1]<.46)assert.ok(actual.has(p.map((v,k)=>(v+normals[i][k]*.0023).toFixed(5)).join(',')),'sock retains the fitted front AND back calf vertices');
+  }
+  assert.ok(points.some(p=>p[2]<-.06)&&points.some(p=>p[2]>.02));
+  const skirt=g.meshes.find(m=>m.name==='Ari pleated skirt'),hem=Math.min(...values(skirt.primitives[0].attributes.POSITION).map(p=>p[1]));
+  assert.ok(hem>.60&&hem<.63,'6 cm lower hem stays above the knees');
+});
+test('independent wardrobe state covers the screenshot styles and survives persistence',()=>{
+  const pairs=wardrobeCombinations();assert.equal(pairs.length,135);assert.equal(new Set(pairs.map(wardrobeKey)).size,135);
   for(const value of pairs)assert.deepEqual(restoreWardrobe(JSON.stringify(value)),value);
   assert.deepEqual(restoreWardrobe('broken'),{outfit:'original',hair:'original'});
   assert.throws(()=>parseWardrobe({outfit:'bob',hair:'linen'}));
@@ -52,5 +64,25 @@ for(const selection of wardrobeCombinations())test(`3D ${wardrobeKey(selection)}
   for(const s of spring.springs){for(const j of s.joints){assert.ok(g.nodes[j.node]);assert.ok(!used.has(j.node),'duplicate spring joint');used.add(j.node);}for(const i of s.colliderGroups??[])assert.ok(spring.colliderGroups[i]);}
   if(selection.outfit==='linen')assert.ok(g.meshes.some(m=>m.name==='Ari sage linen skirt'));
   if(selection.hair==='bob')assert.ok(Math.min(...values(g.meshes[2].primitives[0].attributes.POSITION).map(p=>p[1]))>1.30);
-  if(['ponytail','braid'].includes(selection.hair))assert.ok(spring.springs.some(s=>s.name==='HairTie'));
+  if(selection.hair==='ponytail')assert.ok(spring.springs.some(s=>s.name==='HairTie'));
+  if(['braid','twintails'].includes(selection.hair)){
+    const ribbon=g.meshes.find(m=>m.name==='Ari hair ribbons');assert.ok(ribbon,'braids must have a fastening ribbon');
+    const rp=ribbon.primitives[0],ribbonWeights=values(rp.attributes.WEIGHTS_0),bowPositions=values(rp.attributes.POSITION),hairPositions=values(g.meshes[2].primitives[0].attributes.POSITION);
+    assert.ok(Math.min(...hairPositions.map(p=>p[1]))<Math.min(...bowPositions.map(p=>p[1]))-.025,'loose tapered hair must extend past the ribbon');
+    assert.ok(values(rp.attributes.JOINTS_0).every((j,i)=>j.some((v,k)=>ribbonWeights[i][k]>0&&g.skins[2].joints[v]>=source.g.nodes.length)),'ribbon follows the new braid rig');
+    if(selection.hair==='twintails'){
+      const left=spring.springs.find(s=>s.name==='HairTwinLeft'),right=spring.springs.find(s=>s.name==='HairTwinRight');assert.ok(left&&right);
+      assert.ok(left.joints.every(j=>!right.joints.some(r=>r.node===j.node)),'two tails have independent guides');
+      assert.ok(bowPositions.some(p=>p[0]>.07)&&bowPositions.some(p=>p[0]<-.07),'each tail has a ribbon');
+    }else assert.ok(spring.springs.some(s=>s.name==='HairBraid'));
+    for(const chain of spring.springs.filter(s=>s.name==='HairBraid'||s.name.startsWith('HairTwin'))){
+      const first=chain.joints[0],last=chain.joints.at(-2);
+      assert.ok(last.gravityPower>last.stiffness&&first.stiffness>last.stiffness,'braid lengths hang under gravity with firmer roots');
+      const bottom=new Vector3().setFromMatrixPosition(worlds[chain.joints.at(-1).node]);
+      // Above the bust the braid follows the shoulder/clothing contour. Below
+      // it, the free length should hang rather than continue flaring outward.
+      for(const upper of chain.joints.map(j=>new Vector3().setFromMatrixPosition(worlds[j.node])).filter(p=>p.y<1.18))
+        assert.ok(Math.abs(bottom.x-upper.x)<.025&&Math.abs(bottom.z-upper.z)<.04,'the lower rest guide hangs vertically instead of flaring sideways');
+    }
+  }
 });

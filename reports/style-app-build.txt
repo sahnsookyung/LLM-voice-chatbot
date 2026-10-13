@@ -1,0 +1,37 @@
+
+> companion-character@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 700 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/ari/looks/catalog.json             2.50 kB │ gzip:      1.05 kB
+dist/ari/looks/catalog.js               2.57 kB
+dist/index.html                         6.87 kB │ gzip:      2.40 kB
+dist/studio.html                        6.89 kB │ gzip:      2.40 kB
+dist/ari/looks/bob-v1.png           1,262.91 kB
+dist/ari/looks/braid-v1.png         1,267.09 kB
+dist/ari/looks/ponytail-v1.png      1,306.20 kB
+dist/ari/full-body-neutral-v1.png   1,317.58 kB
+dist/ari/looks/tailored-v1.png      1,409.07 kB
+dist/ari/looks/streetwear-v1.png    1,415.31 kB
+dist/ari/looks/linen-v1.png         1,708.94 kB
+dist/ari/turnaround-v1.png          1,712.96 kB
+dist/ari/anime-reference-v2.png     1,955.13 kB
+dist/ari/emotions/annoyed.png       2,105.34 kB
+dist/ari/emotions/neutral.png       2,151.71 kB
+dist/ari/emotions/curious.png       2,155.00 kB
+dist/ari/emotions/concerned.png     2,176.70 kB
+dist/ari/emotions/embarrassed.png   2,182.40 kB
+dist/ari/emotions/sleepy.png        2,213.80 kB
+dist/ari/emotions/happy.png         2,232.47 kB
+dist/ari/emotions/surprised.png     2,246.03 kB
+dist/character.js                  38,646.61 kB │ gzip: 21,661.74 kB
+✓ built in 4.54s
+Building for production...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.08s)
+/Users/sookyungahn/repos/LLM-voice-chatbot/build/Local Companion.app: replacing existing signature
+Built /Users/sookyungahn/repos/LLM-voice-chatbot/build/Local Companion.app

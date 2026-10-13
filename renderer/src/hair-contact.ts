@@ -63,7 +63,7 @@ export class HairContact {
       const bone=vrm.humanoid.getRawBoneNode(volume.bone);
       if(!bone)throw new Error(`Hair collision bone missing: ${volume.bone}`);
       const radii=new Vector3(...volume.radii);
-      if(outfit==='streetwear' && !['head','neck'].includes(volume.bone))radii.multiplyScalar(1.10);
+      if(['streetwear','cloud-sweater','sunny-sweater','butter-coat'].includes(outfit) && !['head','neck'].includes(volume.bone))radii.multiplyScalar(1.10);
       else if(outfit==='tailored' && !['head','neck'].includes(volume.bone))radii.multiplyScalar(1.035);
       const authored=new Matrix4().compose(new Vector3(...volume.center),new Quaternion(),radii);
       return {bone,local:bone.matrixWorld.clone().invert().multiply(authored)};

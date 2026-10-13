@@ -52,6 +52,18 @@ Pose and springs advance together at fixed 1/60-second steps, independent of dra
 
 The Studio offers shuffled expressions (all eight once), a 12-cue conversation arc, every directed transition (57 cues covering all 56 ordered pairs), rapid 0.4-second interruptions, a custom list of 2–64 emotion names, and a six-cue movement-and-hair rehearsal covering every new gesture. Custom lists preserve repetitions. Pace, gestures and simulated speech can be combined. Pause/resume, Next, Stop and manual emotion selection support interruption review. Hidden or occluded windows pause the sequence without catching up when resumed. Standalone mouth testing pauses the sequence.
 
+## Independent wardrobe controls
+
+Studio's **3D wardrobe** has separate Outfit and Hairstyle selectors: 15 outfits and nine hairstyles, including the originals. All 135 combinations animate with the same v9 face/body and expression rig. Round glasses and a fitted beret are independently selectable; the beret is unavailable with double buns. Selections persist locally across Studio loads; no restart is needed when changing a look. **Cycle all 135 looks** waits for each replacement before advancing, and supports Stop and hidden-window cancellation. Comparison reference cards remain independent illustrations.
+
+The native Character tab also offers **Desktop wardrobe** with the same outfit, hair and accessory choices for the overlay. It saves its own selections independently of Studio. The header, Character tab, menu-bar sparkle and Command–Shift–H provide a persistent show/hide toggle; hiding pauses rendering and retains the chosen look.
+
+Startup outfit randomization defaults on and excludes the previous outfit when alternatives exist. Its saved toggle only affects the next app launch; hair, accessories and Studio choices are independent. Cute twirl, Raise Arms, Shrug and Point are also available directly in the native Character tab.
+
+Conversational intent is emitted by the dialogue model in the same streaming call as the reply. A greeting triggers Wave and an explanation triggers Explain. Eligible acknowledgements have a 30% Nod chance, uncertainty a 35% Shrug chance, and ordinary conversation after its first three replies a 6% Shift / 3% Step chance. Optional gestures require at least four replies and 20 seconds since the previous optional gesture. Concerned, annoyed and sleepy replies suppress automatic gestures; missing/invalid intents produce none. One gesture event is allowed per reply. Spoken gestures wait for the native playback clock to start; text-only gestures apply immediately. Native turn checks discard stale events and cancellation clears queued gestures and releases the current pose. Twirl remains a manual action.
+
+Only the active model and one replacement candidate are loaded per renderer. The current preview survives invalid selections or load failures; stale candidates and retired models are disposed. New hair has dedicated guide chains; the linen skirt uses a sparse guide rig and thigh contact capsules. These initial adaptations retain simpler tailoring, hair detail and cloth drape than the paintings and do not create new editable `.vroid` files. See [wardrobe implementation and limitations](ARI-LOOK-INTEGRATION.md).
+
 ## Assets, licensing and provenance
 
 - Approved reference: `characters/ari/design/anime-reference-v2.png`.

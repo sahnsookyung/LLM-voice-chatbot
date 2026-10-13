@@ -1,0 +1,49 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[2/7] Write swift-version--58304C5D6DBC2206.txt
+[4/10] Emitting module Companion
+[5/10] Compiling Companion App.swift
+[6/10] Compiling Companion Audio.swift
+[6/11] Write Objects.LinkFileList
+[7/11] Linking Companion
+[8/11] Applying Companion
+[10/13] Compiling CompanionTests ExpressionPlaybackTests.swift
+[11/13] Emitting module CompanionTests
+[11/13] Write Objects.LinkFileList
+[12/13] Linking CompanionPackageTests
+Build complete! (3.90s)
+Test Suite 'All tests' started at 2026-10-13 21:13:38.611.
+Test Suite 'CompanionPackageTests.xctest' started at 2026-10-13 21:13:38.617.
+Test Suite 'ExpressionPlaybackTests' started at 2026-10-13 21:13:38.617.
+Test Case '-[CompanionTests.ExpressionPlaybackTests testNewTurnClearsPreviousMoodAndRejectsStaleExpressionEvents]' started.
+Test Case '-[CompanionTests.ExpressionPlaybackTests testNewTurnClearsPreviousMoodAndRejectsStaleExpressionEvents]' passed (0.085 seconds).
+Test Suite 'ExpressionPlaybackTests' passed at 2026-10-13 21:13:38.702.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.085 (0.085) seconds
+Test Suite 'OverlayAppearanceTests' started at 2026-10-13 21:13:38.702.
+Test Case '-[CompanionTests.OverlayAppearanceTests testBundledCatalogIncludesEveryRendererChoice]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testBundledCatalogIncludesEveryRendererChoice]' passed (0.001 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testBunsRemoveOnlyHatAndOutfitRetainsIndependentHair]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testBunsRemoveOnlyHatAndOutfitRetainsIndependentHair]' passed (0.000 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testDisabledPreferenceSurvivesReloadAndKeepsCurrentLook]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testDisabledPreferenceSurvivesReloadAndKeepsCurrentLook]' passed (0.002 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testEveryLookSurvivesPersistenceAndBridgeSerialization]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testEveryLookSurvivesPersistenceAndBridgeSerialization]' passed (0.015 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testSingleOutfitCatalogKeepsValidDefaultWithoutDrawingRandomness]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testSingleOutfitCatalogKeepsValidDefaultWithoutDrawingRandomness]' passed (0.001 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testStartupRandomizationDefaultsOnAndChangesOnlyOutfit]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testStartupRandomizationDefaultsOnAndChangesOnlyOutfit]' passed (0.001 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testTurningOffAfterRandomStartupKeepsTheRandomizedOutfit]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testTurningOffAfterRandomStartupKeepsTheRandomizedOutfit]' passed (0.001 seconds).
+Test Case '-[CompanionTests.OverlayAppearanceTests testUnavailableSavedPartsRecoverIndependently]' started.
+Test Case '-[CompanionTests.OverlayAppearanceTests testUnavailableSavedPartsRecoverIndependently]' passed (0.000 seconds).
+Test Suite 'OverlayAppearanceTests' passed at 2026-10-13 21:13:38.725.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.022 (0.023) seconds
+Test Suite 'CompanionPackageTests.xctest' passed at 2026-10-13 21:13:38.725.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.107 (0.108) seconds
+Test Suite 'All tests' passed at 2026-10-13 21:13:38.725.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.107 (0.114) seconds
+◇ Test run started.
+↳ Testing Library Version: 1743
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

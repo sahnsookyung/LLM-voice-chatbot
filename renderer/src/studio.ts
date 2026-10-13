@@ -17,6 +17,8 @@ export function mountStudio(host: HTMLElement, send: (event: Bridge) => void) {
   <label for="reference-look">Comparison reference</label><select id="reference-look" disabled><option value="original">Original Ari</option></select>
   <div id="model-controls" hidden><label for="angle">Turn character <output id="angle-value">0°</output></label><input id="angle" type="range" min="-180" max="180" value="0" step="1">
   <div class="row gestures"><button data-gesture="wave">Wave</button><button data-gesture="nod">Nod</button><button data-gesture="explain">Explain</button><button data-gesture="shift">Shift</button><button data-gesture="step">Step</button><button data-gesture="hair-sway">Hair sway</button><button data-gesture="twirl">Cute twirl</button><button data-gesture="raise-arms">Raise arms</button><button data-gesture="shrug">Shrug</button><button data-gesture="point">Point</button></div>
+  <div class="row gestures"><button data-gesture="double-peace">Double peace</button><button data-gesture="peace-eye">Peace by eye</button><button data-gesture="thinking">Thoughtful</button><button data-gesture="adjust-glasses">Adjust glasses</button></div>
+  <label>Expression details</label><div class="row gestures"><button data-detail="soft-smile">Gentle smile</button><button data-detail="playful">Playful wink</button><button data-detail="pensive">Pensive</button><button data-detail="none">Clear detail</button></div>
   <label for="gesture-speed">Movement speed <output id="gesture-speed-value">1.00×</output></label><input id="gesture-speed" type="range" min=".65" max="1.5" step=".05" value="1"><p class="hint">Try a slow and a fast twirl to compare the hair’s swing and settling.</p>
   <label for="intensity">Expression intensity <output id="intensity-value">80%</output></label><input id="intensity" type="range" min="0" max="1" step=".05" value=".8"><button id="speech">Test mouth movement</button></div>
   <label class="check"><input id="reduced" type="checkbox"> Reduce motion</label>
@@ -29,7 +31,7 @@ export function mountStudio(host: HTMLElement, send: (event: Bridge) => void) {
   <p id="sequence-status" role="status" aria-live="polite">Ready. Shuffles include every expression without repeats.</p><progress id="sequence-progress" value="0" max="1" aria-label="Sequence progress"></progress>
   <p class="hint">Select any emotion below to interrupt a sequence. Rehearsals pause when this window is hidden.</p></section>
   <p id="status" role="status">Select VRoid for continuous expressions and full-body gestures.</p>
-  <details class="note"><summary>Likeness notes</summary><p>Ari v9 tucks a little hair behind the ears, staggers gesture timing, and adds relaxed wrists and individual finger curls. Hair trails movement and settles against the clothing. Compare the portrait from several angles; the reference’s asymmetric fringe and sculpted clothing folds remain further work.</p><p>This is the finished v9 model used by the desktop overlay. The latest editable VRoid Studio project is v6; later mesh, texture and animation changes were made after export and do not appear in that project.</p></details></aside></section>
+  <details class="note"><summary>Likeness notes</summary><p>Ari v9 tucks a little hair behind the ears, staggers gesture timing, and adds relaxed wrists and individual finger curls. Compare the portrait from several angles; the reference’s asymmetric fringe and sculpted clothing folds remain further work.</p><p>The new wardrobe options are initial 3D adaptations. Tailoring, braid detail and cloth drape remain simpler than the illustrations. Hair and skirt use guide bones and approximate contact volumes.</p><p>Studio saves its outfit and hairstyle separately from the desktop overlay. Both use the v9 face and body. The latest editable VRoid Studio project is v6; later mesh, texture and animation changes were made after export and do not appear in that project.</p></details></aside></section>
   <section id="look-library" class="look-library" aria-label="Reference look library"></section>
   <section class="expressions"><div class="section-title"><h2>Eight expressions. One Ari.</h2><p>Select any emotion, even during a transition.</p></div><div class="emotion-grid"></div></section>
   <section class="reference"><div><span class="eyebrow">MODEL SHEET</span><h2>Front, side, and back.</h2><p>The illustration remains the likeness target.</p></div><img src="${asset('turnaround-v1.png')}" alt="Ari character turnaround: front, side and back" loading="lazy"></section>`;
@@ -149,6 +151,11 @@ export function mountStudio(host: HTMLElement, send: (event: Bridge) => void) {
     if(['twirl','raise-arms','shrug','point'].includes(gesture??'')){framing.value='full';updateView();}
     send({gesture});
   });
+  for(const button of layout.querySelectorAll<HTMLButtonElement>('[data-detail]'))button.addEventListener('click',()=>{
+    pause();const detail=button.dataset.detail as NonNullable<Bridge['expressionDetail']>;
+    showEmotion(detail==='pensive'?'curious':detail==='none'?'neutral':'happy');send({expressionDetail:detail});
+    get('status').textContent=`Expression detail: ${button.textContent}. Speech still blends with the face.`;
+  });
   reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
   reduced.addEventListener('change',()=>send({reducedMotion:reduced.checked}));send({reducedMotion:reduced.checked});
   get('speech').addEventListener('click',()=>{pause();let ticks=0;send({state:'speaking'});speechTimer=setInterval(()=>{if(++ticks>80||document.hidden||window.characterStatus(false).visible===false){stopSpeech();return;}send({level:Math.abs(Math.sin(ticks*.38))*.45});},40);});
@@ -168,5 +175,7 @@ export function mountStudio(host: HTMLElement, send: (event: Bridge) => void) {
   });
   mountWardrobe(get('wardrobe-controls'), wardrobe=>{
     pause();mode.value='model';send({wardrobe});updateView();
+  },accessories=>{
+    pause();mode.value='model';send({accessories});updateView();
   });
 }

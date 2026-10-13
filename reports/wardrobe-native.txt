@@ -1,22 +1,35 @@
 PASS: original/original, 25 draws, 163466 triangles; one canvas, face expression and feet retained
 PASS: original/bob, 25 draws, 112010 triangles; one canvas, face expression and feet retained
 PASS: original/ponytail, 25 draws, 113842 triangles; one canvas, face expression and feet retained
-PASS: original/braid, 25 draws, 100018 triangles; one canvas, face expression and feet retained
-PASS: tailored/original, 26 draws, 163476 triangles; one canvas, face expression and feet retained
-PASS: tailored/bob, 26 draws, 112020 triangles; one canvas, face expression and feet retained
-PASS: tailored/ponytail, 26 draws, 113852 triangles; one canvas, face expression and feet retained
-PASS: tailored/braid, 26 draws, 100028 triangles; one canvas, face expression and feet retained
-PASS: streetwear/original, 26 draws, 163470 triangles; one canvas, face expression and feet retained
-PASS: streetwear/bob, 26 draws, 112014 triangles; one canvas, face expression and feet retained
-PASS: streetwear/ponytail, 26 draws, 113846 triangles; one canvas, face expression and feet retained
-PASS: streetwear/braid, 26 draws, 100022 triangles; one canvas, face expression and feet retained
-PASS: linen/original, 26 draws, 170678 triangles; one canvas, face expression and feet retained
-PASS: linen/bob, 26 draws, 119222 triangles; one canvas, face expression and feet retained
-PASS: linen/ponytail, 26 draws, 121054 triangles; one canvas, face expression and feet retained
-PASS: linen/braid, 26 draws, 107230 triangles; one canvas, face expression and feet retained
+PASS: original/braid, 26 draws, 147322 triangles; one canvas, face expression and feet retained
+PASS: original/twintails, 26 draws, 194634 triangles; one canvas, face expression and feet retained
+PASS: tailored/original, 25 draws, 163612 triangles; one canvas, face expression and feet retained
+PASS: tailored/bob, 25 draws, 112156 triangles; one canvas, face expression and feet retained
+PASS: tailored/ponytail, 25 draws, 113988 triangles; one canvas, face expression and feet retained
+PASS: tailored/braid, 26 draws, 147468 triangles; one canvas, face expression and feet retained
+PASS: tailored/twintails, 26 draws, 194780 triangles; one canvas, face expression and feet retained
+PASS: streetwear/original, 26 draws, 164246 triangles; one canvas, face expression and feet retained
+PASS: streetwear/bob, 26 draws, 112790 triangles; one canvas, face expression and feet retained
+PASS: streetwear/ponytail, 26 draws, 114622 triangles; one canvas, face expression and feet retained
+PASS: streetwear/braid, 27 draws, 148102 triangles; one canvas, face expression and feet retained
+PASS: streetwear/twintails, 27 draws, 195414 triangles; one canvas, face expression and feet retained
+PASS: linen/original, 24 draws, 170110 triangles; one canvas, face expression and feet retained
+PASS: linen/bob, 24 draws, 118654 triangles; one canvas, face expression and feet retained
+PASS: linen/ponytail, 24 draws, 120486 triangles; one canvas, face expression and feet retained
+PASS: linen/braid, 25 draws, 153966 triangles; one canvas, face expression and feet retained
+PASS: linen/twintails, 25 draws, 201278 triangles; one canvas, face expression and feet retained
 PASS: 80 rapid independent selector changes settle on the final pair with one canvas
 PASS: outfit and hairstyle restored independently after document reload
-PASS: ponytail moves during fast twirl and settles; peak 2.9793451260785315, final 0.09296358729965314 rad/s
+PASS: ponytail moves during fast twirl and settles; peak 3.132479022424806, final 0.0011085688990231496 rad/s
 PASS: invalid combination retains the last valid animated model
+PASS: linen skirt rig remains bounded during twirl and settles
+PASS: twin-tail tips hang downward at idle: (
+    "1.242496376794181",
+    "1.20940216489656"
+) degrees from vertical
+PASS: twin tails move and settle after a fast twirl
+PASS: Cycle all 20 looks button visits every combination and finishes
+PASS: Stop cycle keeps the selected pair and stable status
+PASS: hiding the character stops wardrobe cycling
 PASS: leaving 3D disposes the active renderer
 PASS: wardrobe integration completed
