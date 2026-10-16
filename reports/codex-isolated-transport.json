@@ -1,0 +1,18 @@
+{
+  "kind": "isolated transport check; not live release acceptance",
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+    "client_sha256": "c8351386d567d1ae835dc9273f309e4e0ab354ccc66a3be13269a730df15485a"
+  },
+  "checks": {
+    "verified_bundled_peer": true,
+    "isolated_home": true,
+    "no_loaded_tasks": true,
+    "matching_version": true
+  },
+  "shared_desktop": "unverified",
+  "voice": "unverified",
+  "computer_use": "unverified"
+}

@@ -1,0 +1,28 @@
+{
+  "available": false,
+  "shared_host": true,
+  "host_id": "codex-local-a3d4b40a6902161c61ba",
+  "checks": {
+    "same_home": true,
+    "verified_peer": true,
+    "desktop_socket": true,
+    "host_version_matches": true,
+    "live_acceptance": false,
+    "threads": true,
+    "voices": true,
+    "account": true
+  },
+  "reasons": [
+    "Voice/history, Computer Use, ownership, and approval acceptance checks have not passed for this build."
+  ],
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+    "client_sha256": "dfe823f9f097492c440eb477828e5b34e890499df66a6bd51b80b243abba5b87"
+  },
+  "launcher": {
+    "available": true,
+    "reason": null
+  }
+}

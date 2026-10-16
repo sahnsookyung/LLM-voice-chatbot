@@ -275,6 +275,10 @@ class LocalSpeech:
         self.peak_memory_bytes = 0
 
     async def prepare(self):
+        async with self.lock:
+            await self._prepare()
+
+    async def _prepare(self):
         if self.process and self.process.returncode is None:
             return
         python = self.config.runtime / "tts/bin/python"
@@ -317,7 +321,7 @@ class LocalSpeech:
 
     async def generate(self, text, language, reference, transcript, expression="neutral"):
         async with self.lock:
-            await self.prepare()
+            await self._prepare()
             process = self.process
             request = {
                 "type": "speak",
@@ -326,6 +330,7 @@ class LocalSpeech:
                 "reference": str(reference),
                 "transcript": transcript,
                 "expression": expression,
+                "streaming": getattr(self, "streaming", False),
             }
             process.stdin.write((json.dumps(request) + "\n").encode())
             await process.stdin.drain()
@@ -350,6 +355,10 @@ class LocalSpeech:
                         raise RuntimeError(result["message"])
                     if result["type"] == "audio":
                         yield base64.b64decode(result["pcm"], validate=True)
+                        # Request one next packet only after the bounded downstream
+                        # queue accepts this one. Do not fill the worker pipe ahead.
+                        process.stdin.write(b'{"type":"credit"}\n')
+                        await process.stdin.drain()
             finally:
                 # The worker checks cancellation every semantic frame; enforce a deadline.
                 if not completed and process.returncode is None:
@@ -375,6 +384,20 @@ class LocalSpeech:
         # Enforce a hard fallback if cooperative GPU cancellation misses its deadline.
         await self.close()
 
+    async def trim(self):
+        # Only trim idle speech. Never queue cache work behind an active turn.
+        if self.lock.locked() or not self.process or self.process.returncode is not None:
+            return
+        async with self.lock:
+            try:
+                self.process.stdin.write(b'{"type":"trim"}\n')
+                await self.process.stdin.drain()
+                result = json.loads(await asyncio.wait_for(self.process.stdout.readline(), 2))
+                if result.get("type") != "trimmed":
+                    raise ValueError("Unexpected cache response")
+            except (TimeoutError, OSError, ValueError):
+                await self.close()
+
     async def close(self):
         await stop_process(self.process)
         self.process = None
@@ -389,11 +412,17 @@ class NemoRecognition:
         self.text = ""
         self.failure = None
         self.segments = []
+        self.context_ms = None
+        self.prepare_lock = asyncio.Lock()
 
-    async def start(self, language="auto"):
-        if self.socket:
-            return
-        self.failure = None
+    async def prepare(self, context_ms=320):
+        async with self.prepare_lock:
+            if self.context_ms != context_ms and self.worker:
+                await self.close()
+            self.context_ms = context_ms
+            await self._prepare(context_ms)
+
+    async def _prepare(self, context_ms):
         binary = self.config.runtime / "nemo/bin/nemo-speech"
         model = self.config.models / "nemotron-asr.gguf"
         if not binary.is_file() or not model.is_file():
@@ -420,6 +449,7 @@ class NemoRecognition:
                     "--no-ui",
                     "--asr.batching.enabled=false",
                     "--asr.batching.state_arena_slots=1",
+                    f"--asr.streaming.rnnt_right_context={ {160: 1, 320: 3, 560: 6}[context_ms] }",
                 ],
                 {
                     **os.environ,
@@ -428,6 +458,12 @@ class NemoRecognition:
                 },
             )
         await self.worker.start()
+
+    async def start(self, language="auto", vocabulary=None, context_ms=320):
+        if self.socket:
+            return
+        self.failure = None
+        await self.prepare(context_ms)
         self.socket = await websockets.connect(
             self.worker.url.replace("http:", "ws:") + "/v1/audio/transcriptions/realtime",
             additional_headers={"Authorization": f"Bearer {self.config.token}"},
@@ -443,6 +479,7 @@ class NemoRecognition:
                         "sample_rate": 16000,
                         "language": codes[language],
                         "endpointing_ms": 0,
+                        "speech_contexts": [{"phrases": vocabulary or [], "boost": 2.0}],
                     },
                 }
             )
@@ -549,6 +586,9 @@ class DemoSpeech:
             yield (audio * 32767).astype("<i2").tobytes()
 
     async def cancel(self):
+        pass
+
+    async def trim(self):
         pass
 
     async def close(self):

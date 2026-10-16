@@ -1,0 +1,16 @@
+{
+  "acknowledged_samples" : 38400,
+  "ending_jaw_peak" : 0.0010901788260578083,
+  "ending_peak" : 0,
+  "first_jaw_peak" : 0.55216920598968233,
+  "first_peak" : 0.42486315965652466,
+  "first_samples" : 19,
+  "gap_jaw_peak" : 0.0079442034801520105,
+  "gap_peak" : 0,
+  "second_expression_seconds" : 2.4805079698562622,
+  "second_jaw_peak" : 0.52906773411081387,
+  "second_peak" : 0.42486315965652466,
+  "second_samples" : 19
+}
+PASS: mouth follows both audio bursts, closes during the gap, and preserves acknowledgments
+PASS: interruption closes the mouth, rejects stale packets, and the next turn animates

@@ -1,0 +1,42 @@
+{
+  "provider_revision": "94c7716212b2228f178d2f9c7619a591fd1b0b78",
+  "source": "bundled synthetic reference, repeated three times",
+  "cases": [
+    {
+      "batch_frames": 1,
+      "frames": 498,
+      "audio_seconds": 23.127074829931974,
+      "seconds": 6.8322165419813246,
+      "max_abs_error": 0.000603698194026947,
+      "rms_error": 9.265596418117639e-06,
+      "snr_db": 80.59803009033203
+    },
+    {
+      "batch_frames": 4,
+      "frames": 498,
+      "audio_seconds": 23.127074829931974,
+      "seconds": 2.8317033339990303,
+      "max_abs_error": 0.000603698194026947,
+      "rms_error": 9.26245775190182e-06,
+      "snr_db": 80.6009750366211
+    },
+    {
+      "batch_frames": 7,
+      "frames": 498,
+      "audio_seconds": 23.127074829931974,
+      "seconds": 2.283199708093889,
+      "max_abs_error": 0.0006039440631866455,
+      "rms_error": 9.26320626604138e-06,
+      "snr_db": 80.60027313232422
+    },
+    {
+      "batch_frames": 16,
+      "frames": 498,
+      "audio_seconds": 23.127074829931974,
+      "seconds": 2.563987208995968,
+      "max_abs_error": 0.0006030760705471039,
+      "rms_error": 9.263453648600262e-06,
+      "snr_db": 80.60004425048828
+    }
+  ]
+}

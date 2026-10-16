@@ -1,0 +1,22 @@
+[
+  {
+    "implementation": "provider",
+    "temperature": 0.0,
+    "seconds_per_frame": 0.022806342500261964
+  },
+  {
+    "implementation": "compiled",
+    "temperature": 0.0,
+    "seconds_per_frame": 0.021350432499311865
+  },
+  {
+    "implementation": "provider",
+    "temperature": 0.7,
+    "seconds_per_frame": 0.02332361918175593
+  },
+  {
+    "implementation": "compiled",
+    "temperature": 0.7,
+    "seconds_per_frame": 0.022897524998988956
+  }
+]

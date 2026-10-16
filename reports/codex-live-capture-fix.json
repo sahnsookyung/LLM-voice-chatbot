@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-16",
+  "status": "Post-fix native voice startup verified after restoring macOS permission; human speech and audible reply pending",
+  "before": {
+    "reproduced_through_native_start_voice": true,
+    "capture_started_before_media_readiness": true,
+    "visible_failure": "Codex microphone delivery failed. Voice stopped; task status is unchanged.",
+    "cause": "Native warmAudio accumulated during RTC negotiation and burst into the one-second paced microphone queue",
+    "task_interrupted": false
+  },
+  "change": {
+    "file": "native/Sources/Companion/Model.swift",
+    "behavior": "Codex capture opens only on the matching media-ready listening event; the microphone remains closed while connecting",
+    "local_startup_buffering_preserved": true,
+    "queue_limit_increased": false
+  },
+  "after": {
+    "rebuilt_app_reopened_on_same_task": true,
+    "native_microphone_authorization": "restored through macOS System Settings; Ari restarted",
+    "microphone_off": null,
+    "live_microphone_startup_passed": true,
+    "human_spoken_reply_verified": false,
+    "user_retest_requested": true,
+    "prior_authorization_block": "Microphone access is off. Enable it in System Settings \u2192 Privacy & Security \u2192 Microphone.",
+    "observed_startup_sequence": [
+      "Voice: starting; microphone off until ready",
+      "Listening; microphone on"
+    ],
+    "observed_input_levels": [
+      0.01193619053810835,
+      0.003404029877856374
+    ],
+    "capture_format": "48000 Hz; 9 channels; echo cancellation",
+    "startup_overflow_observed": false,
+    "canonical_voice_session_closed": true,
+    "canonical_assistant_transcripts": 1,
+    "canonical_user_transcripts": 0,
+    "history_report": "reports/codex-native-retry-history.json",
+    "final_native_controls": "Not observed: macOS rejected screen capture during the final UI inspection",
+    "audible_playback_user_confirmation": "pending"
+  },
+  "shared_host_readiness_before_fix": {
+    "available": false,
+    "shared_host": true,
+    "host_id": "codex-local-a3d4b40a6902161c61ba",
+    "checks": {
+      "same_home": true,
+      "verified_peer": true,
+      "desktop_socket": true,
+      "host_version_matches": true,
+      "live_acceptance": false,
+      "threads": true,
+      "voices": true,
+      "account": true
+    },
+    "reasons": [
+      "Voice/history, Computer Use, ownership, and approval acceptance checks have not passed for this build."
+    ],
+    "fingerprint": {
+      "host_version": "codex-cli 0.162.0-alpha.17.2",
+      "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+      "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+      "client_sha256": "0e5a6f9478daa0b29b996536f3baa397aae02c2a93ef53586dc8eaf294d3738b"
+    },
+    "launcher": {
+      "available": true,
+      "reason": null
+    }
+  },
+  "verification": {
+    "swift": {
+      "passed": 29,
+      "failed": 0,
+      "report": "reports/codex-live-capture-swift-tests.txt"
+    },
+    "python_targeted": {
+      "passed": 86,
+      "skipped": 1,
+      "report": "reports/codex-live-capture-python-tests.txt",
+      "skip_reason": "opt-in real UDP loopback"
+    },
+    "full_app_build": {
+      "passed": true,
+      "report": "reports/codex-live-capture-build.txt"
+    },
+    "renderer_tests": "Not rerun for this native-only fix; preceding result remains separate evidence"
+  },
+  "shared_desktop_or_host_restarted": false,
+  "production_activation": "still gated",
+  "diagnostics_exclude": [
+    "audio",
+    "transcripts",
+    "screenshots",
+    "SDP",
+    "credentials"
+  ]
+}

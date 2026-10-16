@@ -16,6 +16,7 @@ checks = {
     "Recognition runtime": ".runtime/nemo/bin/nemo-speech",
     "Quiet model": ".models/Qwen3.5-4B-4bit",
     "Everyday model": ".models/Qwen3.5-9B-4bit",
+    "Final recognition model": ".models/Qwen3-ASR-1.7B-8bit",
     "Recognition model": ".models/nemotron-asr.gguf",
     "Voice model": f".models/{FISH_MODEL}",
     "Original voice reference": "characters/ari/voice.wav",

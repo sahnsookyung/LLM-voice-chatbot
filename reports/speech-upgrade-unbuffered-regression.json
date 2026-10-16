@@ -1,0 +1,5069 @@
+{
+  "input": "synthetic fixtures; actual local playback; no live microphone",
+  "profile": "quiet",
+  "fish_precision": 8,
+  "final_asr_revision": "a8379a2e2f9e313c9292cdf1af4055ab56d50d55",
+  "runs": [
+    {
+      "index": 0,
+      "streaming": false,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 22.799905374995433,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.015070582972839475
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5581622080644593,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 5.756715541006997
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 6.358661041012965
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 8.554746709065512,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 8.554803833016194,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 8.564225206733681,
+          "audio_seconds": 7.244666666666666
+        }
+      ],
+      "native": [
+        {
+          "seconds": 15.519527666619979,
+          "type": "audible"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": true
+    },
+    {
+      "index": 1,
+      "streaming": false,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 13.726148708956316,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0020429579308256507
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.530111291911453,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.882395166088827
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.3203989160247147
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 5.921022667083889,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.921070166979916,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.927859169780277,
+          "audio_seconds": 4.8762083333333335
+        }
+      ],
+      "native": [
+        {
+          "seconds": 8.813978458405472,
+          "type": "audible"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 2,
+      "streaming": false,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 8.730750208022073,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001192708034068346
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5102364170597866,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.8658433749806136
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.11455370800104
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 1.4076205419842154,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.4077347500715405,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.408919916022569,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 2.6256313750054687,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.6149994999868795,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.628264418221079,
+          "audio_seconds": 1.9969166666666667
+        }
+      ],
+      "native": [
+        {
+          "seconds": 4.08474466658663,
+          "type": "audible"
+        },
+        {
+          "seconds": 1.8000279582338408,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 3,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 21.102488916018046,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0027269170386716723
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8331073340959847,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.8935070000588894
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.246243792003952
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.4157042499864474,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.4158281250856817,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.204191373893991,
+          "audio_seconds": 2.322
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5712872090516612,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.644690875080414,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.0717252499889582,
+          "audio_seconds": 1.4396666666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24236445792485029,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.733956209034659,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.1269926679087803,
+          "audio_seconds": 1.76475
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.29237008304335177,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 6.863476540893316,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 6.800064003444277,
+          "audio_seconds": 5.712125
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24871399998664856,
+          "clause": 4
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 13.370986499940045,
+          "clause": 4
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.5363845012616366,
+          "audio_seconds": 2.972166666666667
+        }
+      ],
+      "native": [
+        {
+          "seconds": 3.545690166647546,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.19993987504858524,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.16663245833478868,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333374997600913,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332937497179955,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667220825329423,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033326416625641286,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335979173425585,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334887500386685,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.39997599995695055,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033318875008262694,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664795824326575,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334208333399147,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666329165454954,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664237496443093,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334154165349901,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663462496362627,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664954172447324,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665166665334255,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334416670259088,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0332230000058189,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666932916501537,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.13333737500943244,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669000000692904,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033325750031508505,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.066663833335042,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333683335222304,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668024999089539,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033327916637063026,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666595838032663,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332770837005228,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666707499185577,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331529162824154,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332862502429634,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033345166710205376,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666637491434813,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334829164668918,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664400000590831,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667412503156811,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03321725002024323,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033320500049740076,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663087499327958,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332045825663954,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331370826344937,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033317374996840954,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665858323685825,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665162497665733,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06593666668049991,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03324024996254593,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663891661446542,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332625003531575,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663945829495788,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334695834200829,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03307112504262477,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03326725005172193,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666799995582551,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": true
+    },
+    {
+      "index": 4,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 7.158553665969521,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0017933329800143838
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4557455419562757,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08554816606920213
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.32961979100946337
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7360157499788329,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7361373750027269,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.695054546231404,
+          "audio_seconds": 0.97525
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.255346417077817,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.4506537499837577,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.397880501113832,
+          "audio_seconds": 1.9969166666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24516933399718255,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.7036384999519214,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.0138789997436106,
+          "audio_seconds": 1.671875
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.5696277916431427,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06662266666535288,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033309999969787896,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662287504877895,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666524999309331,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666241667699069,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333654161542654,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667658337391913,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033322541625238955,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06671549996826798,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032632458372972906,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662845832761377,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333483322057873,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664716673549265,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330758342053741,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663737504277378,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333112504333258,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332837496418506,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336387500166893,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 5,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 5.679246291983873,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001592207932844758
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5208623330108821,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08522633300162852
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.4959191250381991
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5914285000180826,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.5914955830667168,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.420587794855237,
+          "audio_seconds": 3.4365833333333335
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.6732727916678414,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.0666500834049657,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335737495217472,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666145834606141,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332604165188968,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334412502590567,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03312216664198786,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664887501392514,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03337149997241795,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664012500550598,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334433329291642,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332545829471201,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331400000024587,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 6,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 13.307478499948047,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001659209025092423
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.500189375015907,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07522629201412201
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.43683683406561613
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7491097920574248,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7492708340287209,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5471911681815982,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2450867909938097,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.1787637500092387,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.5494865879882127,
+          "audio_seconds": 2.972166666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2515357080847025,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.705320457927883,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.466724919504486,
+          "audio_seconds": 3.7616666666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24504325003363192,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 9.054728624993004,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.5710561219602823,
+          "audio_seconds": 2.13625
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.756093250005506,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.066647041705437,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664170837029815,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665604165755212,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332537494134158,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669324997346848,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664304167497903,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666637491434813,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332879161462188,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033252833294682205,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033327166573144495,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665462499950081,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03321737505029887,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667662493418902,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06593270832672715,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666398333851248,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335924993734807,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664954172447324,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667249999009073,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665708334185183,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332537494134158,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333204169757664,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666729168500751,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663783336989582,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333181667374447,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033269875100813806,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669370841700584,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666220000712201,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333449992351234,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0665295833023265,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663920835126191,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663325009867549,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333226666552946,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666192916687578,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333333332557231,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666525416309014,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033347083372063935,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333287499845028,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 7,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 20.544509625062346,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0014757910976186395
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8271316670579836,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08740579092409462
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.44420741591602564
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7829337500734255,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7830587499774992,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.586976289981976,
+          "audio_seconds": 1.4396666666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5369708329671994,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 2.502823290997185,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.39209020906128,
+          "audio_seconds": 2.6006666666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5606700420612469,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.711150167044252,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.4092973752412945,
+          "audio_seconds": 3.4365833333333335
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2898769580060616,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 9.32541387504898,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.653821081388742,
+          "audio_seconds": 4.736875
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2512258340138942,
+          "clause": 4
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 14.676524915965274,
+          "clause": 4
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.9447831658180803,
+          "audio_seconds": 2.461333333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.109772958327085,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.1666363748954609,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.1999832500005141,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0999703750712797,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03322754171676934,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666994999628514,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.3333263749955222,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662670825608075,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033317166729830205,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669574999250472,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03289716667495668,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669000000692904,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664062500931323,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334166668355465,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06621654168702662,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.3666527916211635,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332079167012125,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663387489970773,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666826666565612,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033315791632048786,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664216669742018,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331624995917082,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332966659218073,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335412498563528,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668737495783716,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332533338107169,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665062496904284,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667733332142234,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.13330754172056913,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667112500872463,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665249995421618,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662204163148999,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03324825002346188,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659570836927742,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334841667674482,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665770837571472,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331441665068269,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033330875099636614,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333301667124033,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668525002896786,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334487497340888,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335487504955381,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033325000084005296,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665941665414721,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033319124951958656,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666648333426565,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331604169216007,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667558336630464,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06660462496802211,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0665952917188406,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03324262495152652,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033241791650652885,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332399995997548,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666799995582551,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033325750031508505,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668254162650555,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 8,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 6.03018829098437,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001778292004019022
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4704558750381693,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07726970792282373
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.30890937498770654
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6934974999167025,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6936061249580234,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.3213067487813532,
+          "audio_seconds": 0.696625
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24489724996965379,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.1849143750732765,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.0134924587327987,
+          "audio_seconds": 1.671875
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24470266595017165,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.0427521669771522,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.6320346649736166,
+          "audio_seconds": 1.3467916666666666
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.524409499950707,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06664787500631064,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333308338187635,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332216665148735,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033336249995045364,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666299166623503,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033276750007644296,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665833329316229,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331712505314499,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664849992375821,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06628266663756222,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666456667240709,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03327720833476633,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663420831318945,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06670970830600709,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334604168776423,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663670833222568,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 9,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 10.482057209010236,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0015810000477358699
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5204438330838457,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07664087507873774
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.6611030410276726
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6361072500003502,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.636155707994476,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 9.053889081464149,
+          "audio_seconds": 7.337541666666667
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.8888252082979307,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06660762499086559,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06670020835008472,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659887498244643,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033305166638456285,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335570835042745,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665570824407041,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666066672187299,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331733332015574,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663929170463234,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03328658326063305,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666651667561382,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033340875059366226,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666970835067332,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033297874964773655,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669050001073629,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663116661366075,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331533330492675,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666529166977853,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03329416667111218,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666937505360693,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666484166868031,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033334333333186805,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667045829817653,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336087497882545,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033291124971583486,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 10,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 12.70311041700188,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0018789159366860986
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.501844041980803,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07644420803990215
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.30679599998984486
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7632937500020489,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7634192920522764,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.614152790978551,
+          "audio_seconds": 0.882375
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24666841700673103,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.6707357079721987,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.6625555448699743,
+          "audio_seconds": 2.229125
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2468654999975115,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.874793874914758,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.455968371708877,
+          "audio_seconds": 4.597583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24616604100447148,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 9.166265166015364,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.9101889143930748,
+          "audio_seconds": 1.5789583333333332
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.6340345833450556,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.03334141673985869,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666675000451505,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667829165235162,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665841664653271,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666532083414495,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664020835887641,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332004160620272,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033277708338573575,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662049994338304,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331870841793716,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03323112498037517,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330908331554383,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06641800003126264,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664233328774571,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665095826610923,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033314166706986725,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033293125103227794,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664270837791264,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330808330792934,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033302791649475694,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033326416625641286,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665637495461851,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033330708276480436,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665441673249006,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666400004178286,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033325749915093184,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665375002194196,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661866663489491,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331220836844295,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03328249999321997,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332670824602246,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662379170302302,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330058336723596,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665058329235762,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033401458291336894,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06671033333986998,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 11,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 8.814816540922038,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0017279579769819975
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8374028749531135,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07564974995329976
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.5543613330228254
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6011879580328241,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6013141250004992,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.219371377956122,
+          "audio_seconds": 3.2508333333333335
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5743215000256896,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.4943900828948244,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.946809417800978,
+          "audio_seconds": 2.1827083333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.0547495416831225,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.03331712493672967,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666507916757837,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332858334761113,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332870826125145,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668633327353746,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330058336723596,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333262505475432,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333245834801346,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665554165374488,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033310416620224714,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668970838654786,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.39999137492850423,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666829583933577,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669279176276177,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033312874962575734,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334979165811092,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666204170323908,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033314500004053116,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667908327654004,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.025819000089541078,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 12,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 4.73472170799505,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0019254159415140748
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4658361669862643,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07459770794957876
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.30659737496171147
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6577822080580518,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6579013339942321,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.3296423718566075,
+          "audio_seconds": 0.7430416666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2455797919537872,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.418307917076163,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 0.651449165889062,
+          "audio_seconds": 0.510875
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.252443042001687,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.7634379159426317,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.69376091635786,
+          "audio_seconds": 1.3932083333333334
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.5005817916244268,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06666683335788548,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03380587499123067,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661116669420153,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666524999309331,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667441665194929,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331183339469135,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667499989271164,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664495833683759,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332474990747869,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663887505419552,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 13,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 7.367955208057538,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001987084047868848
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5157795409904793,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07873179099988192
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.5900030410848558
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.646975832991302,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6470262910006568,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 6.018934500752948,
+          "audio_seconds": 4.736875
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.8255160833941773,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.0666340832831338,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332237503491342,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06660095835104585,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333137498702854,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334379172883928,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06647629162762314,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665141670964658,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330783324781805,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663937494158745,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033271166728809476,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334587498102337,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334833332337439,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06660124997142702,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332237503491342,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666162493638694,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330241667572409,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033229333348572254,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 14,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 15.395689875003882,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001872875029221177
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4968713750131428,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.0749042920069769
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3158157919533551
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7537869589868933,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7539078330155462,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.7236033757217228,
+          "audio_seconds": 0.882375
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.25310820795129985,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.3300299580441788,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.949269873206504,
+          "audio_seconds": 5.015541666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.25796808395534754,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 7.00084820901975,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.200584622682072,
+          "audio_seconds": 3.5294583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2516940840287134,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 11.058759583975188,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.441513415193185,
+          "audio_seconds": 2.043375
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.616217958391644,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.19913491676561534,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666874999878928,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336537501309067,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666452917503193,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333924990147352,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667879165615886,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666717083659023,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668762501794845,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666556665673852,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330637502949685,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0660041666124016,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033249499974772334,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663854164071381,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331558336503804,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664954160805792,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333975002169609,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666816666256636,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331454168073833,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665208330377936,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033302374999038875,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06622154172509909,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331841668114066,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06548987503629178,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661212502513081,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667929177638143,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332287503872067,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332633327227086,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664254167117178,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332683339249343,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659862503875047,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330716665368527,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662995833903551,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033318999921903014,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333300002850592,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336016659159213,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666563332779333,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333620831836015,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666574999690056,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669629167299718,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06740670837461948,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03368599992245436,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033344749943353236,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331358334980905,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666391666745767,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 15,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 20.776598708936945,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0014933750499039888
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8300244170241058,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07586400001309812
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.4253002080367878
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7553402909543365,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7555055830162019,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.8747073762351647,
+          "audio_seconds": 2.6006666666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6195222079986706,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.8828192920191213,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.682030788506381,
+          "audio_seconds": 3.622333333333333
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2523594159865752,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 7.939436958055012,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.673678376013413,
+          "audio_seconds": 2.229125
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.29021524998825043,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 10.233609333983622,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.749931957107037,
+          "audio_seconds": 4.829791666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2545002499828115,
+          "clause": 4
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 15.761085374979302,
+          "clause": 4
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.239689168636687,
+          "audio_seconds": 1.857625
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.0802503334125504,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.19994724995922297,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.16663687489926815,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664729164913297,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331216669175774,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666535833152011,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.066685083322227,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663045834284276,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333109584171325,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666054169181734,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.4333204999566078,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665162509307265,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667929165996611,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033326499979011714,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330224996898323,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663108337670565,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332541661802679,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666885832324624,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666395836509764,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334750002250075,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663583335466683,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033316958346404135,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666709584183991,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332066675648093,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333103749435395,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663441669661552,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662920827511698,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0667121666483581,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336004167795181,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333493750076741,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663479167036712,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03329366666730493,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.09997974999714643,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.061378666665405035,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335150005295873,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661425007041544,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03335358342155814,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06575912504922599,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033240166725590825,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0333199166925624,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331562504172325,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665050005540252,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03323091671336442,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332737507298589,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334541665390134,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664829165674746,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033304083393886685,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332258341833949,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033325958414934576,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661758327390999,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666330415988341,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033339583314955235,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664770829956979,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332924994174391,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666805834043771,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661749992053956,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03328537498600781,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06657054170500487,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 16,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 14.269908000016585,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001216209027916193
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4842267920030281,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07959383295383304
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.8179427499417216
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6754765409277752,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6757245829794556,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 9.928852874669246,
+          "audio_seconds": 7.709041666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2442776249954477,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 10.173091416945681,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.2267718742368743,
+          "audio_seconds": 0.97525
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.25667991605587304,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 11.188841665978543,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.559973291005008,
+          "audio_seconds": 1.2074583333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.033002083422616,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06666608329396695,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662054173648357,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659058330114931,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332512499764562,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666432500584051,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333300002850592,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659908324945718,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668041669763625,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659200007561594,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663387501612306,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666196666425094,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666895828675479,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665983330458403,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330675000324845,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664983322843909,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664424994960427,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.066679208423011,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663829158060253,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.09997812495566905,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.10025433334521949,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666652083164081,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667095830198377,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665162497665733,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0999950832920149,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665658333804458,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666745415655896,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0332277916604653,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665066664572805,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667637499049306,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665804167278111,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333537501748651,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667245831340551,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659458333160728,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666391668841243,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06278966658283025,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665125000290573,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662937498185784,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 17,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 6.150078792008571,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0009387909667566419
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5515407499624416,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07597849995363504
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.4392771249404177
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6436440419638529,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6438007089309394,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5188866677926853,
+          "audio_seconds": 0.882375
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.3144622079562396,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.833293000003323,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.0905844116350636,
+          "audio_seconds": 1.671875
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24544679198879749,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.4563963749678805,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.2983823340618983,
+          "audio_seconds": 1.068125
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.6875234165927395,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06746874994132668,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03344758343882859,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06724108336493373,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.13330312492325902,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0353189583402127,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0658632917329669,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666898334166035,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06418050010688603,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03332233335822821,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03653166664298624,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03652425005566329,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0645401666406542,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032920916681177914,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.066438416717574,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 18,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 7.183561166049913,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001336415996775031
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5197874999139458,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07634975004475564
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3157557920785621
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7026825420325622,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7027943748980761,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5821131258271635,
+          "audio_seconds": 0.9288333333333333
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23790433292742819,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.6344446250004694,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 0.9690900420537218,
+          "audio_seconds": 0.7895
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23970820801332593,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 2.279987332993187,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.3153498329920694,
+          "audio_seconds": 1.9505
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23877208400517702,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.472340665990487,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.2204791237600148,
+          "audio_seconds": 1.0217083333333334
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.6007984166499227,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.034549666685052216,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06567400007043034,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03296604158822447,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0669412916759029,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03297254163771868,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06787983328104019,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06468075001612306,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06588858342729509,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034861333318986,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032207458396442235,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03596495825331658,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03328212501946837,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06727750005666167,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03117633331567049,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034341708407737315,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0672177083324641,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667299999389797,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 19,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 17.685686333919875,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0009791250340640545
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8236377499997616,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07389512506779283
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.4379830000689253
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7361789999995381,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7362966249929741,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.5217499579302967,
+          "audio_seconds": 2.461333333333333
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5580134170595556,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.9637632080120966,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.9196283330675215,
+          "audio_seconds": 1.3467916666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.282943292055279,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.87330195796676,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 7.738467619172297,
+          "audio_seconds": 6.548041666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2477827079128474,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 12.304271250031888,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.9661402142373845,
+          "audio_seconds": 2.461333333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.0457112917210907,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.16526579158380628,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06574633333366364,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06808858341537416,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336825000587851,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03415904170833528,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06735050003044307,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06691825005691499,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03329825005494058,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662658334244043,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.33406304160598665,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06688429170753807,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03387958335224539,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06661991670262069,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033418625011108816,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06659083336126059,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06696637498680502,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033130374969914556,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032476124935783446,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06808833335526288,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03328762494493276,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06103362503927201,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03395108331460506,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06746933329850435,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06782708328682929,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03365620831027627,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667675008065999,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06701466673985124,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0677339166868478,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0324529999634251,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03678029170259833,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03212975000496954,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06837470829486847,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032619916601106524,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03176795842591673,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663779157679528,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06624825007747859,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06662758335005492,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033225374994799495,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06566183338873088,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03373666666448116,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03385308338329196,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06593033333774656,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0325505833607167,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03323583339806646,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0662754166405648,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034138208255171776,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06714595842640847,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06709699996281415,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06649012491106987,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 20,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 7.060250916983932,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.00111391709651798
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.45877345802728087,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07359079201705754
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3024511670228094
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7482041249750182,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7483345420332626,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.4824356220196933,
+          "audio_seconds": 0.7895
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24565725005231798,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.218257874948904,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.1026578738819808,
+          "audio_seconds": 1.671875
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2368432079674676,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.0934342090040445,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.4637112504569814,
+          "audio_seconds": 2.043375
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.5533655832987279,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06728245841804892,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06750762497540563,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06619258329737931,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03256066655740142,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.1012480832869187,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.10101966664660722,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333437500987202,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06807687494438142,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668366666417569,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664795835968107,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03333612496498972,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06355716660618782,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06866425008047372,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032267416710965335,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.036465416662395,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06743724993430078,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06664495833683759,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 21,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 8.344429375021718,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0010664579458534718
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5333568330388516,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07803912495728582
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.672921041958034
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6393509169574827,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6393944580340758,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 6.911214422434568,
+          "audio_seconds": 5.4335
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.891737874946557,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06786645844113082,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06587829173076898,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03547612496186048,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03253650001715869,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.035053374944254756,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03399079164955765,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06477474991697818,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03275783336721361,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06600462505593896,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06613779172766954,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06613225000910461,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06480004161130637,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06510916666593403,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06972050003241748,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06325895828194916,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06633862503804266,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06981945829465985,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666474998928607,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06665062496904284,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 22,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 16.820499083027244,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0010130000300705433
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5463212919421494,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08192308293655515
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3271916250232607
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7626823330065235,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7627891660667956,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.75186341709923,
+          "audio_seconds": 0.882375
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24174279207363725,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.4687689580023289,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.828802832053043,
+          "audio_seconds": 3.29725
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2761379589792341,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.788790332968347,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 7.701638713013381,
+          "audio_seconds": 6.640916666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2368947499198839,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 12.312952999956906,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.3880633329972625,
+          "audio_seconds": 2.043375
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.6759828332578763,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.1996384166413918,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.10070616670418531,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334170836023986,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03329754155129194,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06576170830521733,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06806562503334135,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03354637499433011,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03403454169165343,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03362962498795241,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0320302500622347,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03528725006617606,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666074995882809,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032953625079244375,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033334874897263944,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03170875005889684,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.09719445835798979,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03329170832876116,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06741133343894035,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03260441671591252,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03397749993018806,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0664778333157301,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03196358331479132,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03345270827412605,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.09999800007790327,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03363516659010202,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032411541673354805,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06532066676300019,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03325591667089611,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06614554161205888,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03209612495265901,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032785166637040675,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06669012492056936,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0334264999255538,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0336511250352487,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06620316673070192,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06772433337755501,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06668283336330205,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033305166638456285,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03331479162443429,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06826695834752172,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06666791660245508,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03498550003860146,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06499491666909307,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03166608326137066,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06667674996424466,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 23,
+      "streaming": true,
+      "language": "mixed",
+      "input_seconds": 6.4551875,
+      "turn_seconds": 13.701492000021972,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 17,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0012272500898689032
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.8305812090402469,
+          "mode": "accurate",
+          "audio_seconds": 6.4551875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08109312504529953
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.5742969999555498
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7681952499551699,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7683364580152556,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.1358539569191635,
+          "audio_seconds": 4.040291666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5370470840716735,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.161904666107148,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.5924018741352484,
+          "audio_seconds": 2.8792916666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5958721669157967,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 8.60487254196778,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.2859404577175155,
+          "audio_seconds": 2.5542083333333334
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.216771166655235,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.03517308330629021,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06657866667956114,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663912499789149,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334541665390134,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06598987500183284,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033342250040732324,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03365220839623362,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033902458380907774,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03343487496022135,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03215233329683542,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03590049990452826,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03400375007186085,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.36643924994859844,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06670624995604157,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336524998303503,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06588195834774524,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.037014749948866665,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03378454165067524,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034020124934613705,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03357199998572469,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06574266671668738,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.39936450007371604,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06608095834963024,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0608770833350718,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032160916714929044,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.029495625058189034,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032551583368331194,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03142558329273015,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0666275416733697,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03342812496703118,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03402295836713165,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 24,
+      "streaming": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 8.908947041956708,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0016045410884544253
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.4610760830109939,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07526433293242007
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.31663524999748915
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7542135419789702,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7543642909731716,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.518983706831932,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23755520803388208,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.115680875023827,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 4.81238387292251,
+          "audio_seconds": 4.226041666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23541312501765788,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.788514666957781,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5012756263604388,
+          "audio_seconds": 1.3003333333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.5723393332445994,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.0659205416450277,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03524579165969044,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033342916634865105,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06739345833193511,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03378050005994737,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.031887916615232825,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03357695834711194,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06678845838177949,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033255083253607154,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033312999992631376,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06663491658400744,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06769699999131262,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06640879169572145,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03340729174669832,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032442958327010274,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033298958325758576,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03377750003710389,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034118124982342124,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03330783324781805,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03432108333799988,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 25,
+      "streaming": true,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 10.998485667048953,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.001516625052317977
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5175423750188202,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07777820806950331
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.6956218330888078
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5985769589897245,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.5986262500518933,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 9.522159864893183,
+          "audio_seconds": 8.080583333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.8536064999643713,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.06546666659414768,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06733883335255086,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032699291594326496,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.034106249921023846,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0337271667085588,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03409837500657886,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.031221666606143117,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.032166916760616004,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03480374999344349,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06595154164824635,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033202750026248395,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03337708325125277,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0330958750564605,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06721683335490525,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03315808332990855,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06590479169972241,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03242095827590674,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06623375008348376,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03353741660248488,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03409933333750814,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06619924993719906,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03261275007389486,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03320150007493794,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06714737508445978,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03337204165291041,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03249574999790639,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03444566670805216,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    },
+    {
+      "index": 26,
+      "streaming": true,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 4.640630332985893,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.01370962499640882
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.47806474997196347,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.0736363329924643
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.31440112506970763
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.6197681250050664,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.6198834580136463,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.379776834975928,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23659845802467316,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.2285206660162657,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.181585085229017,
+          "audio_seconds": 1.9040416666666666
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.47057562507689,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.03281654161401093,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06419033335987478,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.06760633341036737,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0342804582323879,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03247220837511122,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03334529174026102,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03263912501279265,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.033309958409518,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.03336312505416572,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.0658009999897331,
+          "type": "gap"
+        }
+      ],
+      "failed": false,
+      "first_turn_for_mode": false
+    }
+  ],
+  "human_accuracy_validated": false,
+  "sequential_load_seconds": 7.602880666963756,
+  "fish_pre_warmed_by_fixture_generation": true,
+  "first_turn_note": "First dialogue turn has cold dialogue inference. Fish is already warmed by synthetic fixture creation. First streaming turn is not a model cold start."
+}

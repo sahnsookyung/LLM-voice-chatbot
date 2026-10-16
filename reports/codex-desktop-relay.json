@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checks": {
+    "real_desktop_initialize": true,
+    "desktop_process_is_probe": true,
+    "desktop_socket_attachment": true,
+    "original_runtime_arguments_preserved": true,
+    "only_unix_listener_added": true,
+    "ari_same_host": true,
+    "isolated_home": true,
+    "existing_desktops_untouched": true,
+    "desktop_close_preserves_host": true,
+    "restart_rejects_stale_tool_identities": true,
+    "explicit_idle_refresh": true,
+    "desktop_restart_after_explicit_refresh": true
+  },
+  "restart_diagnostics": {
+    "main_server_launches": 3,
+    "runtime_arguments_changed": false,
+    "changed_environment_keys": [
+      "BROWSER_USE_ACCESS_VERIFYING_IDENTITY",
+      "CODEX_APP_TOOLS_PIPE_PATH",
+      "CODEX_TASK_WORKSPACE_VERIFYING_IDENTITY"
+    ],
+    "restarted_desktop_exited": false
+  },
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+    "client_sha256": "116ab7a25a985047bee6b3ebccd17b0a8384aa90c3e04f328f51353441dba4dd"
+  },
+  "account": "empty home; no sign-in or credentials copied",
+  "task_execution": "not attempted",
+  "voice_and_shared_history": "unverified"
+}

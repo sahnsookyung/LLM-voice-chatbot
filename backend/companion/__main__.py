@@ -7,11 +7,12 @@ import socket
 import uvicorn
 
 from .app import create_app
+from .codex_validation import validation_thread
 from .config import Config
 
 
 async def serve(args):
-    config = Config(demo=args.demo)
+    config = Config(demo=args.demo, codex_validation_thread=args.codex_validation_thread)
     app = create_app(config)
     sock = socket.socket()
     sock.bind(("127.0.0.1", args.port))
@@ -46,4 +47,9 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--parent", type=int)
     parser.add_argument("--demo", action="store_true", help="Explicit test adapters; no real AI")
+    parser.add_argument(
+        "--codex-validation-thread",
+        type=validation_thread,
+        help="Explicit test task only; requires a verified shared host, never saves release acceptance",
+    )
     asyncio.run(serve(parser.parse_args()))

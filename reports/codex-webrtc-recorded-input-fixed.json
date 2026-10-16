@@ -1,0 +1,117 @@
+{
+  "kind": "developer voice probe; not release acceptance",
+  "passed": true,
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "client_sha256": "543017c3c3a1943c2060a1a17524f3137a0bc16258069bacc7ea5b9d0022b1db"
+  },
+  "input": "supplied WAV; provenance not inferred",
+  "counts": {
+    "ready": 1,
+    "metrics": 6,
+    "codex_state": 16,
+    "codex_catalog": 1,
+    "codex_capability": 6,
+    "listening": 5,
+    "codex_requests_clear": 1,
+    "codex_automation": 1,
+    "codex_history": 18,
+    "codex_selected": 1,
+    "codex_audio_begin": 2,
+    "decoded_samples": 345584,
+    "decoded_non_silent_samples": 19467,
+    "played_ack": 707,
+    "cancel": 2,
+    "codex_item": 12
+  },
+  "native_timings": [
+    {
+      "seconds": 0.4808763333130628,
+      "type": "audible"
+    },
+    {
+      "seconds": 0.005729375057853758,
+      "type": "cutoff_requested"
+    },
+    {
+      "seconds": 1.3818688750034198,
+      "type": "audible"
+    },
+    {
+      "seconds": 0.03412395843770355,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03167620825115591,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03353162494022399,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.13404816668480635,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03319362492766231,
+      "type": "gap"
+    },
+    {
+      "level": 0.16805583238601685,
+      "seconds": 5.348564499989152,
+      "type": "non_silent_playback"
+    },
+    {
+      "seconds": 0.035034583415836096,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03358962503261864,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03393566666636616,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03982216666918248,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03221654158551246,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.0313880416797474,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.03229029173962772,
+      "type": "gap"
+    },
+    {
+      "seconds": 0.01767291664145887,
+      "type": "cutoff_requested"
+    }
+  ],
+  "adapter_timings": {
+    "version": 1,
+    "clock": "process-local monotonic durations",
+    "records": [
+      {
+        "stage": "voice_startup",
+        "seconds": 2.265843041939661
+      }
+    ]
+  },
+  "live_assistant_transcripts": 1,
+  "persisted_assistant_transcripts": 1,
+  "expected_response_matches": 1,
+  "non_silent_native_playback": true,
+  "live_desktop_history": "unverified",
+  "computer_use": "unverified",
+  "human_microphone": "unverified"
+}

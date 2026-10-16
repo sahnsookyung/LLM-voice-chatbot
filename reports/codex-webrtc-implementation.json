@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-15",
+  "status": "Shared desktop attachment verified; recorded-input spoken reply and canonical reload passed; human and full release acceptance pending",
+  "authentication": {
+    "api_key_required_for_verified_webrtc_setup": false,
+    "credential_access": false,
+    "auth_owner": "existing shared Codex host",
+    "evidence": "reports/codex-webrtc-probe.json"
+  },
+  "runtime": {
+    "aiortc": "1.14.0",
+    "av": "16.1.0",
+    "websockets": "16.1.1",
+    "cryptography": "50.0.2",
+    "pylibsrtp": "1.0.0"
+  },
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "client_sha256": "0e5a6f9478daa0b29b996536f3baa397aae02c2a93ef53586dc8eaf294d3738b"
+  },
+  "current_readiness": {
+    "available": false,
+    "shared_host": true,
+    "host_id": "codex-local-a3d4b40a6902161c61ba",
+    "checks": {
+      "same_home": true,
+      "verified_peer": true,
+      "desktop_socket": true,
+      "host_version_matches": true,
+      "live_acceptance": false,
+      "threads": true,
+      "voices": true,
+      "account": true
+    },
+    "reasons": [
+      "Voice/history, Computer Use, ownership, and approval acceptance checks have not passed for this build."
+    ],
+    "fingerprint": {
+      "host_version": "codex-cli 0.162.0-alpha.17.2",
+      "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+      "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+      "client_sha256": "0e5a6f9478daa0b29b996536f3baa397aae02c2a93ef53586dc8eaf294d3738b"
+    },
+    "launcher": {
+      "available": true,
+      "reason": null
+    }
+  },
+  "verification": {
+    "python": {
+      "passed": 381,
+      "report": "reports/codex-webrtc-python-tests.txt",
+      "real_bidirectional_local_webrtc": true
+    },
+    "swift": {
+      "passed": 29,
+      "report": "reports/codex-webrtc-swift-tests.txt"
+    },
+    "renderer": {
+      "passed": 195,
+      "report": "reports/codex-webrtc-renderer-tests.txt"
+    },
+    "build": {
+      "passed": true,
+      "report": "reports/codex-webrtc-build.txt"
+    },
+    "native_audio_only": {
+      "passed": true,
+      "report": "reports/codex-webrtc-native-playback.txt"
+    },
+    "visual_lip_sync": {
+      "passed": false,
+      "status": "renderer load timed out twice; not verified this run",
+      "report": "reports/codex-webrtc-lip-sync.txt"
+    },
+    "updated_desktop_relay": {
+      "passed": true,
+      "report": "reports/codex-desktop-relay-updated.json"
+    },
+    "native_preferences": "Visually confirmed Local, Quiet, Accurate, automatic languages, Ari/Codex vocabulary; readiness explains missing desktop attachment",
+    "orphaned_host_identity": "Kernel code-signing hash matched strictly verified installed binary; canonical tasks idle; no existing host stopped",
+    "lint": "passed",
+    "recorded_input_voice": {
+      "passed": true,
+      "report": "reports/codex-webrtc-recorded-input-fixed.json",
+      "source": "Locally synthesized approved English test phrase; microphone not opened",
+      "non_silent_native_playback": true,
+      "expected_reply_persisted": true,
+      "human_speech_verified": false
+    },
+    "canonical_history": {
+      "passed": true,
+      "report": "reports/codex-webrtc-history-fixed.json",
+      "newest_page_preserved": true,
+      "duplicate_ids": false
+    },
+    "native_validation_ui": "Ari reopened on the same task; recent voice exchanges visible; delegation envelope collapsed; Start voice enabled and microphone off",
+    "native_cleanup": "Disconnected native client closes media and subscription without sending to its closed socket; fresh Ari log is empty",
+    "prior_build_checks": "Swift, renderer and full-build results are from the preceding implementation turn; production native/renderer sources unchanged in this follow-up"
+  },
+  "not_verified": [
+    "Human microphone conversation",
+    "Spoken summaries-only compliance during delegated tasks",
+    "Visual Codex desktop voice history and typed roundtrip",
+    "Computer Use",
+    "Concurrent voice/approval ownership",
+    "Full visual lip synchronization",
+    "30-turn performance targets"
+  ],
+  "next_step": "Confirm audible playback and a human spoken reply; native screen-capture access failed during the last observation. The canonical voice session is closed. Do not restart the shared host.",
+  "production_activation": "still gated; single-task developer validation is open",
+  "diagnostics_exclude": [
+    "audio",
+    "transcripts",
+    "screenshots",
+    "SDP",
+    "credentials"
+  ],
+  "latest_followup": {
+    "date": "2026-10-16",
+    "report": "reports/codex-live-capture-fix.json",
+    "status": "Native live microphone startup verified; session closed; human speech and audible reply pending"
+  }
+}

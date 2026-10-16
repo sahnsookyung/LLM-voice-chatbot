@@ -1,0 +1,21 @@
+{
+  "kind": "host-owned WebRTC signaling probe; not voice acceptance",
+  "authentication_type": "chatgpt",
+  "data_channel_open": true,
+  "connection_states": [
+    "connecting",
+    "connected"
+  ],
+  "events": {
+    "thread/realtime/item/started": 1,
+    "thread/realtime/item/completed": 1,
+    "thread/realtime/started": 1,
+    "thread/realtime/sdp": 1
+  },
+  "errors": [],
+  "elapsed_seconds": 6.252,
+  "microphone_opened": false,
+  "spoken_input_sent": false,
+  "credentials_accessed": false,
+  "raw_content_saved": false
+}

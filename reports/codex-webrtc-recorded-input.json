@@ -1,0 +1,69 @@
+{
+  "kind": "developer voice probe; not release acceptance",
+  "passed": false,
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "client_sha256": "760456e694b7076e7c101f78b5c03a08ecde0a058997d956f6232131bdc9207e"
+  },
+  "input": "supplied WAV; provenance not inferred",
+  "counts": {
+    "ready": 1,
+    "metrics": 6,
+    "codex_state": 16,
+    "codex_catalog": 1,
+    "codex_capability": 6,
+    "listening": 5,
+    "codex_requests_clear": 1,
+    "codex_automation": 3,
+    "codex_history": 16,
+    "codex_selected": 1,
+    "codex_audio_begin": 2,
+    "decoded_samples": 420944,
+    "decoded_non_silent_samples": 19468,
+    "played_ack": 862,
+    "cancel": 2,
+    "codex_item": 15
+  },
+  "native_timings": [
+    {
+      "seconds": 0.6684183332836255,
+      "type": "audible"
+    },
+    {
+      "seconds": 0.007636624970473349,
+      "type": "cutoff_requested"
+    },
+    {
+      "seconds": 1.6337087500141934,
+      "type": "audible"
+    },
+    {
+      "level": 0.21754762530326843,
+      "seconds": 4.4347036249237135,
+      "type": "non_silent_playback"
+    },
+    {
+      "seconds": 0.02329487504903227,
+      "type": "cutoff_requested"
+    }
+  ],
+  "adapter_timings": {
+    "version": 1,
+    "clock": "process-local monotonic durations",
+    "records": [
+      {
+        "stage": "voice_startup",
+        "seconds": 1.9869062500074506
+      }
+    ]
+  },
+  "live_assistant_transcripts": 1,
+  "persisted_assistant_transcripts": 0,
+  "expected_response_matches": 0,
+  "non_silent_native_playback": true,
+  "live_desktop_history": "unverified",
+  "computer_use": "unverified",
+  "human_microphone": "unverified"
+}

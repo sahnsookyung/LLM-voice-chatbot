@@ -2,13 +2,13 @@
 
 A native macOS conversation companion for Apple Silicon, with English, Korean, and Japanese speech, a floating animated character, and local history. Built for a 48 GB M4 Pro Mac while leaving room for everyday apps.
 
-**Built with Fish Audio.** Speech runs locally with **Fish Audio S2 Pro, 8-bit MLX**. The model is free for personal/non-commercial use under its [Research License](third_party/fish-audio/LICENSE.md); commercial use requires a separate Fish Audio license.
+**Built with Fish Audio.** Local-mode speech runs locally with **Fish Audio S2 Pro, 8-bit MLX**. The model is free for personal/non-commercial use under its [Research License](third_party/fish-audio/LICENSE.md); commercial use requires a separate Fish Audio license.
 
 Open **`build/Local Companion.app`** after setup. Click **Talk**, speak, then click **Send voice**, or hold **Control–Option–Space** to talk from any app. The microphone meter shows input level. Hands-free is explicit and stays on until muted. Escape stops a reply. The menu-bar sparkle restores the chat/character, toggles click-through, mutes, and quits.
 
 The character starts near the lower-right corner of the chat's display. Use **Show avatar / Hide avatar** in the app header, **Show desktop avatar** in the Character tab, or **Command–Shift–H** while the app is active. The menu-bar sparkle also has the toggle. Visibility survives restart; hiding pauses rendering, and showing retains the current position and look. The source `renderer/index.html` requires Vite; opening it directly is not a way to launch the app.
 
-The app starts with the microphone off. Audio capture and playback use AVAudioEngine. Talk uses direct microphone capture; hands-free enables echo cancellation. The Python service and inference workers bind only to loopback and require a per-launch token. There is no browser automation, tool execution, cloud inference, or automatic memory collection.
+The app starts with the microphone off. Audio capture and playback use AVAudioEngine. Talk uses direct microphone capture; hands-free enables echo cancellation. The Python service and inference workers bind only to loopback and require a per-launch token. Local mode has no browser automation, tool execution, cloud inference, or automatic memory collection. The optional Codex client uses OpenAI services and Codex’s task permissions.
 
 Use **Character → Open character studio** (or **Character → Open character studio** in the menu bar) to explore the full-body art, eight expressions, and the optional VRoid 3D model. Appearance and Framing also control the floating character. The editable VRoid model has facial expressions, finger articulation and hair springs; its likeness is still unfinished. See [asset details and limitations](docs/ARI-3D.md).
 
@@ -26,7 +26,44 @@ The studio's **Reference look** selector and **Wardrobe & Hair** gallery include
 
 Choose **Character → Voice** to switch between Original, Bright, and Soft, then use **Preview voice** to audition a Fish-generated sample. Bright and Soft are original higher-pitched adult voices generated locally; selection is saved per character. Their original reference clips are retained for cloning. Imported voices without a Fish preview play their reference clip.
 
-The pinned MLX Fish implementation generates a complete phrase before returning audio. Playback then uses bounded 24 kHz packets, with Stop checked during generation and a process-termination fallback. This is phrase-based synthesis, not Fish's CUDA streaming server; expect more startup delay than the old Qwen voice. Both voices and dialogue remain offline after installation.
+Local speech uses the pinned MLX Fish implementation with Ari's incremental codec adapter and an explicit whole-segment compatibility fallback. Audio is buffered for continuous playback and delivered in bounded 24 kHz packets, with Stop checked during generation and a process-termination fallback. Recognition, dialogue, and speech in Local mode remain offline after installation. Current latency and remaining playback limitations are documented in [validation](docs/VALIDATION.md#coordinated-local-speech-update--october-14-2026).
+
+## Codex client — relay verified; live acceptance pending
+
+**Settings → Conversation backend** adds Local / Codex selection. Existing installations stay on Local. Codex mode has a separate task/history adapter, live voice controls, host-provided voices, model/reasoning controls, approval cards, and the existing playback/avatar bridge. Codex owns its history; Ari does not import those messages into the local database.
+
+The October 14 launcher failure is repaired for the pinned desktop build. Its experimental daemon flag cannot handle the desktop's plugin overrides. The launcher now uses a transparent stdio relay: desktop supplies its original startup configuration and protocol messages, the bundled Codex host listens on a private Unix socket, and Ari connects directly to that same host. The global CLI and application bundle remain unchanged. Ordinary desktop launch still works normally.
+
+**This is not a verified Codex voice release yet.** ChatGPT-authenticated WebRTC signaling succeeded without an API key; Ari now uses that desktop-supported host path. Bidirectional local WebRTC audio tests pass. End-to-end human voice, desktop voice-history continuation, and Computer Use still need live acceptance. The updated October 15 desktop relay also passed its isolated bootstrap/restart checks. See [validation evidence](docs/VALIDATION.md#chatgpt-authenticated-webrtc--october-15-2026).
+
+Read-only check (no restart required):
+
+```sh
+.venv/bin/python scripts/launch_codex.py --check
+```
+
+After finishing current work and quitting **both Ari and Codex**, launch controlled validation against one existing test task:
+
+```sh
+.venv/bin/python scripts/launch_codex.py --restart-idle-host --validation-thread TEST_TASK_ID
+```
+
+The launcher verifies real desktop attachment before opening Ari. This temporary session can converse and execute authorized work in that task using OpenAI services; it cannot create/switch tasks, browse archives, or change task settings. Preferences stay in memory and each connection expires after one hour. It never manufactures release-acceptance evidence. Reopening Ari normally restores saved Local preferences.
+
+The relay passes non-server CLI invocations to the bundled binary unchanged. It preserves desktop's full server arguments/environment in memory, adds only a Unix listener, and stores a configuration hash rather than their values. It refuses to reuse a host with changed configuration. Desktop creates new tool pipe/verification identities on each full restart, so `--restart-idle-host` explicitly retires only this relay’s verified idle host before launching desktop again. It refuses connected clients, active/uncertain tasks, queued work and background terminals. Untracked hosts are untouched. Closing either client alone never stops the host or its task work. Unknown desktop builds are blocked until their launch path is checked.
+
+Connections validate private socket directories, ACLs, endpoint ownership, and macOS peer UID/PID/executable before sending protocol data. Desktop attachment requires a live, initialized relay child of the actual desktop process and a socket connection to that exact host. If the desktop updater removes a running host’s executable path, Ari accepts it only when its kernel code-signing hash exactly matches the strictly verified installed host. Unknown or changed code still fails closed. These checks do not isolate Codex from malicious software already running as the same macOS user. Cross-client approvals remain a live acceptance requirement.
+
+Reproducible probes, without signing in, using user history, or submitting model requests:
+
+```sh
+.venv/bin/python scripts/check_codex_bridge.py
+.venv/bin/python scripts/check_codex_desktop_bridge.py
+```
+
+The second probe briefly opens an isolated desktop profile. Both clean up only their own temporary clients and host; the current desktop stays running. They do not enable production Codex mode.
+
+Once validated, choose a task in **History**. **Start voice / Mute microphone** controls the microphone; **End voice** closes Ari audio without stopping task work; **Stop task** silences playback and requests interruption. Control–Option–Space starts/mutes live voice in this mode, independently of Local push-to-talk. Existing task permissions are inherited; unavailable plugins/tools require action in Codex. A task can remain working while Ari is muted or closed.
 
 ## Setup and build
 
@@ -46,14 +83,16 @@ open "build/Local Companion.app"
 
 Ari's generated reference is included in `characters/ari/voice.wav`; regenerating it is optional. The app bundle stores this workspace's absolute path and launches its Python environment. Keep the workspace in place or rebuild after moving it. This is an ad-hoc-signed local development app, not a standalone notarized installer. It does not copy gigabytes of models inside the `.app`.
 
-For an existing installation, download the new speech model with `HF_HUB_DISABLE_XET=1 .venv/bin/python scripts/download_models.py voice`, then quit and reopen the app. Voice selections and history are preserved; old Qwen runtime weights are no longer loaded or automatically deleted.
+For an existing installation, run `HF_HUB_DISABLE_XET=1 .venv/bin/python scripts/download_models.py voice final-asr`, rebuild, then quit and reopen the app. Voice selections and history are preserved. Settings → Recognition defaults to Accurate (live drafts plus a full-recording Qwen3-ASR check); Fast uses Nemotron only. Input and reply languages can be selected independently. Failed final recognition offers Retry, Edit, or Use draft.
+
+Fish stays at 8-bit. Incremental codec synthesis uses bounded playback buffering to avoid chopping words when generation falls behind. Long pauses between phrases remain on this Mac; see the [measured targets and unverified checks](docs/VALIDATION.md#coordinated-local-speech-update--october-14-2026). A separately benchmarked 4-bit model is not enabled pending voice-quality validation.
 
 ```sh
 .venv/bin/python scripts/doctor.py
 .venv/bin/pytest -q
 .venv/bin/ruff check backend tests scripts
 npm --prefix renderer run build
-swiftc native/Sources/Companion/Audio.swift scripts/check_audio.swift -o .build/check-audio
+swiftc -parse-as-library native/Sources/Companion/Audio.swift native/Sources/Companion/SpeechTransport.swift scripts/check_audio.swift -o .build/check-audio
 .build/check-audio
 CLANG_MODULE_CACHE_PATH="$PWD/.cache/clang" swift scripts/check_renderer.swift "$PWD/build/Local Companion.app/Contents/Resources/renderer/index.html"
 ```
@@ -65,7 +104,7 @@ If setup fails during a network interruption, rerun the model download command; 
 - Native SwiftUI conversation, history, approved-memory editing/deletion, export, personality editor, language/profile controls, and global push-to-talk.
 - Floating nonactivating AppKit panel, full-body and portrait illustrations, and an optional Three.js/VRM character with expressions, gaze, blinking, speech-driven mouth motion and gestures. Reduced Motion and hidden-window throttling are supported; imported layered art retains Pixi.
 - Original adult character Ari, an in-app palette/personality character creator, plus a validated layered-PNG/voice ZIP import format. Live2D and MCP are not required.
-- CPU streaming Nemotron recognition, Pipecat Silero/Smart Turn, oMLX 4-bit dialogue, and an isolated persistent Fish S2 Pro 8-bit MLX voice worker.
+- CPU streaming Nemotron drafts, Qwen3-ASR 8-bit full-recording verification, Pipecat Silero/Smart Turn for Hands-free, oMLX 4-bit dialogue, and an isolated persistent Fish S2 Pro 8-bit MLX voice worker. Talk sends the entire recording without speech gating.
 - Bounded input/output queues, turn identifiers, actual-playback acknowledgments, interruption handling, idle unloading, and memory-pressure response.
 - SQLite history using acknowledged speech for future assistant context. No embeddings or automatically inferred personal memory.
 

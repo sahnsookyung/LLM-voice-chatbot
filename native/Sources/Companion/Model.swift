@@ -8,8 +8,21 @@ struct ChatMessage: Identifiable {
   var role: String
   var text: String
   var interrupted = false
+  var isTaskActivity = false
 }
 @MainActor final class AppModel: ObservableObject {
+  @Published var backend = "local"
+  @Published var backendBusy = false
+  @Published var codexReadiness: [String: Any] = [:]
+  @Published var codex = CodexPresentationState()
+  @Published var codexTasks: [[String: Any]] = []
+  @Published var codexVoices: [String] = []
+  @Published var codexVoice = ""
+  @Published var codexValidation = false
+  @Published var codexShortcut = UserDefaults.standard.object(forKey: "ariCodexShortcut") as? Bool ?? true {
+    didSet { UserDefaults.standard.set(codexShortcut, forKey: "ariCodexShortcut") }
+  }
+  var setAutomationActive: ((Bool) -> Void)?
   @Published var connected = false
   @Published var state = "Starting"
   @Published var notice = ""
@@ -17,11 +30,23 @@ struct ChatMessage: Identifiable {
   @Published var transcript = ""
   @Published var profile = "everyday"
   @Published var language = "auto"
+  @Published var speechSettings = SpeechSettings()
+  @Published var recognitionStatus = ""
+  @Published var transcriptStatus = "draft"
+  private var transcriptCaptureID = ""
+  private var microphoneVersion = 1
+  private var microphoneFrames = MicrophoneFraming()
+  private var captureBegan: TimeInterval?
+  private var releasedAt: TimeInterval?
   @Published var listening = false
   @Published var handsFree = false
   @Published var speak = true
   @Published var demo = false
   @Published var memoryGB = 0.0
+  @Published var nativeMemoryGB = 0.0
+  @Published var rendererMemoryGB = 0.0
+  @Published var rendererMemoryAvailable = false
+  @Published var swapGB = 0.0
   @Published var latency: Double?
   @Published var characterName = "Ari"
   @Published var characterID = "ari"
@@ -70,7 +95,7 @@ struct ChatMessage: Identifiable {
   private var process: Process?
   private var socket: URLSessionWebSocketTask?
   private var receiveTask: Task<Void, Never>?
-  private var outbound: Task<Void, Never>?
+  private let sender = SpeechSender()
   @Published private(set) var microphoneRequested = false
   private var microphoneRequest = UUID()
   private var voicePreview: AVAudioPlayer?
@@ -96,6 +121,11 @@ struct ChatMessage: Identifiable {
     root = URL(fileURLWithPath: configured)
     audio.onPCM = { [weak self] data in
       guard let self else { return }
+      if let began = self.captureBegan {
+        self.captureBegan = nil
+        self.state = "Recording"
+        self.command(["type": "telemetry", "metric": "capture_startup", "seconds": ProcessInfo.processInfo.systemUptime - began])
+      }
       if self.listening {
         self.sendData(data)
       } else if self.microphoneRequested {
@@ -107,6 +137,21 @@ struct ChatMessage: Identifiable {
         }
       }
     }
+    sender.onFailure = { [weak self] in
+      self?.mute()
+      self?.notice = "The audio connection fell behind. Please record again."
+    }
+    audio.onPlaybackStarted = { [weak self] in
+      guard let self else { return }
+      self.command(["type": "telemetry", "metric": "playback_started", "seconds": 0])
+      if let released = self.releasedAt {
+        self.releasedAt = nil
+        self.command(["type": "telemetry", "metric": "release_to_playback", "seconds": ProcessInfo.processInfo.systemUptime - released])
+      }
+    }
+    audio.onPlaybackGap = { [weak self] seconds in
+      self?.command(["type": "telemetry", "metric": "playback_gap", "seconds": seconds])
+    }
     audio.onAck = { [weak self] turn, samples in
       self?.command(["type": "ack", "turn_id": turn, "samples": samples])
     }
@@ -115,7 +160,7 @@ struct ChatMessage: Identifiable {
     audio.onExpression = { [weak self] expression in self?.animate(["expression": expression]) }
     audio.onGesture = { [weak self] gesture in self?.animate(["gesture": gesture]) }
     audio.onFailure = { [weak self] message in
-      self?.mute()
+      if self?.isCodex == true { self?.endCodexVoice() } else { self?.mute() }
       self?.notice = message
     }
     pressureSource = DispatchSource.makeMemoryPressureSource(
@@ -131,7 +176,7 @@ struct ChatMessage: Identifiable {
     pressureSource?.resume()
     NSWorkspace.shared.notificationCenter.addObserver(
       forName: NSWorkspace.willSleepNotification, object: nil, queue: .main
-    ) { [weak self] _ in Task { @MainActor in self?.mute() } }
+    ) { [weak self] _ in Task { @MainActor in if self?.isCodex == true { self?.endCodexVoice() } else { self?.mute() } } }
     NSWorkspace.shared.notificationCenter.addObserver(
       forName: NSWorkspace.didWakeNotification, object: nil, queue: .main
     ) { [weak self] _ in
@@ -154,6 +199,10 @@ struct ChatMessage: Identifiable {
       "-m", "companion", "--parent", String(ProcessInfo.processInfo.processIdentifier),
     ]
     if ProcessInfo.processInfo.arguments.contains("--demo") { p.arguments?.append("--demo") }
+    let launchArguments = ProcessInfo.processInfo.arguments
+    if let index = launchArguments.firstIndex(of: "--codex-validation-thread"), index + 1 < launchArguments.count {
+      p.arguments?.append(contentsOf: ["--codex-validation-thread", launchArguments[index + 1]])
+    }
     var env = ProcessInfo.processInfo.environment
     env["LVC_ROOT"] = root.path
     env["LVC_TOKEN"] = token
@@ -199,6 +248,7 @@ struct ChatMessage: Identifiable {
         if (try? await request("health")) != nil { break }
         try await Task.sleep(for: .milliseconds(100))
       }
+      await loadBackend()
       await connect()
       await refresh()
     } catch {
@@ -226,9 +276,14 @@ struct ChatMessage: Identifiable {
   }
   func connect(conversation: String? = nil) async {
     receiveTask?.cancel()
+    sender.reset()
     socket?.cancel(with: .normalClosure, reason: nil)
     audio.stopCapture()
     audio.stopPlayback()
+    setAutomationActive?(false)
+    microphoneRequested = false
+    microphoneRequest = UUID()
+    warmAudio.removeAll()
     listening = false
     // Wait for actual cleanup instead of assuming process teardown fits a fixed delay.
     connected = false
@@ -237,8 +292,8 @@ struct ChatMessage: Identifiable {
       if health?["session_active"] as? Bool == false { break }
       try? await Task.sleep(for: .milliseconds(100))
     }
-    var components = URLComponents(string: "ws://127.0.0.1:\(port)/session")!
-    if let conversation {
+    var components = URLComponents(string: "ws://127.0.0.1:\(port)/" + (isCodex ? "codex/session" : "session"))!
+    if let conversation, !isCodex {
       components.queryItems = [URLQueryItem(name: "conversation", value: conversation)]
     }
     var req = URLRequest(url: components.url!)
@@ -267,7 +322,9 @@ struct ChatMessage: Identifiable {
         self?.connected = false
         self?.audio.stopCapture()
         self?.audio.stopPlayback()
-        self?.notice = "Connection lost. Reopen the app to reconnect."
+        self?.setAutomationActive?(false)
+        self?.codex.uncertain = true
+        self?.notice = "Connection lost. Reconnect in Settings before continuing; nothing will be resubmitted automatically."
       }
     }
   }
@@ -275,20 +332,25 @@ struct ChatMessage: Identifiable {
     guard let data = try? JSONSerialization.data(withJSONObject: value),
       let text = String(data: data, encoding: .utf8)
     else { return }
-    enqueue(.string(text))
-  }
-  private func sendData(_ data: Data) { enqueue(.data(data)) }
-  private func enqueue(_ message: URLSessionWebSocketTask.Message) {
     guard let ws = socket else { return }
-    let previous = outbound
-    outbound = Task { [weak self] in
-      await previous?.value
-      do { try await ws.send(message) } catch {
-        if self?.connected == true { self?.notice = "The local connection could not send data." }
-      }
-    }
+    let kind = value["type"] as? String ?? ""
+    let action = (value["codex"] as? [String: Any])?["action"] as? String
+    let stopTask = kind == "stop" || action == "stop_task"
+    sender.send(.string(text), socket: ws, urgent: kind == "mute" || stopTask || action == "voice_end", stopTask: stopTask)
+  }
+  private func sendData(_ data: Data) {
+    guard let ws = socket else { return }
+    sender.send(.data(microphoneVersion == 2 ? microphoneFrames.packet(data) : data), socket: ws)
+  }
+  func saveSpeechSettings() {
+    command(["type": "speech_settings", "speech_settings": speechSettings.dictionary])
+  }
+  func recoverTranscription(_ action: String, text: String = "") {
+    command(["type": "transcription_action", "transcription_action": action,
+             "capture_id": transcriptCaptureID, "text": text])
   }
   func handle(_ event: [String: Any]) async {
+    if isCodex && handleCodex(event) { return }
     let type = event["type"] as? String ?? ""
     let turn = event["turn_id"] as? String ?? ""
     switch type {
@@ -297,6 +359,10 @@ struct ChatMessage: Identifiable {
       state = "Ready"
       profile = event["profile"] as? String ?? "everyday"
       language = event["language"] as? String ?? "auto"
+      microphoneVersion = (event["microphone_versions"] as? [Int])?.contains(2) == true ? 2 : 1
+      if let settings = event["speech_settings"], let data = try? JSONSerialization.data(withJSONObject: settings),
+         let decoded = try? JSONDecoder().decode(SpeechSettings.self, from: data) { speechSettings = decoded }
+      if !isCodex && speechSettings.warm_up { command(["type": "prepare"]) }
       conversationID = event["conversation_id"] as? String ?? ""
       demo = event["demo"] as? Bool ?? false
       characterID = event["character_id"] as? String ?? "ari"
@@ -326,6 +392,7 @@ struct ChatMessage: Identifiable {
         warmAudio.removeAll()
       }
     case "listening":
+      if let capture = event["capture_id"] as? String, capture.lowercased() != microphoneRequest.uuidString.lowercased() { return }
       listening = event["enabled"] as? Bool ?? false
       if listening {
         guard microphoneRequested else {
@@ -350,9 +417,23 @@ struct ChatMessage: Identifiable {
         handsFree = false
         inputLevel = 0
       }
-    case "transcript": transcript = event["text"] as? String ?? ""
+    case "preparation":
+      recognitionStatus = (event["ready"] as? Bool == true || event["cancelled"] as? Bool == true) ? "" : "Preparing " + (event["worker"] as? String ?? "recognition").replacingOccurrences(of: "_", with: " ")
+    case "speech_settings":
+      if let settings = event["settings"], let data = try? JSONSerialization.data(withJSONObject: settings),
+         let decoded = try? JSONDecoder().decode(SpeechSettings.self, from: data) { speechSettings = decoded }
+      notice = "Speech preferences saved."
+    case "transcript":
+      if let capture = event["capture_id"] as? String, !capture.isEmpty {
+        guard capture.lowercased() == microphoneRequest.uuidString.lowercased() else { return }
+        transcriptCaptureID = capture
+      }
+      transcript = event["text"] as? String ?? ""
+      transcriptStatus = event["status"] as? String ?? "draft"
+      if transcriptStatus == "finalizing" { state = "Checking transcription" }
     case "turn":
       transcript = ""
+      transcriptStatus = "final"
       audio.beginTurn(turn)
       messages.append(
         ChatMessage(id: UUID().uuidString, role: "user", text: event["user_text"] as? String ?? ""))
@@ -373,7 +454,12 @@ struct ChatMessage: Identifiable {
       audio.queueExpression(
         turn: turn, offset: (event["sample_offset"] as? NSNumber)?.uint64Value ?? 0,
         expression: event["expression"] as? String ?? "neutral")
-    case "metrics": memoryGB = (event["process_rss_bytes"] as? Double ?? 0) / 1_000_000_000
+    case "metrics":
+      memoryGB = (event["process_rss_bytes"] as? Double ?? 0) / 1_000_000_000
+      nativeMemoryGB = (event["native_rss_bytes"] as? Double ?? 0) / 1_000_000_000
+      rendererMemoryGB = (event["renderer_rss_bytes"] as? Double ?? 0) / 1_000_000_000
+      rendererMemoryAvailable = event["renderer_memory_available"] as? Bool ?? false
+      swapGB = (event["system_swap_bytes"] as? Double ?? 0) / 1_000_000_000
     case "profile": profile = event["profile"] as? String ?? profile
     case "character":
       characterID = event["character_id"] as? String ?? "ari"
@@ -382,6 +468,7 @@ struct ChatMessage: Identifiable {
     }
   }
   func sendText(_ text: String) {
+    guard canSend else { return }
     notice = ""
     syncAvatarCapabilities()
     command(["type": "text", "text": text, "speak": speak])
@@ -395,12 +482,14 @@ struct ChatMessage: Identifiable {
     ])
   }
   func beginPTT() {
+    if isCodex { if codexShortcut { toggleCodexVoice() }; return }
     guard connected, !microphoneRequested, !listening else { return }
     handsFree = false
     releasePending = false
     startMic(mode: "ptt")
   }
   func toggleTalk() {
+    if isCodex { toggleCodexVoice(); return }
     if microphoneRequested && !handsFree {
       endPTT()
     } else {
@@ -409,57 +498,80 @@ struct ChatMessage: Identifiable {
     }
   }
   func endPTT() {
+    if isCodex { return }
     guard microphoneRequested, !handsFree else { return }
     guard listening else {
       releasePending = true
-      audio.stopCapture()
+      audio.finishCapture()
+      releasedAt = ProcessInfo.processInfo.systemUptime
       return
     }
-    audio.stopCapture()
+    audio.finishCapture()
     listening = false
-    state = "Processing speech"
-    command(["type": "commit"])
+    state = "Checking transcription"
+    if releasedAt == nil { releasedAt = ProcessInfo.processInfo.systemUptime }
+    command(["type": "commit", "capture_id": microphoneRequest.uuidString])
+    command(["type": "telemetry", "metric": "capture_ended", "seconds": 0])
     microphoneRequested = false
     releasePending = false
   }
   func startMic(mode: String) {
     voicePreview?.stop()
     previewGeneration = UUID()
-    audio.stopPlayback()
+    if !isCodex { audio.stopPlayback() }
     microphoneRequested = true
     let request = UUID()
     microphoneRequest = request
+    microphoneFrames = MicrophoneFraming(capture: request)
+    captureBegan = ProcessInfo.processInfo.systemUptime
+    releasedAt = nil
+    transcript = ""
+    transcriptStatus = "draft"
     warmAudio.removeAll(keepingCapacity: true)
     notice = ""
-    state = "Warming"
-    Task {
-      let granted = await AVCaptureDevice.requestAccess(for: .audio)
-      guard microphoneRequested, microphoneRequest == request else { return }
-      guard granted else {
-        microphoneRequested = false
-        handsFree = false
-        notice =
-          "Microphone access is off. Enable it in System Settings → Privacy & Security → Microphone."
-        state = "Ready"
-        return
+    state = "Starting microphone"
+    let authorization = AVCaptureDevice.authorizationStatus(for: .audio)
+    if authorization == .notDetermined {
+      state = "Waiting for microphone permission"
+      inputStatus = "Allow microphone access in the macOS permission dialog."
+      NSApp.activate(ignoringOtherApps: true)
+      Task {
+        let granted = await AVCaptureDevice.requestAccess(for: .audio)
+        openMicrophone(mode: mode, request: request, granted: granted)
       }
-      if releasePending && warmAudio.isEmpty {
-        microphoneRequested = false
-        releasePending = false
-        state = "Ready"
-        notice = "Microphone access is ready. Click Talk, speak, then click Send voice."
-        return
-      }
-      do {
-        // Push-to-talk does not play a reply while recording, so it needs no echo canceller.
-        if !releasePending { try audio.startCapture(voiceProcessing: mode == "handsfree") }
-        inputStatus = audio.captureFormat
-        syncAvatarCapabilities()
-        command(["type": "start", "mode": mode])
-      } catch {
-        mute()
-        notice = error.localizedDescription
-      }
+    } else {
+      openMicrophone(mode: mode, request: request, granted: authorization == .authorized)
+    }
+  }
+  private func openMicrophone(mode: String, request: UUID, granted: Bool) {
+    guard microphoneRequested, microphoneRequest == request else { return }
+    guard granted else {
+      microphoneRequested = false
+      handsFree = false
+      notice = "Microphone access is off. Enable it in System Settings → Privacy & Security → Microphone."
+      state = "Ready"
+      return
+    }
+    if releasePending && warmAudio.isEmpty {
+      microphoneRequested = false
+      releasePending = false
+      state = "Ready"
+      notice = "Microphone access is ready. Click Talk, speak, then click Send voice."
+      return
+    }
+    do {
+      state = isCodex ? "Connecting voice" : "Starting microphone"
+      // Local ASR accepts buffered startup audio. Codex uses a paced, one-second
+      // RTP input queue: recording during negotiation then flushing warmAudio
+      // overwhelms that queue. Open Codex capture only on the matching listening
+      // event, after both the host and media connection acknowledge readiness.
+      if !releasePending && !isCodex { try audio.startCapture(voiceProcessing: mode == "handsfree") }
+      inputStatus = isCodex ? "Connecting voice; microphone is off until ready." : audio.captureFormat
+      syncAvatarCapabilities()
+      command(["type": "start", "mode": mode, "capture_id": request.uuidString, "microphone_version": microphoneVersion])
+    } catch {
+      mute()
+      notice = error.localizedDescription
     }
   }
   func toggleHandsFree() {
@@ -481,14 +593,23 @@ struct ChatMessage: Identifiable {
     state = "Ready"
     warmAudio.removeAll()
     audio.stopCapture()
-    stop()
+    if !isCodex { stop() }
     command(["type": "mute"])
   }
   func stop() {
+    let began = ProcessInfo.processInfo.systemUptime
+    if microphoneRequested || listening {
+      microphoneRequested = false; listening = false; handsFree = false
+      microphoneRequest = UUID(); warmAudio.removeAll(); audio.stopCapture()
+      command(["type": "mute"])
+    }
+    transcriptStatus = "draft"; transcript = ""; releasedAt = nil
     previewGeneration = UUID()
     voicePreview?.stop()
     audio.stopPlayback()
     command(["type": "stop"])
+    // Measures completion of the local player stop, excluding device buffering.
+    command(["type": "telemetry", "metric": "stop_cutoff", "seconds": ProcessInfo.processInfo.systemUptime - began])
   }
   func animate(_ data: [String: Any]) {
     guard let raw = try? JSONSerialization.data(withJSONObject: data),
@@ -631,6 +752,11 @@ struct ChatMessage: Identifiable {
     } catch { notice = error.localizedDescription }
   }
   func openConversation(_ id: String?) async {
+    if isCodex {
+      if id == nil { newCodexConversation(); return }
+      await chooseBackend("local")
+      guard !isCodex else { return }
+    }
     mute()
     messages = []
     if let id {
@@ -652,14 +778,14 @@ struct ChatMessage: Identifiable {
       await refresh()
     } catch { notice = error.localizedDescription }
   }
-  func exportHistory() {
+  func exportHistory(diagnostics: Bool = false) {
     let panel = NSSavePanel()
-    panel.nameFieldStringValue = "companion-history.json"
+    panel.nameFieldStringValue = diagnostics ? "speech-diagnostics.json" : "companion-history.json"
     panel.allowedContentTypes = [.json]
     guard panel.runModal() == .OK, let url = panel.url else { return }
     Task {
       do {
-        let object = try await request("export")
+        let object = try await request(diagnostics ? (isCodex ? "codex/diagnostics" : "speech-diagnostics") : "export")
         try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted, .sortedKeys])
           .write(to: url, options: .atomic)
       } catch { notice = error.localizedDescription }
@@ -709,9 +835,10 @@ struct ChatMessage: Identifiable {
   func shutdown() {
     shuttingDown = true
     receiveTask?.cancel()
-    outbound?.cancel()
+    sender.reset()
     audio.close()
     voicePreview?.stop()
+    sender.reset()
     socket?.cancel(with: .goingAway, reason: nil)
     pressureSource?.cancel()
     process?.terminate()

@@ -44,6 +44,7 @@ class Config:
     demo: bool = False
     idle_seconds: float = 600
     audio_window_samples: int = 24000
+    codex_validation_thread: str | None = None
 
     @property
     def models(self) -> Path:

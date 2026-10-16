@@ -5,8 +5,9 @@ description = "Private multilingual voice companion for Apple Silicon"
 requires-python = ">=3.12,<3.14"
 dependencies = [
   "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "httpx>=0.28,<1",
-  "websockets>=15,<17", "numpy>=2,<3", "psutil>=6,<8",
+  "websockets>=15,<17", "numpy>=2,<3", "scipy>=1.15,<2", "psutil>=6,<8",
   "pydantic>=2.10,<3", "python-multipart>=0.0.20,<1",
+  "aiortc==1.14.0",
 ]
 
 [project.optional-dependencies]

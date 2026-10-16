@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-14",
+  "status": "shared desktop host and canonical text history verified; live WebSocket voice blocked by host authentication requirement",
+  "compatibility": {
+    "available": false,
+    "shared_host": true,
+    "host_id": "codex-local-a3d4b40a6902161c61ba",
+    "checks": {
+      "same_home": true,
+      "verified_peer": true,
+      "desktop_socket": true,
+      "host_version_matches": true,
+      "live_acceptance": false,
+      "threads": true,
+      "voices": true,
+      "account": true
+    },
+    "reasons": [
+      "Voice/history, Computer Use, ownership, and approval acceptance checks have not passed for this build."
+    ],
+    "fingerprint": {
+      "host_version": "codex-cli 0.162.0-alpha.17.2",
+      "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+      "desktop_sha256": "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+      "client_sha256": "dfe823f9f097492c440eb477828e5b34e890499df66a6bd51b80b243abba5b87"
+    },
+    "launcher": {
+      "available": true,
+      "reason": null
+    }
+  },
+  "runtime": {
+    "python": "3.12.11",
+    "websockets": "16.1.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "fastapi": "0.143.0",
+    "pydantic": "2.14.1"
+  },
+  "checks": {
+    "python": {
+      "passed": 356,
+      "command": ".venv/bin/pytest -q"
+    },
+    "swift": {
+      "passed": 29,
+      "rerun_this_followup": true
+    },
+    "renderer": {
+      "passed": 195,
+      "rerun_this_followup": false
+    },
+    "ruff": "passed",
+    "release_build": "passed: bash scripts/build.sh",
+    "native_ui": "rebuilt and reopened in one-task validation; real host rejection shows specific explanation, closes microphone and disables retries; typed task input remains enabled",
+    "native_playback_and_vrm": "passed both phrases, gap, interruption, stale packets and next turn",
+    "isolated_bundled_transport": {
+      "passed": true,
+      "evidence": "reports/codex-isolated-transport.json",
+      "scope": "empty temporary Codex home; no credentials, user history, model request or microphone; not live desktop acceptance"
+    },
+    "launcher_active_desktop_guard": "passed; refused launch without restarting desktop",
+    "focused_codex": {
+      "passed": 67,
+      "command": ".venv/bin/pytest -q tests/test_codex.py",
+      "scope": "session/history tests; additional bridge/security tests included in full suite"
+    },
+    "launcher_unknown_build_guard": "passed; unknown desktop fingerprint rejected before process actions",
+    "real_stdio_relay": {
+      "passed": true,
+      "evidence": "reports/codex-stdio-relay.json"
+    },
+    "real_desktop_relay": {
+      "passed": true,
+      "evidence": "reports/codex-desktop-relay.json",
+      "scope": "isolated empty profile; desktop startup, same host, preserved runtime args, stale-identity rejection, explicit idle refresh and restart"
+    }
+  },
+  "live_codex": {
+    "shared_host": true,
+    "voice": "blocked: realtime conversation requires API key auth",
+    "history_roundtrip": "canonical text request and answer each present once; desktop visual confirmation pending; no voice items",
+    "computer_use": "unverified",
+    "human_microphone": "native capture attempted with user approval; host voice rejected; no recognized speech",
+    "thirty_turn_benchmark": "not run",
+    "resource_comparison": "not run",
+    "approval_routing": "unverified",
+    "voice_ownership": "unverified",
+    "native_validation_session": "connected to designated task on shared desktop host",
+    "directory_listing_command": "earlier Ari-originated read-only listing request verified once in canonical history",
+    "spoken_summary_only": "unverified; no voice session",
+    "evidence": "reports/codex-live-voice.json"
+  },
+  "retained_local_preferences": {
+    "backend": "local",
+    "dialogue": "quiet",
+    "recognition": "accurate",
+    "languages": "automatic"
+  },
+  "diagnostics_exclude": [
+    "audio",
+    "transcripts",
+    "screenshots",
+    "credentials"
+  ],
+  "hardening": [
+    "Unix directory, owner, mode, ACL and managed socket-link validation",
+    "OS peer UID/PID/executable verification before WebSocket handshake",
+    "desktop attachment evidence bound to verified peer PID and socket",
+    "desktop-configured bundled listener through transparent stdio relay; untracked hosts untouched",
+    "client source fingerprint invalidates release acceptance",
+    "one-task temporary native validation with in-memory preferences and one-hour expiry",
+    "active-turn steering, uncertain-submission protection and stale-command cancellation",
+    "Stop clears unsent task mutations; Mute preserves typed input",
+    "completed history items ignore late deltas; old completion cannot clear a new turn",
+    "host V3 voice default unless an explicitly selected candidate succeeds",
+    "normal client closure preserves host; refresh requires explicit --restart-idle-host",
+    "idle refresh refuses other clients, active/uncertain tasks, queued submissions and background terminals"
+  ],
+  "existing_task_presentation": "neutral/listening/thinking fallback; installed resume/settings schemas do not expose dynamic tool injection",
+  "test_side_effect": {
+    "description": "prior launcher guard and daemon start selected an older managed host during testing",
+    "rejected_before_protocol": true,
+    "cleanup": "only exact newly created process and stale socket removed; original desktop and private host retained",
+    "regression": "fixed process detection and bundled executable startup; tests pass"
+  },
+  "launch_failure_report": "reports/codex-launch-failure.json",
+  "subsequent_update": "reports/codex-webrtc-implementation.json: host-owned WebRTC signaling works with ChatGPT auth; prior WebSocket API-key rejection does not apply to every desktop voice path"
+}

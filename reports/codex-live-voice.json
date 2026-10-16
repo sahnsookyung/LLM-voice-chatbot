@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-14",
+  "kind": "live shared-host observer; not release acceptance",
+  "events": {
+    "thread/realtime/error": 9
+  },
+  "voice_sessions": [],
+  "audio_frames": 0,
+  "error_categories": [
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ],
+    [
+      "unclassified provider error"
+    ]
+  ],
+  "transcript_items": 0,
+  "voice_check_phrase_observed": false,
+  "tool_syntax_in_spoken_transcript": null,
+  "desktop_visual_confirmation": "pending",
+  "native_playback": "not evaluated: host produced no audio",
+  "raw_audio_saved": false,
+  "transcripts_saved": false,
+  "status": "blocked: shared host rejects WebSocket voice with ChatGPT authentication",
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+    "client_sha256": "dfe823f9f097492c440eb477828e5b34e890499df66a6bd51b80b243abba5b87"
+  },
+  "observed_host_error": "realtime conversation requires API key auth",
+  "authentication_type": "chatgpt",
+  "error_diagnosis": "The counting observer recorded nine errors without retaining bodies. A separate live observer identified the exact authentication rejection, reproduced again in the rebuilt native client.",
+  "spoken_replies_only": "not evaluated: no voice session started",
+  "voice_history_roundtrip": "blocked before session startup",
+  "canonical_text_history": {
+    "ari_directory_listing_request_copies": 1,
+    "prior_ari_summary_copies": 1,
+    "source": "read-only thread/turns/list of three latest turns; userMessage and agentMessage only",
+    "desktop_visual_confirmation": "pending; supplied screenshot shows Local Companion, not Codex desktop"
+  },
+  "native_ui": {
+    "rebuilt_and_reopened": true,
+    "specific_authentication_explanation_visible": true,
+    "repeated_voice_start_disabled": true,
+    "voice_off_after_rejection": true,
+    "task_still_working": true,
+    "typed_input_enabled": true,
+    "raw_question_reply_projection": "four regression cases pass; latest-message visual check pending"
+  },
+  "checks": {
+    "python": {
+      "command": ".venv/bin/pytest -q",
+      "passed": 356
+    },
+    "swift": {
+      "passed": 29,
+      "scope": "native full suite during this change; before Python-only question-reply display update"
+    },
+    "ruff": "passed",
+    "diff_whitespace": "passed",
+    "build": {
+      "command": "bash scripts/build.sh",
+      "result": "passed; renderer typecheck/build and native release build/signing"
+    },
+    "compatibility": "shared host confirmed; release acceptance remains false"
+  },
+  "unchanged": [
+    "shared-host authentication",
+    "Codex desktop process",
+    "active task",
+    "canonical conversation history"
+  ],
+  "remaining_live_checks": [
+    "desktop visual history confirmation",
+    "spoken reply and summary filtering",
+    "voice roundtrip",
+    "voice ownership handoff",
+    "approval routing",
+    "Computer Use",
+    "multilingual human voice",
+    "30-turn latency benchmark"
+  ],
+  "release_acceptance": false
+}

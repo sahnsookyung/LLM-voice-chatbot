@@ -33,6 +33,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
   var eventHandler: EventHandlerRef?
   var characterReady = false
   private var characterPlaced = false
+  private var automationActive = false
+  private var manualClickThrough = false
   private var visibilityMenuItem: NSMenuItem?
   func applicationDidFinishLaunching(_ notification: Notification) {
     NSApp.setActivationPolicy(.regular)
@@ -74,6 +76,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     model.resizeCharacter = { [weak self] in self?.resizeCharacter() }
     model.openCharacterStudio = { [weak self] in self?.openStudio() }
     model.setOverlayVisibility = { [weak self] visible in self?.applyOverlayVisibility(visible) }
+    model.setAutomationActive = { [weak self] active in
+      guard let self else { return }
+      self.automationActive = active
+      self.character.ignoresMouseEvents = active || self.manualClickThrough
+    }
     resizeCharacter()
     applyOverlayVisibility(model.overlayVisible)
     model.showCharacter = { [weak self] in
@@ -92,7 +99,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
       (model.overlayVisible ? "Hide avatar" : "Show avatar", #selector(toggleCharacter), ""),
       ("Character studio", #selector(openStudio), ""),
       ("Toggle click-through", #selector(toggleClickThrough), ""),
-      ("Mute microphone and stop", #selector(mute), ""),
+      ("Mute microphone", #selector(mute), ""),
       ("Quit Local Companion", #selector(quit), "q"),
     ] {
       let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
@@ -227,7 +234,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
           y: area.minY + 24))
       characterPlaced = true
     }
-    character.ignoresMouseEvents = false
+    character.ignoresMouseEvents = automationActive || manualClickThrough
     character.orderFrontRegardless()
     model.animate(["visible": true])
   }
@@ -236,7 +243,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
     else { character.orderOut(nil); model.animate(["visible": false]) }
     visibilityMenuItem?.title = visible ? "Hide avatar" : "Show avatar"
   }
-  @objc func toggleClickThrough() { character.ignoresMouseEvents.toggle() }
+  @objc func toggleClickThrough() { manualClickThrough.toggle(); character.ignoresMouseEvents = automationActive || manualClickThrough }
   @objc func mute() { model.mute() }
   @objc func quit() { NSApp.terminate(nil) }
 }
@@ -292,7 +299,7 @@ struct CompanionView: View {
           Text(
             model.memoryGB > 0
               ? String(format: "%.1f GB · %@", model.memoryGB, model.profile.capitalized)
-              : "Private by default"
+              : model.isCodex ? "Shared Codex history" : "Private by default"
           ).font(.system(size: 10)).foregroundStyle(.secondary)
         }
       }.padding(20).frame(width: 194).frame(maxHeight: .infinity).background(paper)
@@ -374,7 +381,7 @@ struct CompanionView: View {
         : model.state == "Ready" ? "Here when you want to talk. Microphone off." : model.state
     case "Character": return "A personality, a voice, a little expression."
     case "Memory": return "Only the things you explicitly choose to remember."
-    case "History": return "Your conversations stay on this Mac."
+    case "History": return "Local conversations and shared Codex tasks."
     default: return "Keep room for everything else you're doing."
     }
   }
@@ -430,6 +437,7 @@ struct CompanionView: View {
             }
           }
           TextField("Name", text: $model.characterName).textFieldStyle(.roundedBorder)
+          if !model.isCodex {
           HStack {
             Picker(
               "Voice",
@@ -456,7 +464,10 @@ struct CompanionView: View {
               ?? "Choose a voice for this character."
           )
           .font(.callout).foregroundStyle(.secondary)
-          Text("PERSONALITY").font(.caption).tracking(1.4)
+          } else {
+            Text("Codex voice and task instructions are managed in Settings and Codex. This personality editor changes Local mode only.").font(.callout).foregroundStyle(.secondary)
+          }
+          Text("LOCAL PERSONALITY").font(.caption).tracking(1.4)
           TextEditor(text: $model.persona).font(.body).frame(minHeight: 180).padding(8).background(
             .white, in: RoundedRectangle(cornerRadius: 12))
           HStack {
@@ -487,7 +498,7 @@ struct CompanionView: View {
     case "Memory":
       ScrollView {
         VStack(alignment: .leading, spacing: 18) {
-          Text("Nothing is remembered automatically.").font(.headline)
+          Text(model.isCodex ? "Local memories · not sent to Codex" : "Nothing is remembered automatically.").font(.headline)
           HStack {
             TextField("A fact you'd like to keep", text: $memory).textFieldStyle(.roundedBorder)
             Button(editingMemory == nil ? "Save with my approval" : "Approve changes") {
@@ -529,6 +540,8 @@ struct CompanionView: View {
     case "History":
       ScrollView {
         VStack(alignment: .leading, spacing: 14) {
+          if model.isCodex { CodexTaskPicker(model: model) }
+          Text("Local history").font(.headline)
           HStack {
             Button("New conversation") {
               page = "Conversation"
@@ -549,7 +562,7 @@ struct CompanionView: View {
                       ?? "Conversation"
                   ).lineLimit(2)
                   if id == model.conversationID {
-                    Text("Current conversation").font(.caption).foregroundStyle(.secondary)
+                    Text("Local · Current conversation").font(.caption).foregroundStyle(.secondary)
                   }
                 }
               }.buttonStyle(.plain)
@@ -566,6 +579,8 @@ struct CompanionView: View {
     default:
       ScrollView {
         VStack(alignment: .leading, spacing: 24) {
+          CodexSettingsView(model: model)
+          if !model.isCodex {
           VStack(alignment: .leading, spacing: 10) {
             Text("Performance").font(.headline)
             Picker("Mode", selection: $model.profile) {
@@ -578,15 +593,42 @@ struct CompanionView: View {
               "Quiet leaves more room for your browser, editor, and other apps. Models unload after ten minutes without a conversation."
             ).font(.callout).foregroundStyle(.secondary)
           }
-          Picker("Language", selection: $model.language) {
+          Picker("Recognition", selection: $model.speechSettings.recognition_mode) {
+            Text("Accurate · draft + full recording check").tag("accurate")
+            Text("Fast · live recognizer only").tag("fast")
+          }
+          Picker("Input language", selection: $model.speechSettings.input_language) {
+            Text("Automatic / mixed languages").tag("auto")
+            Text("English").tag("english")
+            Text("한국어").tag("korean")
+            Text("日本語").tag("japanese")
+          }
+          Picker("Reply language", selection: $model.speechSettings.reply_language) {
             Text("Automatic").tag("auto")
             Text("English").tag("english")
             Text("한국어").tag("korean")
             Text("日本語").tag("japanese")
-          }.onChange(of: model.language) { _, value in
-            model.mute()
-            model.command(["type": "language", "language": value])
           }
+          TextField("Vocabulary, separated by commas", text: Binding(
+            get: { model.speechSettings.vocabulary.joined(separator: ", ") },
+            set: { model.speechSettings.vocabulary = $0.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) } }))
+          DisclosureGroup("Advanced speech settings") {
+            Picker("Recognition context", selection: $model.speechSettings.context_ms) {
+              Text("160 ms").tag(160); Text("320 ms").tag(320); Text("560 ms").tag(560)
+            }
+            Text("Speech detection confidence (lower is more sensitive)")
+            Slider(value: $model.speechSettings.sensitivity, in: 0.3...0.95)
+            Text(String(format: "Minimum pause: %.1f s", model.speechSettings.pause_tolerance))
+            Slider(value: $model.speechSettings.pause_tolerance, in: 0.3...1.5, step: 0.1)
+            Toggle("Prepare local models after connecting", isOn: $model.speechSettings.warm_up)
+            Toggle("Stream Fish audio incrementally", isOn: $model.speechSettings.fish_streaming)
+            Text("Fish S2 Pro · 8-bit. Quality stays fixed under memory pressure.").font(.caption)
+          }
+          HStack {
+            Button("Save speech preferences") { model.saveSpeechSettings() }
+            Button("Prepare models now") { model.command(["type": "prepare"]) }
+          }
+          if !model.recognitionStatus.isEmpty { Text(model.recognitionStatus).font(.caption) }
           Toggle("Speak replies", isOn: $model.speak)
           VStack(alignment: .leading, spacing: 8) {
             Text("Microphone").font(.headline)
@@ -597,6 +639,9 @@ struct CompanionView: View {
           VStack(alignment: .leading, spacing: 8) {
             Text("Local diagnostics").font(.headline)
             Text(String(format: "Worker memory: %.1f GB", model.memoryGB))
+            Text(String(format: "App: %.2f GB · System swap: %.1f GB", model.nativeMemoryGB, model.swapGB))
+            Text(model.rendererMemoryAvailable ? String(format: "Avatar renderer: %.2f GB", model.rendererMemoryGB) : "Avatar renderer memory: unavailable from the macOS process tree")
+            Text("Quiet / Everyday memory figures are targets, not whole-app limits.").font(.caption).foregroundStyle(.secondary)
             if let latency = model.latency {
               Text(String(format: "Last first-audio generation: %.2f s", latency))
             }
@@ -604,6 +649,8 @@ struct CompanionView: View {
               NSWorkspace.shared.open(model.root.appendingPathComponent(".runtime"))
             }
             Button("Export conversations and memories…") { model.exportHistory() }
+            Button("Export speech timings (no audio or text)…") { model.exportHistory(diagnostics: true) }
+          }
           }
         }.padding(30)
       }
@@ -611,6 +658,22 @@ struct CompanionView: View {
   }
   var conversation: some View {
     VStack(spacing: 0) {
+      if model.isCodex {
+        if model.codexValidation { Text("Validation session · one test task · OpenAI services").font(.caption).foregroundStyle(.orange).padding(8) }
+        HStack {
+          Button("Open in Codex") { model.openInCodex() }.disabled(model.codex.threadID.isEmpty)
+          Button("Refresh history") { model.codexCommand("refresh") }
+          if model.codex.historyMore { Button("Continue loading history") { model.codexCommand("history_more") } }
+        }.padding(10)
+        if model.codex.voice == "in_desktop" { Text("Voice belongs to Codex desktop. End voice there, then refresh history to hand it to Ari.").font(.caption).padding(8) }
+        if model.codex.readOnly { Text("Archived task · read-only. Restore it in Codex to continue.").font(.caption) }
+        if model.codex.threadID.isEmpty { Text("Choose a Codex task in History, or create a new conversation.").font(.callout).padding() }
+        if model.codex.historyTruncated { Text("Showing the latest 2,000 items. Full history is available in Codex.").font(.caption) }
+        if !model.codexActivity.isEmpty {
+          CodexActivityView(messages: model.codexActivity)
+            .id(model.codex.threadID).padding(.horizontal, 32).padding(.vertical, 8)
+        }
+      }
       ScrollViewReader { proxy in
         ScrollView {
           LazyVStack(alignment: .leading, spacing: 23) {
@@ -630,30 +693,47 @@ struct CompanionView: View {
                 }
               }.padding(.top, 80).padding(.bottom, 40)
             }
-            ForEach(model.messages) { message in
-              VStack(alignment: .leading, spacing: 8) {
-                Text(message.role == "user" ? "YOU" : model.characterName.uppercased()).font(
-                  .system(size: 10, weight: .semibold)
-                ).tracking(1.4).foregroundStyle(.secondary)
-                Text(message.text.isEmpty ? "…" : message.text).font(.system(size: 15)).lineSpacing(
-                  5
-                ).textSelection(.enabled)
-                if message.interrupted {
-                  Text("Interrupted · some text may not have been spoken").font(.caption)
-                    .foregroundStyle(.secondary)
-                }
-              }.frame(maxWidth: .infinity, alignment: .leading).id(message.id)
+            ForEach(model.conversationMessages) { message in
+                VStack(alignment: .leading, spacing: 8) {
+                  Text(message.role == "user" ? "YOU" : model.characterName.uppercased()).font(
+                    .system(size: 10, weight: .semibold)
+                  ).tracking(1.4).foregroundStyle(.secondary)
+                  Text(message.text.isEmpty ? "…" : message.text).font(.system(size: 15)).lineSpacing(
+                    5
+                  ).textSelection(.enabled)
+                  if message.interrupted {
+                    Text("Interrupted · some text may not have been spoken").font(.caption)
+                      .foregroundStyle(.secondary)
+                  }
+                }.frame(maxWidth: .infinity, alignment: .leading).id(message.id)
+            }
+            if model.isCodex {
+              ForEach(model.codex.requests.keys.sorted(), id: \.self) { id in
+                CodexRequestCard(model: model, id: id, value: model.codex.requests[id] ?? [:])
+              }
             }
             Color.clear.frame(height: 1).id("bottom")
           }.padding(.horizontal, 32).padding(.bottom, 24)
-        }.onChange(of: model.messages.last?.text) { _, _ in
-          proxy.scrollTo("bottom", anchor: .bottom)
+        }.defaultScrollAnchor(.bottom)
+        .onChange(of: model.messages.last(where: { !$0.isTaskActivity })?.text) { _, _ in
+          if !model.isCodex || !model.codex.uncertain { proxy.scrollTo("bottom", anchor: .bottom) }
+        }.onChange(of: model.codex.uncertain) { _, uncertain in
+          // History arrives in batches. Scroll once after reconciliation, not
+          // between changing row heights while the snapshot is still loading.
+          if !uncertain { proxy.scrollTo("bottom", anchor: .bottom) }
         }
       }
-      if !model.transcript.isEmpty {
-        Text(model.transcript).font(.callout).foregroundStyle(.secondary).frame(
+      if !model.transcript.isEmpty || model.transcriptStatus == "failed" || model.transcriptStatus == "finalizing" {
+        Text(model.transcriptStatus == "finalizing" ? "Checking: " + model.transcript : "Draft: " + model.transcript).font(.callout).foregroundStyle(.secondary).frame(
           maxWidth: .infinity, alignment: .leading
         ).padding(.horizontal, 32).padding(.bottom, 10)
+        if model.transcriptStatus == "failed" {
+          HStack {
+            Button("Retry") { model.recoverTranscription("retry") }
+            Button("Edit") { draft = model.transcript }
+            Button("Use draft") { model.recoverTranscription("use_draft") }.disabled(model.transcript.isEmpty)
+          }.padding(.bottom, 10)
+        }
       }
       VStack(spacing: 12) {
         if model.microphoneRequested {
@@ -669,9 +749,12 @@ struct CompanionView: View {
               width: 30, height: 30
             ).background(accent, in: Circle()).foregroundStyle(.white)
           }.buttonStyle(.plain).disabled(
-            draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !model.connected)
+            draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !model.canSend)
         }.padding(16).background(.white, in: RoundedRectangle(cornerRadius: 16)).overlay(
           RoundedRectangle(cornerRadius: 16).stroke(ink.opacity(0.1), lineWidth: 1))
+        if model.isCodex {
+          CodexVoiceControls(model: model)
+        } else {
         HStack(spacing: 16) {
           Button {
             model.toggleTalk()
@@ -702,6 +785,7 @@ struct CompanionView: View {
           } label: {
             Label("Stop", systemImage: "stop.fill")
           }.buttonStyle(.plain).font(.system(size: 12)).keyboardShortcut(.escape, modifiers: [])
+        }
         }
       }.padding(.horizontal, 26).padding(.bottom, 22)
     }

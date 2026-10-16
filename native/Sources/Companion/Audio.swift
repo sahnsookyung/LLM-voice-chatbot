@@ -1,13 +1,60 @@
 import AVFoundation
 import Foundation
 
+// Wire offsets count speech samples only. The player's clock also counts empty
+// time while the next TTS phrase is being generated. Schedule audio and its mouth
+// envelopes on the same player timeline, retaining wire offsets for expressions.
+struct SpeechPlaybackTimeline {
+  private struct Envelope {
+    let frames: Range<Int64>
+    let offset: UInt64
+    let level: Float
+  }
+  private var end: Int64 = 0
+  private var envelopes: [Envelope] = []
+
+  mutating func schedule(
+    samples: UnsafeBufferPointer<Float>, offset: UInt64, playerSample: Int64?
+  ) -> Int64 {
+    // Leave one meter interval (33 ms) for a late buffer to reach the render
+    // thread. Already-buffered speech stays contiguous, with no added delay.
+    let start = playerSample.map { max(end, $0 + 800) } ?? end
+    end = start + Int64(samples.count)
+    for i in stride(from: 0, to: samples.count, by: 800) {
+      let limit = min(i + 800, samples.count)
+      var square: Float = 0
+      for j in i..<limit { square += samples[j] * samples[j] }
+      envelopes.append(Envelope(
+        frames: (start + Int64(i))..<(start + Int64(limit)),
+        offset: offset + UInt64(i),
+        level: min(1, sqrt(square / Float(limit - i)) * 5)))
+    }
+    return start
+  }
+
+  mutating func position(at sample: Int64) -> (offset: UInt64, level: Float)? {
+    while let first = envelopes.first, first.frames.upperBound <= sample {
+      envelopes.removeFirst()
+    }
+    guard let first = envelopes.first, first.frames.contains(sample) else { return nil }
+    return (first.offset + UInt64(sample - first.frames.lowerBound), first.level)
+  }
+}
+
 @MainActor final class AudioController {
   private let engine = AVAudioEngine()
+  private let captureEngine = AVAudioEngine()
+  private var capturePipe: CapturePipe?
+  private var cachedConverter: AVAudioConverter?
+  private var captureTimer: Timer?
+  var onPlaybackStarted: (() -> Void)?
+  var onPlaybackGap: ((Double) -> Void)?
+  private var hasStartedPlayback = false
+  private var gapStarted: TimeInterval?
   private let player = AVAudioPlayerNode()
   private let outputFormat = AVAudioFormat(standardFormatWithSampleRate: 24000, channels: 1)!
   private var tapping = false
-  private var captureGeneration = UUID()
-  private var lastInputMeter = Date.distantPast
+  private var deviceObservers: [NSObjectProtocol] = []
   private(set) var capturedFrames = 0
   private(set) var capturedPeak: Float = 0
   private(set) var captureFormat = ""
@@ -15,7 +62,7 @@ import Foundation
   private var currentTurn: String?
   private var expectedSequence: UInt32 = 0
   private var expectedOffset: UInt64 = 0
-  private var envelopes: [(Int64, Float)] = []
+  private var playback = SpeechPlaybackTimeline()
   private var expressions: [(Int64, String)] = []
   private var pendingGesture: String?
   private var timer: Timer?
@@ -32,19 +79,22 @@ import Foundation
     timer = Timer.scheduledTimer(withTimeInterval: 1 / 30, repeats: true) { [weak self] _ in
       Task { @MainActor in self?.meter() }
     }
-    NotificationCenter.default.addObserver(
-      forName: .AVAudioEngineConfigurationChange, object: engine, queue: .main
-    ) { [weak self] _ in
-      Task { @MainActor in
-        // Enabling voice processing also posts configuration notifications. If our
-        // restart succeeded, no device recovery is needed.
-        guard let self, !self.engine.isRunning, self.tapping || self.currentTurn != nil else {
-          return
+    for observedEngine in [engine, captureEngine] {
+      let isCapture = observedEngine === captureEngine
+      deviceObservers.append(NotificationCenter.default.addObserver(
+        forName: .AVAudioEngineConfigurationChange, object: observedEngine, queue: .main
+      ) { [weak self] _ in
+        Task { @MainActor in
+          // Voice-processing setup also posts this event. A successful restart
+          // requires no recovery; an actual device loss cancels this capture.
+          guard let self, self.tapping || self.currentTurn != nil else { return }
+          guard !(isCapture ? self.captureEngine : self.engine).isRunning else { return }
+          self.cachedConverter = nil
+          self.stopCapture()
+          self.stopPlayback()
+          self.onFailure?("The audio device changed. Select Talk to reconnect the microphone.")
         }
-        self.stopCapture()
-        self.stopPlayback()
-        self.onFailure?("The audio device changed. Select Talk to reconnect the microphone.")
-      }
+      })
     }
   }
   static func inputConverter(from source: AVAudioFormat) throws -> AVAudioConverter {
@@ -64,88 +114,75 @@ import Foundation
   }
   func startCapture(voiceProcessing: Bool) throws {
     guard !tapping else { return }
-    engine.stop()
-    try engine.inputNode.setVoiceProcessingEnabled(voiceProcessing)
-    if voiceProcessing {
-      engine.inputNode.isVoiceProcessingInputMuted = false
-      engine.inputNode.voiceProcessingOtherAudioDuckingConfiguration =
-        AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
-          enableAdvancedDucking: false, duckingLevel: .min)
+    captureEngine.stop()
+    if captureEngine.inputNode.isVoiceProcessingEnabled != voiceProcessing {
+      try captureEngine.inputNode.setVoiceProcessingEnabled(voiceProcessing)
     }
-    let source = engine.inputNode.outputFormat(forBus: 0)
-    let converter = try Self.inputConverter(from: source)
-    let target = converter.outputFormat
-    let capture = UUID()
-    captureGeneration = capture
+    if voiceProcessing {
+      captureEngine.inputNode.isVoiceProcessingInputMuted = false
+      captureEngine.inputNode.voiceProcessingOtherAudioDuckingConfiguration =
+        AVAudioVoiceProcessingOtherAudioDuckingConfiguration(enableAdvancedDucking: false, duckingLevel: .min)
+    }
+    let source = captureEngine.inputNode.outputFormat(forBus: 0)
+    if cachedConverter?.inputFormat != source { cachedConverter = try Self.inputConverter(from: source) }
+    let pipe = CapturePipe(cachedConverter!)
+    capturePipe = pipe
     capturedFrames = 0
     capturedPeak = 0
-    captureFormat =
-      "\(Int(source.sampleRate)) Hz · \(source.channelCount) channels · \(voiceProcessing ? "echo cancellation" : "direct input")"
-    engine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: source) {
-      [weak self] buffer, _ in
-      let capacity = AVAudioFrameCount(Double(buffer.frameLength) * 16000 / source.sampleRate + 16)
-      guard let converted = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: capacity) else {
-        return
-      }
-      var supplied = false
-      var error: NSError?
-      let result = converter.convert(to: converted, error: &error) { _, status in
-        if supplied {
-          status.pointee = .noDataNow
-          return nil
-        }
-        supplied = true
-        status.pointee = .haveData
-        return buffer
-      }
-      if result == .error {
-        Task { @MainActor in
-          guard let self, self.tapping, self.captureGeneration == capture else { return }
-          self.stopCapture()
-          self.onFailure?(
-            "Microphone audio could not be converted. Select Talk or Hands-free to reconnect.")
-        }
-        return
-      }
-      guard let samples = converted.int16ChannelData?[0],
-        converted.frameLength > 0
-      else { return }
-      let bytes = Data(bytes: samples, count: Int(converted.frameLength) * 2)
-      var square: Float = 0
-      for i in 0..<Int(converted.frameLength) {
-        let sample = Float(samples[i]) / 32768
-        square += sample * sample
-      }
-      let level = min(1, sqrt(square / Float(converted.frameLength)) * 8)
-      Task { @MainActor in
-        guard let self, self.tapping, self.captureGeneration == capture else { return }
-        self.capturedFrames += bytes.count / 2
-        self.capturedPeak = max(self.capturedPeak, level)
-        if Date().timeIntervalSince(self.lastInputMeter) >= 0.05 {
-          self.lastInputMeter = Date()
-          self.onInputLevel?(level)
-        }
-        self.onPCM?(bytes)
-      }
+    captureFormat = "\(Int(source.sampleRate)) Hz · \(source.channelCount) channels · \(voiceProcessing ? "echo cancellation" : "direct input")"
+    captureEngine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: source) { buffer, _ in
+      pipe.accept(buffer)
     }
     tapping = true
-    do { try engine.start() } catch {
-      stopCapture()
-      throw error
+    captureTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] _ in
+      Task { @MainActor in self?.drainCapture() }
+    }
+    do { try captureEngine.start() } catch { stopCapture(); throw error }
+  }
+  private func drainCapture(finish: Bool = false) {
+    guard let pipe = capturePipe else { return }
+    let (bytes, failed) = pipe.drain(finish: finish)
+    if failed { stopCapture(); onFailure?("Audio capture fell behind or conversion failed. Please record again."); return }
+    guard !bytes.isEmpty else { return }
+    var square: Float = 0
+    bytes.withUnsafeBytes { raw in
+      for i in stride(from: 0, to: bytes.count, by: 2) {
+        let sample = Float(Int16(littleEndian: raw.loadUnaligned(fromByteOffset: i, as: Int16.self))) / 32768
+        square += sample * sample
+      }
+    }
+    let level = min(1, sqrt(square / Float(bytes.count / 2)) * 8)
+    capturedFrames += bytes.count / 2
+    capturedPeak = max(capturedPeak, level)
+    onInputLevel?(level)
+    for start in stride(from: 0, to: bytes.count, by: 2048) {
+      onPCM?(bytes.subdata(in: start..<min(start + 2048, bytes.count)))
     }
   }
+  func finishCapture() {
+    guard tapping else { return }
+    captureEngine.inputNode.removeTap(onBus: 0)
+    captureEngine.stop()
+    captureTimer?.invalidate(); captureTimer = nil
+    drainCapture(finish: true)
+    capturePipe = nil
+    tapping = false
+    onInputLevel?(0)
+  }
   func stopCapture() {
+    capturePipe?.cancel(); capturePipe = nil
+    captureTimer?.invalidate(); captureTimer = nil
     guard tapping else { return }
     tapping = false
-    captureGeneration = UUID()
     onInputLevel?(0)
-    engine.inputNode.removeTap(onBus: 0)
-    engine.stop()
-    try? engine.inputNode.setVoiceProcessingEnabled(false)
+    captureEngine.inputNode.removeTap(onBus: 0)
+    captureEngine.stop()
   }
   func beginTurn(_ turn: String) {
     stopPlayback()
     currentTurn = turn
+    hasStartedPlayback = false
+    gapStarted = nil
     expectedSequence = 0
     expectedOffset = 0
     // Do not keep a previous smile or frown while a new reply's mood is pending.
@@ -186,18 +223,18 @@ import Foundation
           / 32768
       }
     }
-    for i in stride(from: 0, to: count, by: 800) {
-      var square: Float = 0
-      let end = min(i + 800, count)
-      for j in i..<end { square += output[j] * output[j] }
-      envelopes.append((Int64(offset) + Int64(i), min(1, sqrt(square / Float(end - i)) * 5)))
-    }
     expectedSequence += 1
     expectedOffset += UInt64(count)
     if !engine.isRunning { try engine.start() }
+    let start = playback.schedule(
+      samples: UnsafeBufferPointer(start: output, count: count), offset: offset,
+      playerSample: playbackSample)
     let epoch = generation
     let end = expectedOffset
-    player.scheduleBuffer(buffer, completionCallbackType: .dataPlayedBack) { [weak self] _ in
+    player.scheduleBuffer(
+      buffer, at: AVAudioTime(sampleTime: start, atRate: 24000), options: [],
+      completionCallbackType: .dataPlayedBack
+    ) { [weak self] _ in
       Task { @MainActor in
         guard let self, self.generation == epoch, self.currentTurn == turn else { return }
         self.onAck?(turn, end)
@@ -209,25 +246,34 @@ import Foundation
     generation = UUID()
     player.stop()
     currentTurn = nil
-    envelopes = []
+    playback = SpeechPlaybackTimeline()
     expressions = []
     pendingGesture = nil
     onGesture?("cancel")
     onLevel?(0)
     if !tapping { engine.stop() }
   }
-  private func meter() {
+  private var playbackSample: Int64? {
     guard player.isPlaying, let render = player.lastRenderTime,
       let time = player.playerTime(forNodeTime: render)
-    else { return }
-    let sample = Int64(Double(time.sampleTime) * 24000 / time.sampleRate)
-    if sample > 0, let turn = currentTurn { playbackStarted(turn: turn) }
-    while let expression = expressions.first, expression.0 <= sample {
+    else { return nil }
+    return Int64(Double(time.sampleTime) * 24000 / time.sampleRate)
+  }
+  private func meter() {
+    guard let sample = playbackSample else { return }
+    guard let position = playback.position(at: sample) else {
+      onLevel?(0)
+      if hasStartedPlayback && gapStarted == nil { gapStarted = ProcessInfo.processInfo.systemUptime }
+      return
+    }
+    if !hasStartedPlayback { hasStartedPlayback = true; onPlaybackStarted?() }
+    if let gap = gapStarted { onPlaybackGap?(ProcessInfo.processInfo.systemUptime - gap); gapStarted = nil }
+    if let turn = currentTurn { playbackStarted(turn: turn) }
+    while let expression = expressions.first, expression.0 <= Int64(position.offset) {
       expressions.removeFirst()
       onExpression?(expression.1)
     }
-    while envelopes.count > 1 && envelopes[1].0 <= sample { envelopes.removeFirst() }
-    onLevel?(envelopes.first.map { sample - $0.0 < 1600 ? $0.1 : 0 } ?? 0)
+    onLevel?(position.level)
   }
   func queueExpression(turn: String, offset: UInt64, expression: String) {
     guard turn == currentTurn else { return }
@@ -252,5 +298,7 @@ import Foundation
     stopCapture()
     stopPlayback()
     timer?.invalidate()
+    for observer in deviceObservers { NotificationCenter.default.removeObserver(observer) }
+    deviceObservers.removeAll()
   }
 }

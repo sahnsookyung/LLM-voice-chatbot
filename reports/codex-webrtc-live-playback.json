@@ -1,0 +1,45 @@
+{
+  "kind": "developer voice probe; not release acceptance",
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "client_sha256": "38efa4f91a0747bea08463cd4c75f81abb9cf4d140adbc05e383da03fbea02e6"
+  },
+  "input": "explicit text",
+  "counts": {
+    "ready": 1,
+    "metrics": 7,
+    "codex_state": 14,
+    "codex_catalog": 1,
+    "codex_capability": 6,
+    "listening": 4,
+    "codex_requests_clear": 1,
+    "codex_automation": 5,
+    "codex_history": 16,
+    "codex_selected": 1,
+    "codex_audio_begin": 1,
+    "played_ack": 1100,
+    "codex_item": 11,
+    "cancel": 1
+  },
+  "native_timings": [
+    {
+      "seconds": 0.5116269165882841,
+      "type": "audible"
+    }
+  ],
+  "adapter_timings": {
+    "version": 1,
+    "clock": "process-local monotonic durations",
+    "records": [
+      {
+        "stage": "voice_startup",
+        "seconds": 4.309385334025137
+      }
+    ]
+  },
+  "live_desktop_history": "unverified",
+  "computer_use": "unverified",
+  "human_microphone": "unverified"
+}

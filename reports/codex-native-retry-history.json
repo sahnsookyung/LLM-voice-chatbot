@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-16",
+  "canonical_realtime_active": false,
+  "latest_start_found": true,
+  "latest_session_closed": true,
+  "latest_session_transcript_counts": {
+    "assistant": 1
+  },
+  "exact_expected_reply_found": false,
+  "read_only": true,
+  "microphone_opened_by_probe": false,
+  "diagnostics_exclude": [
+    "audio",
+    "transcripts",
+    "screenshots",
+    "credentials"
+  ]
+}

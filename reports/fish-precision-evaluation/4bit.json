@@ -1,0 +1,56 @@
+{
+  "bits": 4,
+  "load_seconds": 0.6405807080445811,
+  "human_voice_quality_validated": false,
+  "enabled_in_app": false,
+  "cases": [
+    {
+      "case": "en-neutral",
+      "first_audio_seconds": 0.7974593749968335,
+      "generation_seconds": 3.283214292023331,
+      "audio_seconds": 3.5294583333333334,
+      "rtf": 0.9302317755151279,
+      "peak_gpu_memory_bytes": 6886589264
+    },
+    {
+      "case": "ko-neutral",
+      "first_audio_seconds": 0.502939207945019,
+      "generation_seconds": 3.1908934579696506,
+      "audio_seconds": 3.7616666666666667,
+      "rtf": 0.8482658727433718,
+      "peak_gpu_memory_bytes": 6886589264
+    },
+    {
+      "case": "ja-neutral",
+      "first_audio_seconds": 0.48786799993831664,
+      "generation_seconds": 3.6226804169127718,
+      "audio_seconds": 4.365375,
+      "rtf": 0.8298669454314398,
+      "peak_gpu_memory_bytes": 6886589264
+    },
+    {
+      "case": "mixed",
+      "first_audio_seconds": 0.48914833390153944,
+      "generation_seconds": 4.357447124901228,
+      "audio_seconds": 5.2941666666666665,
+      "rtf": 0.8230657248357427,
+      "peak_gpu_memory_bytes": 6886589264
+    },
+    {
+      "case": "en-happy",
+      "first_audio_seconds": 0.4851981670362875,
+      "generation_seconds": 2.83323862508405,
+      "audio_seconds": 3.29725,
+      "rtf": 0.8592732201331564,
+      "peak_gpu_memory_bytes": 6886589264
+    },
+    {
+      "case": "en-concerned",
+      "first_audio_seconds": 0.1785008329898119,
+      "generation_seconds": 2.629848708049394,
+      "audio_seconds": 3.4365833333333335,
+      "rtf": 0.7652509638107793,
+      "peak_gpu_memory_bytes": 6886589264
+    }
+  ]
+}

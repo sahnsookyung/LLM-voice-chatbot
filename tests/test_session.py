@@ -271,7 +271,7 @@ async def test_handsfree_skips_idle_asr_work_and_preserves_preroll(tmp_path):
     assert not s.recognizer.chunks
     await s.input_audio(bytes(1024))
     await s.audio_queue.join()
-    assert len(s.recognizer.chunks) == 3
+    assert b"".join(s.recognizer.chunks) == bytes(3072)
     await s.close()
     store.close()
 

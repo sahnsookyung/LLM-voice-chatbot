@@ -41,12 +41,14 @@ def install_fish_hooks(model, cancelled):
 
     model._prepare_reference_prompt = cached_reference
     model._sample_semantic = cancellable_sample
+    return reference_cache
 
 
 def main():
     output = sys.stdout
     commands = queue.Queue(maxsize=2)
     cancelled = threading.Event()
+    audio_credit = threading.Semaphore(0)
 
     def emit(data):
         output.write(json.dumps(data) + "\n")
@@ -58,12 +60,16 @@ def main():
                 command = json.loads(line)
                 if command.get("type") == "cancel":
                     cancelled.set()
+                    audio_credit.release()
+                elif command.get("type") == "credit":
+                    audio_credit.release()
                 else:
                     cancelled.clear()
                     commands.put(command)
             except (ValueError, KeyError):
                 cancelled.set()
         cancelled.set()
+        audio_credit.release()
         commands.put(None)
 
     with contextlib.redirect_stdout(sys.stderr):
@@ -74,7 +80,7 @@ def main():
 
             model = load_model(sys.argv[1])
             mx.set_cache_limit(256 * 1024 * 1024)
-            install_fish_hooks(model, cancelled)
+            reference_tokens = install_fish_hooks(model, cancelled)
         except Exception:  # noqa: BLE001 — isolate provider failure at the service boundary
             traceback.print_exc()
             emit(
@@ -87,8 +93,21 @@ def main():
         emit({"type": "ready", "engine": "Fish Audio S2 Pro", "sample_rate": 24000})
         threading.Thread(target=read, daemon=True).start()
         references = {}
+        codec_weights = {}
         while (command := commands.get()) is not None:
             try:
+                if command.get("type") == "trim":
+                    reference_tokens.clear()
+                    references.clear()
+                    codec_weights.clear()
+                    if hasattr(model, "_ari_prefix_cache"):
+                        del model._ari_prefix_cache
+                    mx.clear_cache()
+                    emit({"type": "trimmed"})
+                    continue
+                while audio_credit.acquire(blocking=False):
+                    pass
+                audio_credit.release()
                 path = command["reference"]
                 stat = os.stat(path)
                 key = path, stat.st_mtime_ns, stat.st_size
@@ -101,29 +120,36 @@ def main():
                 if not text or cancelled.is_set():
                     emit({"type": "done"})
                     continue
-                results = model.generate(
-                    text=text,
-                    ref_audio=references[key],
-                    ref_text=command["transcript"],
-                    # Explicit language helps keep a Japanese reference from
-                    # pulling an English reply toward its original pronunciation.
-                    instruct={
-                        "english": "Speak naturally in English.",
-                        "korean": "Speak naturally in Korean.",
-                        "japanese": "Speak naturally in Japanese.",
-                    }.get(command["language"]),
-                    stream=False,
-                    max_tokens=512,
-                    verbose=False,
-                )
+                instruct = {
+                    "english": "Speak naturally in English.",
+                    "korean": "Speak naturally in Korean.",
+                    "japanese": "Speak naturally in Japanese.",
+                }.get(command["language"])
+                if command.get("streaming", False):
+                    from .fish_stream import stream_pcm
+
+                    results = stream_pcm(
+                        model, text, references[key], command["transcript"], instruct, codec_weights
+                    )
+                else:
+                    results = whole_segment_pcm(
+                        model,
+                        text=text,
+                        ref_audio=references[key],
+                        ref_text=command["transcript"],
+                        # Explicit language helps keep a Japanese reference from
+                        # pulling an English reply toward its original pronunciation.
+                        instruct=instruct,
+                        stream=False,
+                        max_tokens=512,
+                        verbose=False,
+                    )
                 try:
-                    for result in results:
+                    for pcm in results:
+                        audio_credit.acquire()
                         if cancelled.is_set():
                             break
-                        for pcm in pcm_chunks(result.audio, result.sample_rate):
-                            if cancelled.is_set():
-                                break
-                            emit({"type": "audio", "pcm": base64.b64encode(pcm).decode()})
+                        emit({"type": "audio", "pcm": base64.b64encode(pcm).decode()})
                 finally:
                     results.close()
                 mx.synchronize()
@@ -142,6 +168,15 @@ def main():
                         "message": "Local speech generation failed. Check the voice reference and model installation.",
                     }
                 )
+
+
+def whole_segment_pcm(model, **kwargs):
+    results = model.generate(**kwargs)
+    try:
+        for result in results:
+            yield from pcm_chunks(result.audio, result.sample_rate)
+    finally:
+        results.close()
 
 
 if __name__ == "__main__":

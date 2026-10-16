@@ -1,0 +1,621 @@
+{
+  "input": "synthetic fixtures; actual local playback; no live microphone",
+  "profile": "quiet",
+  "fish_precision": 8,
+  "final_asr_revision": "a8379a2e2f9e313c9292cdf1af4055ab56d50d55",
+  "runs": [
+    {
+      "index": 0,
+      "streaming": false,
+      "first_turn_for_mode": true,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 12.536292957956903,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.014667458017356694
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.46225795801728964,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 4.099050124990754
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 4.330912375007756
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 1.4298405409790576,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.4300128750037402,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.4308882080949843,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.9280264580156654,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 2.3588655000785366,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 0.9287633328931406,
+          "audio_seconds": 0.5572916666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 2.284055707976222,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.285523542086594,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.286369000095874,
+          "audio_seconds": 1.76475
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 1.7388522499240935,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.8102641250006855,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.7403202056884766,
+          "audio_seconds": 1.2539166666666666
+        }
+      ],
+      "native": [
+        {
+          "seconds": 6.276172958314419,
+          "type": "audible"
+        },
+        {
+          "seconds": 0.09999108326155692,
+          "type": "gap"
+        },
+        {
+          "seconds": 1.7333522917469963,
+          "type": "gap"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 1,
+      "streaming": false,
+      "first_turn_for_mode": false,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 13.155013040988706,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.002504291944205761
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5389790419721976,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.8165517919696867
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.260895291925408
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 5.5323520000092685,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.532407792052254,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.538372628972866,
+          "audio_seconds": 4.736875
+        }
+      ],
+      "native": [
+        {
+          "seconds": 8.400375749915838,
+          "type": "audible"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 2,
+      "streaming": false,
+      "first_turn_for_mode": false,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 10.749007417005487,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0028267500456422567
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5257509999210015,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.7632829999784008
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.0025987080298364
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 1.5517875840887427,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.5519308330258355,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5530124179786071,
+          "audio_seconds": 0.97525
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 2.4566347079817206,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.680788457975723,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.4590110004646704,
+          "audio_seconds": 1.9505
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 2.3360975000541657,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.825495749944821,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.338248954853043,
+          "audio_seconds": 1.8111666666666666
+        }
+      ],
+      "native": [
+        {
+          "seconds": 4.135880041634664,
+          "type": "audible"
+        },
+        {
+          "seconds": 1.4984147917712107,
+          "type": "gap"
+        },
+        {
+          "seconds": 0.40059020835906267,
+          "type": "gap"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 3,
+      "streaming": true,
+      "first_turn_for_mode": true,
+      "language": "mixed",
+      "input_seconds": 5.897875,
+      "turn_seconds": 15.973847292014398,
+      "fast_errors": {
+        "errors": 21,
+        "reference_tokens": 25
+      },
+      "accurate_errors": {
+        "errors": 16,
+        "reference_tokens": 25
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0010805410565808415
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.7940474159549922,
+          "mode": "accurate",
+          "audio_seconds": 5.897875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 1.8390078749507666
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 2.2992258339654654
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7540211250307038,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7541481669759378,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 5.000252497964539,
+          "audio_seconds": 3.9938333333333333
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.500672041089274,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 4.887372083961964,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 3.571490544010885,
+          "audio_seconds": 2.92575
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5335482920054346,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 8.396067624911666,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.3414852896239609,
+          "audio_seconds": 0.882375
+        }
+      ],
+      "native": [
+        {
+          "seconds": 8.150749000022188,
+          "type": "audible"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 4,
+      "streaming": true,
+      "first_turn_for_mode": false,
+      "language": "english",
+      "input_seconds": 3.575875,
+      "turn_seconds": 10.500553374993615,
+      "fast_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 8
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.002613708027638495
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.47891433304175735,
+          "mode": "accurate",
+          "audio_seconds": 3.575875
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.07973783405032009
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3118059999542311
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.7681920829927549,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.768308165948838,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.053107334068045,
+          "audio_seconds": 0.37154166666666666
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.23779908299911767,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7882612500106916,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.8810307070380077,
+          "audio_seconds": 2.5542083333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24829050002153963,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 3.402670915937051,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 2.3489349979208782,
+          "audio_seconds": 2.043375
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.2374155840370804,
+          "clause": 3
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 5.598598540993407,
+          "clause": 3
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.2811967100715265,
+          "audio_seconds": 1.1145833333333333
+        }
+      ],
+      "native": [
+        {
+          "seconds": 1.9022380416281521,
+          "type": "audible"
+        },
+        {
+          "seconds": 2.5020474166376516,
+          "type": "gap"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 5,
+      "streaming": true,
+      "first_turn_for_mode": false,
+      "language": "korean",
+      "input_seconds": 3.4365625,
+      "turn_seconds": 12.759629625012167,
+      "fast_errors": {
+        "errors": 1,
+        "reference_tokens": 18
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 18
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0023312909761443734
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.5280526250135154,
+          "mode": "accurate",
+          "audio_seconds": 3.4365625
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.08179308392573148
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.5123983749654144
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.5841906670248136,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.5842322920216247,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 6.3495862112613395,
+          "audio_seconds": 5.2941666666666665
+        }
+      ],
+      "native": [
+        {
+          "seconds": 7.429509541718289,
+          "type": "audible"
+        }
+      ],
+      "failed": false
+    },
+    {
+      "index": 6,
+      "streaming": true,
+      "first_turn_for_mode": false,
+      "language": "japanese",
+      "input_seconds": 4.551125,
+      "turn_seconds": 17.990918791969307,
+      "fast_errors": {
+        "errors": 2,
+        "reference_tokens": 21
+      },
+      "accurate_errors": {
+        "errors": 0,
+        "reference_tokens": 21
+      },
+      "stages": [
+        {
+          "stage": "recognition_startup",
+          "seconds": 0.0023382080253213644
+        },
+        {
+          "stage": "recognition_finalization",
+          "seconds": 0.49955116701312363,
+          "mode": "accurate",
+          "audio_seconds": 4.551125
+        },
+        {
+          "stage": "llm_first_text",
+          "seconds": 0.0805833749473095
+        },
+        {
+          "stage": "first_speakable_clause",
+          "seconds": 0.3200788339599967
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.741182958940044,
+          "clause": 0
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 0.7413172910455614,
+          "clause": 0
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.5367177941370755,
+          "audio_seconds": 0.8359583333333334
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.27954141597729176,
+          "clause": 1
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 1.0232131670927629,
+          "clause": 1
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 8.464958411525004,
+          "audio_seconds": 7.430416666666667
+        },
+        {
+          "stage": "fish_first_audio",
+          "seconds": 0.24217083305120468,
+          "clause": 2
+        },
+        {
+          "stage": "clause_to_audio",
+          "seconds": 9.379756833077408,
+          "clause": 2
+        },
+        {
+          "stage": "speech_generation",
+          "seconds": 1.897306167287752,
+          "audio_seconds": 1.6254166666666667
+        }
+      ],
+      "native": [
+        {
+          "seconds": 2.397182499989867,
+          "type": "audible"
+        },
+        {
+          "seconds": 5.6660912916995585,
+          "type": "gap"
+        }
+      ],
+      "failed": false
+    }
+  ],
+  "human_accuracy_validated": false,
+  "fish_pre_warmed_by_fixture_generation": true,
+  "sequential_load_seconds": 4.938039583037607
+}

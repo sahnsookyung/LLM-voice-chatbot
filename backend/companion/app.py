@@ -13,6 +13,7 @@ from pydantic import ValidationError
 
 from .adapters import DemoDialogue, DemoSpeech, LocalDialogue, LocalSpeech, SetupRequired
 from .characters import character_path, import_bundle, load_character, safe_asset
+from .codex_api import install_codex
 from .config import Config
 from .protocol import CharacterInput, Command, MemoryInput, PersonaInput, VoiceInput
 from .session import Session
@@ -31,6 +32,7 @@ def create_app(config: Config):
     async def lifespan(app):
         yield
         await asyncio.gather(*(s.close() for s in list(active)), return_exceptions=True)
+        await codex_service.close()
         store.close()
 
     app = FastAPI(
@@ -44,6 +46,9 @@ def create_app(config: Config):
 
     def authorized(headers):
         return hmac.compare_digest(headers.get("authorization", ""), f"Bearer {config.token}")
+
+    codex_service = install_codex(app, config, store, authorized, session_lock)
+    app.state.codex = codex_service
 
     @app.middleware("http")
     async def auth(request: Request, call_next):
@@ -77,6 +82,22 @@ def create_app(config: Config):
             raise HTTPException(409, "Start a new conversation before deleting the active one")
         store.delete_conversation(identifier)
         return {"deleted": True}
+
+    @app.get("/speech-diagnostics")
+    async def speech_diagnostics():
+        return {
+            "version": 1,
+            "sessions": [
+                {
+                    **s.timings.export(),
+                    "configuration": s.settings.model_dump(exclude={"vocabulary"}),
+                    "vocabulary_entries": len(s.settings.vocabulary),
+                    "profile": s.profile,
+                    "memory": s.last_memory,
+                }
+                for s in active
+            ],
+        }
 
     @app.get("/export")
     async def export():
@@ -292,6 +313,8 @@ def create_app(config: Config):
                     "language": session.language,
                     "character_id": session.character_id,
                     "demo": config.demo,
+                    "microphone_versions": [1, 2],
+                    "speech_settings": session.settings.model_dump(),
                 }
             )
             while True:
@@ -308,14 +331,19 @@ def create_app(config: Config):
                 try:
                     command = Command.model_validate_json(raw)
                     if command.type == "text":
+                        await session.mute()
                         await session.reply(command.text, command.speak)
                     elif command.type == "start":
-                        await session.start_listening(command.mode)
+                        await session.start_listening(
+                            command.mode, command.capture_id, command.microphone_version
+                        )
                     elif command.type == "commit":
-                        await session.commit()
+                        await session.request_commit(command.capture_id)
                     elif command.type == "mute":
                         await session.mute()
                     elif command.type == "stop":
+                        await session.cancel_preparation()
+                        await session.mute()
                         await session.stop()
                         await session.event(
                             "state", state="listening" if session.listening else "idle"
@@ -328,6 +356,9 @@ def create_app(config: Config):
                         await session.mute()
                         session.language = command.language
                         store.set_setting("language", command.language)
+                        session.settings.input_language = command.language
+                        session.settings.reply_language = command.language
+                        store.set_setting("speech_settings", session.settings.model_dump())
                     elif command.type == "character":
                         load_character(config, command.character_id)
                         await session.stop()
@@ -337,6 +368,27 @@ def create_app(config: Config):
                         await session.event("character", character_id=command.character_id)
                     elif command.type == "pressure":
                         await session.pressure(command.pressure)
+                    elif command.type == "prepare":
+                        await session.prepare(force=True)
+                    elif command.type == "speech_settings":
+                        if command.speech_settings is None:
+                            raise ValueError("Speech settings are required")
+                        await session.cancel_preparation()
+                        await session.mute()
+                        await session.stop()
+                        session.settings = command.speech_settings
+                        session.language = session.settings.reply_language
+                        store.set_setting("speech_settings", session.settings.model_dump())
+                        await session.event(
+                            "speech_settings", settings=session.settings.model_dump()
+                        )
+                        await session.prepare()
+                    elif command.type == "transcription_action":
+                        await session.transcription_action(
+                            command.transcription_action, command.capture_id, command.text
+                        )
+                    elif command.type == "telemetry":
+                        session.timings.record("native_" + command.metric, command.seconds)
                     elif command.type == "avatar":
                         session.avatar_mode = command.avatar_mode
                         session.avatar_visible = command.avatar_visible

@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "checks": {
+    "session_connected": true,
+    "selected_existing_task": true,
+    "history_complete": true,
+    "no_history_duplicates": true,
+    "native_messages_under_one_mib": true,
+    "no_disconnect": true
+  },
+  "fingerprint": {
+    "host_version": "codex-cli 0.162.0-alpha.17.2",
+    "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "client_sha256": "18d4933222de8b8cbeaa3ba41c5abe846158fac7d6f8c75850cfe54713c0c245"
+  },
+  "displayed_rows": 2000,
+  "history_window_truncated": true,
+  "active_turn_observed": true,
+  "calls": {
+    "initialize": 1,
+    "thread/read": 2,
+    "thread/realtime/listVoices": 1,
+    "model/list": 1,
+    "mcpServerStatus/list": 1,
+    "project/list": 1,
+    "plugin/installed": 1,
+    "account/read": 1,
+    "account/rateLimits/read": 1,
+    "thread/resume": 1,
+    "thread/timeline/list": 358,
+    "thread/turns/list": 1,
+    "thread/unsubscribe": 1
+  },
+  "maximum_host_response_bytes": {
+    "initialize": 200,
+    "thread/read": 2024,
+    "thread/realtime/listVoices": 241,
+    "model/list": 8333,
+    "mcpServerStatus/list": 1070094,
+    "project/list": 4925,
+    "plugin/installed": 39656,
+    "account/read": 288,
+    "account/rateLimits/read": 1757,
+    "thread/resume": 4635,
+    "thread/timeline/list": 20456857,
+    "thread/turns/list": 584,
+    "thread/unsubscribe": 26
+  },
+  "maximum_native_event_bytes": {
+    "ready": 146,
+    "metrics": 309,
+    "codex_state": 349,
+    "codex_catalog": 2336,
+    "codex_capability": 39749,
+    "listening": 74,
+    "codex_requests_clear": 67,
+    "codex_automation": 80,
+    "codex_history": 131979,
+    "codex_selected": 2357
+  },
+  "task_submission": "none",
+  "microphone": "not opened"
+}

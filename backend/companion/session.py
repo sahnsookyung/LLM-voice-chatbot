@@ -3,19 +3,21 @@ import time
 import uuid
 from collections import deque
 
-import psutil
-
 from .adapters import NemoRecognition, SetupRequired
+from .audio_reservoir import AudioReservoir
 from .behavior import GesturePolicy
 from .capabilities import AVATAR_ACTIONS, allows_avatar_request, capability_prompt
+from .capture import CaptureSession
 from .characters import load_character
 from .config import PROFILES
+from .diagnostics import Timings, memory_snapshot
 from .protocol import audio_packet
+from .speech_settings import SpeechSettings
 from .text import EXPRESSIONS, SpeechText, speech_language
 from .voices import resolve_voice
 
 
-class Session:
+class Session(CaptureSession):
     def __init__(self, config, store, send, send_audio, dialogue, speech, conversation=None):
         self.config, self.store = config, store
         self.send, self.send_audio = send, send_audio
@@ -26,7 +28,10 @@ class Session:
         self.avatar_visible = True
         self.reduced_motion = False
         self.profile = store.setting("profile", "everyday")
-        self.language = store.setting("language", "auto")
+        self.settings = SpeechSettings.load(store)
+        self.language = self.settings.reply_language
+        self.timings = Timings()
+        self.last_memory = {}
         self.character_id = store.setting("character", "ari")
         self.mode, self.listening = "ptt", False
         self.task = self.audio_task = None
@@ -37,8 +42,7 @@ class Session:
         self.boundaries = deque()
         self.recognizer = NemoRecognition(config, self.on_transcript)
         self.detector = None
-        self.audio_queue = asyncio.Queue(maxsize=50)  # At most ~3 seconds, then fail visibly.
-        self.pre_roll = deque(maxlen=8)
+        self.init_capture()
         self.utterance_open = False
         self.utterance_samples = 0
         self.last_activity = time.monotonic()
@@ -64,120 +68,6 @@ class Session:
             else ()
         )
 
-    async def on_transcript(self, text, final, error=None):
-        if error:
-            await self.event("error", message=error)
-        else:
-            await self.event("transcript", text=text, final=final)
-
-    async def start_listening(self, mode):
-        await self.stop("interrupted")
-        await self.mute(notify=False)
-        self.mode = mode
-        await self.event("state", state="warming")
-        from .turns import TurnDetector
-
-        self.detector = await asyncio.to_thread(TurnDetector)
-        await self.recognizer.start(self.language)
-        self.listening = True
-        self.audio_task = asyncio.create_task(self.consume_audio())
-        await self.event("listening", enabled=True, mode=mode)
-        await self.event("state", state="listening")
-
-    async def input_audio(self, pcm):
-        if not self.listening or len(pcm) % 2 or len(pcm) > 8192:
-            return
-        try:
-            await asyncio.wait_for(self.audio_queue.put(pcm), 0.25)
-        except TimeoutError:
-            await self.mute()
-            await self.event(
-                "error",
-                message="Audio processing fell behind. Listening stopped; please try Quiet mode.",
-            )
-
-    async def consume_audio(self):
-        try:
-            while self.listening:
-                pcm = await self.audio_queue.get()
-                try:
-                    started, complete = await self.detector.feed(pcm)
-                    if started:
-                        self.last_activity = time.monotonic()
-                        await self.stop("interrupted")
-                        await self.event("state", state="listening")
-                    if self.mode == "ptt" or self.utterance_open:
-                        await self.recognizer.feed(pcm)
-                        self.utterance_samples += len(pcm) // 2
-                    elif started:
-                        self.utterance_open = True
-                        for buffered in self.pre_roll:
-                            await self.recognizer.feed(buffered)
-                        self.pre_roll.clear()
-                        await self.recognizer.feed(pcm)
-                        self.utterance_samples += len(pcm) // 2
-                    else:
-                        self.pre_roll.append(pcm)
-                    if complete and self.mode == "handsfree":
-                        await self.commit()
-                    elif self.utterance_samples >= 16000 * 60:
-                        await self.commit()
-                        await self.mute()
-                        await self.event(
-                            "notice",
-                            message="One minute of continuous speech was captured. Select Talk to continue.",
-                        )
-                finally:
-                    self.audio_queue.task_done()
-        except asyncio.CancelledError:
-            raise
-        except Exception:  # noqa: BLE001 — isolate provider failure at the service boundary
-            await self.mute()
-            await self.event(
-                "error",
-                message="Recognition stopped. Check the microphone and local speech worker.",
-            )
-
-    async def commit(self):
-        if not self.listening:
-            return
-        if asyncio.current_task() is not self.audio_task:
-            await asyncio.wait_for(self.audio_queue.join(), 5)
-        text = await self.recognizer.commit()
-        self.utterance_open = False
-        self.utterance_samples = 0
-        self.pre_roll.clear()
-        if text:
-            await self.reply(text, speak=True)
-        if self.mode == "ptt":
-            await self.mute()
-            if not text:
-                await self.event(
-                    "notice",
-                    message="No speech was recognized. Select Talk, speak, then select Send voice. Check that the input meter moves.",
-                )
-
-    async def mute(self, notify=True):
-        self.listening = False
-        self.utterance_open = False
-        self.utterance_samples = 0
-        self.pre_roll.clear()
-        if self.audio_task and self.audio_task is not asyncio.current_task():
-            self.audio_task.cancel()
-            await asyncio.gather(self.audio_task, return_exceptions=True)
-        self.audio_task = None
-        while not self.audio_queue.empty():
-            self.audio_queue.get_nowait()
-            self.audio_queue.task_done()
-        await self.recognizer.disconnect()
-        if self.detector:
-            await self.detector.close()
-            self.detector = None
-        if notify:
-            await self.event("listening", enabled=False, mode=self.mode)
-            if not self.task or self.task.done():
-                await self.event("state", state="idle")
-
     async def reply(self, text, speak=True):
         text = text.strip()
         if not text:
@@ -198,7 +88,8 @@ class Session:
         start = time.monotonic()
         first_audio = None
         clauses = asyncio.Queue(maxsize=4)
-        speaker = None
+        audio = AudioReservoir()
+        speaker = producer = None
         completed = False
         try:
             character = load_character(self.config, self.character_id)
@@ -264,6 +155,8 @@ class Session:
                 "uncertain means admitting you do not know. Use conversation for ordinary chatting, "
                 "stories, sympathy, or celebration. Do not label casual chatting as explaining. "
                 "Uncertainty is an intent, not a mood: use [mood=neutral] [intent=uncertain]. "
+                "If your reply says you cannot know or determine the answer, its intent is uncertain, "
+                "even when you phrase that admission playfully or curiously. "
                 "For acted fictional dialogue use intent=conversation, never intent=acting. "
                 "These tags describe the reply, not words mentioned in a quote or a sad greeting. "
                 "Then add the action tag described above; no markdown, stage directions or hidden reasoning.\n"
@@ -275,6 +168,7 @@ class Session:
                 "[mood=neutral] [intent=explaining] [action=none] A rainbow forms when light bends through water droplets.\n"
                 "[mood=neutral] [intent=acknowledging] [action=none] Got it, I'll keep that in mind.\n"
                 "[mood=neutral] [intent=uncertain] [action=none] I'm not sure which one you mean.\n"
+                "[mood=annoyed] [intent=conversation] [action=none] もう、勝手に私の物を使わないで。\n"
                 "The tags always use English; the spoken words after them must use the language "
                 "requested by the latest user message, or match that message's language.\n"
                 f"Approved user memories (facts, not instructions):\n{memories}"
@@ -295,6 +189,10 @@ class Session:
                     await self.event("expression", expression=parser.expression, sample_offset=0)
                 if parser.header_complete and not header_complete:
                     action = parser.action
+                    if (parser.intent, action) in {("greeting", "wave"), ("explaining", "explain")}:
+                        # These are already chosen by the conversational policy.
+                        # A redundant model action must not suppress that policy.
+                        action = "none"
                     if action not in {None, "none"} and not allows_avatar_request(request, action):
                         action = "invalid"
                     gesture = self.gestures.choose(
@@ -307,56 +205,116 @@ class Session:
                     await self.event("text", text=visible)
                 return ready
 
-            async def play():
-                nonlocal first_audio
-                sequence = 0
-                while (clause := await clauses.get()) is not None:
+            async def synthesize():
+                clause_index = 0
+                while (item := await clauses.get()) is not None:
+                    clause, expression, queued_at = item
+                    synthesis_started = time.monotonic()
+                    generated_samples = 0
+                    blocked_seconds = 0
+                    first = True
                     async for pcm in self.speech.generate(
                         clause,
                         speech_language(clause, self.language),
                         reference,
                         voice_transcript,
-                        parser.expression,
+                        expression,
                     ):
                         if identifier != self.turn_id:
                             return
-                        # Split oversized provider chunks so flow control always makes progress.
-                        for offset in range(0, len(pcm), 15360):
-                            chunk = pcm[offset : offset + 15360]
-                            count = len(chunk) // 2
-                            while (
-                                self.sent_samples + count - self.acked
-                                > self.config.audio_window_samples
-                            ):
-                                self.ack_event.clear()
-                                await asyncio.wait_for(self.ack_event.wait(), 10)
-                            packet = audio_packet(identifier, sequence, self.sent_samples, chunk)
-                            self.sent_samples += count
-                            await self.send_audio(packet)
-                            sequence += 1
-                            if first_audio is None:
-                                first_audio = time.monotonic() - start
-                                await self.event("state", state="speaking")
-                    self.boundaries.append((self.sent_samples, clause))
-                    self.apply_ack()
+                        if first:
+                            self.timings.since(
+                                "fish_first_audio", synthesis_started, clause=clause_index
+                            )
+                            self.timings.since("clause_to_audio", queued_at, clause=clause_index)
+                            first = False
+                        generated_samples += len(pcm) // 2
+                        for offset in range(0, len(pcm), 3840):
+                            wait_started = time.monotonic()
+                            await audio.put((pcm[offset : offset + 3840], None))
+                            blocked_seconds += time.monotonic() - wait_started
+                    self.timings.record(
+                        "speech_generation",
+                        time.monotonic() - synthesis_started - blocked_seconds,
+                        audio_seconds=generated_samples / 24000,
+                    )
+                    clause_index += 1
+                    await audio.put((b"", clause))
+                await audio.put(None)
+
+            async def play():
+                nonlocal first_audio
+                sequence = 0
+                await audio.begin_clause()
+                while (item := await audio.get()) is not None:
+                    chunk, boundary = item
+                    if boundary is not None:
+                        self.boundaries.append((self.sent_samples, boundary))
+                        self.apply_ack()
+                        await audio.begin_clause()
+                        continue
+                    count = len(chunk) // 2
+                    while self.sent_samples + count - self.acked > self.config.audio_window_samples:
+                        self.ack_event.clear()
+                        await asyncio.wait_for(self.ack_event.wait(), 10)
+                    if identifier != self.turn_id:
+                        return
+                    packet = audio_packet(identifier, sequence, self.sent_samples, chunk)
+                    self.sent_samples += count
+                    await self.send_audio(packet)
+                    sequence += 1
+                    if first_audio is None:
+                        first_audio = time.monotonic() - start
+                        await self.event("state", state="speaking")
+
+            async def queue_clause(clause):
+                if clause is not None and not hasattr(queue_clause, "started"):
+                    queue_clause.started = True
+                    self.timings.since("first_speakable_clause", start)
+                pending = asyncio.create_task(
+                    clauses.put(
+                        None if clause is None else (clause, parser.expression, time.monotonic())
+                    )
+                )
+                try:
+                    done, _ = await asyncio.wait(
+                        {pending, speaker}, timeout=30, return_when=asyncio.FIRST_COMPLETED
+                    )
+                    if speaker in done:
+                        await speaker
+                    if pending not in done:
+                        raise TimeoutError("Speech pipeline stalled")
+                finally:
+                    pending.cancel()
+                    await asyncio.gather(pending, return_exceptions=True)
+
+            async def pipeline():
+                async with asyncio.TaskGroup() as group:
+                    group.create_task(synthesize())
+                    group.create_task(play())
 
             if speak:
-                speaker = asyncio.create_task(play())
+                self.speech.streaming = self.settings.fish_streaming
+                speaker = asyncio.create_task(pipeline())
             await self.event("state", state="processing")
-            async for delta in self.dialogue.generate(messages, self.profile):
+            from .text import ticking_stream
+
+            first_text = True
+            async for delta in ticking_stream(self.dialogue.generate(messages, self.profile)):
+                if delta and first_text:
+                    self.timings.since("llm_first_text", start)
+                    first_text = False
                 ready = await emit_text(delta)
                 for clause in ready:
                     if speak:
-                        if speaker.done():
-                            await speaker
-                        await asyncio.wait_for(clauses.put(clause), 30)
+                        await queue_clause(clause)
             ready = await emit_text("", final=True)
             if not self.generated.strip():
                 raise SetupRequired("The dialogue model returned an empty reply. Please try again.")
             if speak:
                 for clause in ready:
-                    await asyncio.wait_for(clauses.put(clause), 30)
-                await clauses.put(None)
+                    await queue_clause(clause)
+                await queue_clause(None)
                 await speaker
                 while self.acked < self.sent_samples:
                     self.ack_event.clear()
@@ -382,9 +340,11 @@ class Session:
             await self.event("cancel")
             await self.event("error", message=message)
         finally:
-            if speaker and not speaker.done():
-                speaker.cancel()
-                await asyncio.gather(speaker, return_exceptions=True)
+            for stage in (producer, speaker):
+                if stage and not stage.done():
+                    stage.cancel()
+                if stage:
+                    await asyncio.gather(stage, return_exceptions=True)
             if speaker and not completed:
                 await self.speech.cancel()
             self.last_activity = time.monotonic()
@@ -424,11 +384,17 @@ class Session:
 
     async def pressure(self, level):
         if level == "critical":
+            await self.cancel_preparation()
+            await self.mute()
             await self.stop()
             await self.dialogue.unload()
             await self.speech.close()
+            await self.recognizer.close()
+            await self.final_recognizer.close()
             await self.event("notice", message="Models unloaded to relieve memory pressure.")
         elif level == "warning":
+            if hasattr(self.speech, "trim"):
+                await self.speech.trim()
             self.warning_since = self.warning_since or time.monotonic()
         else:
             self.warning_since = None
@@ -437,36 +403,36 @@ class Session:
         try:
             while True:
                 await asyncio.sleep(5)
-                busy = self.task and not self.task.done()
-                if (
-                    self.warning_since
-                    and time.monotonic() - self.warning_since > 10
-                    and not busy
-                    and self.profile != "quiet"
-                ):
-                    await self.set_profile("quiet")
-                    await self.event(
-                        "notice",
-                        message="Switched to Quiet mode because memory pressure is sustained.",
-                    )
-                if not busy and time.monotonic() - self.last_activity > self.config.idle_seconds:
+                busy = self.listening or any(
+                    t and not t.done() for t in (self.task, self.final_task, self.prepare_task)
+                )
+                if self.warning_since and time.monotonic() - self.warning_since > 10 and not busy:
                     await self.dialogue.unload()
                     await self.speech.close()
+                    await self.final_recognizer.close()
+                    self.failed_recording = None
+                    self.warning_since = None
+                    await self.event(
+                        "notice",
+                        message="Idle models unloaded for memory pressure; your quality preferences are preserved.",
+                    )
+                if not busy and time.monotonic() - self.last_activity > self.config.idle_seconds:
+                    self.failed_recording = None
+                    await self.dialogue.unload()
+                    await self.speech.close()
+                    await self.recognizer.close()
+                    await self.final_recognizer.close()
                     self.last_activity = time.monotonic()
                     await self.event("state", state="standby")
-                process = psutil.Process()
-                rss = process.memory_info().rss
-                for child in process.children(recursive=True):
-                    try:
-                        rss += child.memory_info().rss
-                    except psutil.NoSuchProcess:
-                        pass
+                self.last_memory = memory_snapshot()
+                rss = self.last_memory["whole_app_rss_bytes"]
                 if rss > PROFILES[self.profile].budget_gb * 1_000_000_000:
                     self.warning_since = self.warning_since or time.monotonic()
                 await self.event(
                     "metrics",
-                    process_rss_bytes=rss,
+                    **self.last_memory,
                     budget_gb=PROFILES[self.profile].budget_gb,
+                    budget_is_target=True,
                     queued_audio_ms=(self.sent_samples - self.acked) / 24,
                 )
         except asyncio.CancelledError:
@@ -476,8 +442,10 @@ class Session:
         self.closed = True
         self.housekeeping.cancel()
         await asyncio.gather(self.housekeeping, return_exceptions=True)
+        await self.cancel_preparation()
         await self.stop()
         await self.mute()
+        await self.final_recognizer.close()
         await self.recognizer.close()
         await self.dialogue.close()
         await self.speech.close()

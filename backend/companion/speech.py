@@ -4,7 +4,7 @@ import re
 
 FISH_MODEL = "fish-audio-s2-pro-8bit"
 PCM_RATE = 24000
-PCM_CHUNK_SAMPLES = 7680
+PCM_CHUNK_SAMPLES = 1920
 
 DELIVERY = {
     "neutral": "",
