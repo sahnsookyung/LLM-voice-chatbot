@@ -36,11 +36,17 @@ The October 14 launcher failure is repaired for the pinned desktop build. Its ex
 
 **This is not a verified Codex voice release yet.** ChatGPT-authenticated WebRTC signaling succeeded without an API key; Ari now uses that desktop-supported host path. Bidirectional local WebRTC audio tests pass. End-to-end human voice, desktop voice-history continuation, and Computer Use still need live acceptance. The updated October 15 desktop relay also passed its isolated bootstrap/restart checks. See [validation evidence](docs/VALIDATION.md#chatgpt-authenticated-webrtc--october-15-2026).
 
+The October 17 desktop update (`0.163.0-alpha.10.2` host) also passed isolated relay/restart checks. Compatibility now pins each tested desktop to its matching schema. An app update can leave the old shared host detached; complete a launcher relaunch before attempting voice, and retain the strict ownership/idle checks when retiring old hosts. See [update recovery](docs/VALIDATION.md#desktop-update-recovery--october-17-2026).
+
 Read-only check (no restart required):
 
 ```sh
 .venv/bin/python scripts/launch_codex.py --check
 ```
+
+Run the command in a separate Terminal window while Codex remains closed. This Codex build has bundle ID `com.openai.codex` but is installed as `/Applications/ChatGPT.app`, with a macOS process named `ChatGPT`. The launcher's quit warning names **Codex desktop** and includes the blocking PID. Use **Cmd+Q** in Codex; closing its window alone can leave that process running.
+
+To start the command before quitting the apps, add `--wait-for-clients`. The launcher waits up to two minutes while you quit Codex/Ari, then rechecks compatibility and opens both apps. Leave Terminal open and let the launcher reopen Codex. Ctrl+C cancels the wait; the launcher never quits clients for you.
 
 After finishing current work and quitting **both Ari and Codex**, launch controlled validation against one existing test task:
 

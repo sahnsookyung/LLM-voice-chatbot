@@ -27,10 +27,8 @@ from companion.codex_rpc import CodexError
 from companion.codex_security import validate_socket_directory
 from companion.codex_validation import validation_thread
 
-INSPECTED_SCHEMA = "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e"
 
-
-async def is_running(name):
+async def running_client(name):
     expected = (
         str(DESKTOP / "Contents/MacOS/ChatGPT")
         if name in {"ChatGPT", "Codex"}
@@ -39,9 +37,9 @@ async def is_running(name):
     try:
         # macOS pgrep can disagree with the actual application name. Inspect both
         # the kernel process name and executable rather than argv matching.
-        for process in psutil.process_iter(["name", "exe"]):
+        for process in psutil.process_iter(["pid", "name", "exe"]):
             if process.info["name"] == name or process.info["exe"] == expected:
-                return True
+                return process.info
             if process.info["name"] is None:
                 raise RuntimeError(
                     "A process identity is unavailable. Refusing to launch a daemon."
@@ -50,7 +48,58 @@ async def is_running(name):
         raise RuntimeError(
             "Cannot inspect running clients. Refusing to launch a daemon."
         ) from error
-    return False
+    return None
+
+
+def client_quit_message(name, process):
+    desktop = name in {"ChatGPT", "Codex"}
+    label = "Codex desktop" if desktop else "Local Companion (Ari)"
+    identity = f"macOS process {process['name']!r}, PID {process['pid']}"
+    detail = (
+        f"This Codex build is installed as {DESKTOP}; its process can be named ChatGPT. "
+        if desktop
+        else ""
+    )
+    return (
+        f"{label} is still running ({identity}). {detail}"
+        f"Finish your work and quit {label} with Cmd+Q. "
+        "Run this launcher from a separate Terminal window before reopening either app. "
+        "Nothing was restarted."
+    )
+
+
+async def require_clients_closed(names, *, wait=False, timeout=120):
+    """Optionally wait for the user's quit action; never terminate a client."""
+    loop = asyncio.get_running_loop()
+    deadline = loop.time() + timeout
+    previous = None
+    waited = False
+    while True:
+        for name in names:
+            if process := await running_client(name):
+                break
+        else:
+            return waited
+        if not wait:
+            raise SystemExit(client_quit_message(name, process))
+        remaining = deadline - loop.time()
+        if remaining <= 0:
+            raise SystemExit(
+                "Timed out waiting for apps to close. " + client_quit_message(name, process)
+            )
+        identity = (name, process["pid"])
+        if identity != previous:
+            label = "Codex desktop" if name in {"ChatGPT", "Codex"} else "Local Companion (Ari)"
+            print(
+                f"Waiting for {label} (PID {process['pid']}) to close. "
+                f"Switch to {label} and press Cmd+Q after finishing your work. "
+                "Leave this Terminal open; the launcher will reopen both apps. "
+                f"Timeout: {timeout} seconds. Ctrl+C cancels. No app will be force-quit.",
+                flush=True,
+            )
+            previous = identity
+        waited = True
+        await asyncio.sleep(min(0.5, remaining))
 
 
 def prepare_bridge():
@@ -86,6 +135,11 @@ async def main():
         help="Explicitly retire only the relay's verified idle host before desktop gets fresh tool identities",
     )
     parser.add_argument(
+        "--wait-for-clients",
+        action="store_true",
+        help="Wait up to 120 seconds for you to quit Codex/Ari, then launch; never quits them for you",
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help="Read-only readiness check; never launch or stop clients",
@@ -102,17 +156,14 @@ async def main():
     fingerprint = await desktop_fingerprint()
     if blocked := launcher_blocker(fingerprint):
         raise SystemExit(blocked + " No process was started or stopped.")
-    if fingerprint["schema_sha256"] != INSPECTED_SCHEMA:
-        raise SystemExit(
-            "This desktop build has not passed launcher compatibility inspection. Run scripts/check_codex.py; use normal desktop launch meanwhile."
-        )
-    for name in (
+    names = (
         ("ChatGPT", "Codex", "Companion") if args.validation_thread else ("ChatGPT", "Codex")
-    ):
-        if await is_running(name):
-            raise SystemExit(
-                f"Finish your work and quit {name} before using this launcher. Nothing was restarted."
-            )
+    )
+    if await require_clients_closed(names, wait=args.wait_for_clients):
+        # An update or manual reopening during the wait must not bypass preflight.
+        if blocked := launcher_blocker(await desktop_fingerprint()):
+            raise SystemExit(blocked + " No process was started or stopped.")
+        await require_clients_closed(names)
     relay_path = prepare_bridge()
     if args.restart_idle_host:
         await restart_idle_host(bridge_directory())
@@ -155,6 +206,8 @@ async def main():
 if __name__ == "__main__":
     try:
         asyncio.run(main())
+    except KeyboardInterrupt:
+        raise SystemExit("Launcher cancelled. Existing processes were left running.") from None
     except CodexError as error:
         raise SystemExit(str(error)) from None
     except (OSError, RuntimeError, TimeoutError, ValueError):

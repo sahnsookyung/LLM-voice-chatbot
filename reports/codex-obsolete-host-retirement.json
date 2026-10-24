@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-17",
+  "authorized_pid": 65703,
+  "matched_recorded_identity": true,
+  "connected_clients_before_stop": 0,
+  "termination": "SIGTERM; exit confirmed",
+  "force_kill": false,
+  "removed": [],
+  "current_desktop_restarted": false,
+  "task_status_before_stop": "unverified; user explicitly approved possible interruption of old background work"
+}

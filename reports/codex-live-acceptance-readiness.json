@@ -1,0 +1,19 @@
+{
+  "available": false,
+  "shared_host": false,
+  "host_id": "codex-local-a3d4b40a6902161c61ba",
+  "checks": {},
+  "reasons": [
+    "No shared Codex host. Use the Ari + Codex launcher."
+  ],
+  "fingerprint": {
+    "host_version": "codex-cli 0.163.0-alpha.10.2",
+    "schema_sha256": "8c745d3a424119540f488fc94a05bd0cdd4963cefa2d0d65e276835f1591b0a3",
+    "desktop_sha256": "bf9c41fa9770fbfacfba93042ff71c24cb65c82935819377275faac08103383f",
+    "client_sha256": "bd8d8ba6ce37401bf0546e448dbbcaa74fa6968ef853a73fbf1f048a49c708ae"
+  },
+  "launcher": {
+    "available": true,
+    "reason": null
+  }
+}

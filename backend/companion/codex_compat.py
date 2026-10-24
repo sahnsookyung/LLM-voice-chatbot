@@ -22,16 +22,23 @@ from .codex_security import BUNDLED_CLI
 
 DESKTOP = Path("/Applications/ChatGPT.app")
 INSPECTED_DESKTOPS = {
-    "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
-    "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+    "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+    "bf9c41fa9770fbfacfba93042ff71c24cb65c82935819377275faac08103383f": "8c745d3a424119540f488fc94a05bd0cdd4963cefa2d0d65e276835f1591b0a3",
 }
 
 
 def launcher_blocker(fingerprint):
-    if fingerprint.get("desktop_sha256") not in INSPECTED_DESKTOPS:
+    schema = INSPECTED_DESKTOPS.get(fingerprint.get("desktop_sha256"))
+    if schema is None:
         return (
             "This desktop build has not been checked with Ari's configuration-preserving relay. "
             "Use normal desktop launch until compatibility is verified."
+        )
+    if fingerprint.get("schema_sha256") != schema:
+        return (
+            "This desktop and host schema combination has not passed compatibility inspection. "
+            "Use normal desktop launch until the installed pair is verified."
         )
     return None
 

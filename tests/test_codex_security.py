@@ -169,14 +169,16 @@ def launcher(monkeypatch, tmp_path):
 
 
 @pytest.mark.parametrize(
-    "case,expected", [("name", True), ("path", True), ("absent", False), ("denied", None)]
+    "case,expected",
+    [("name", True), ("path", True), ("absent", False), ("denied", None), ("unknown", None)],
 )
 async def test_launcher_fails_closed_when_process_inspection_is_denied(
     launcher, monkeypatch, case, expected
 ):
     process = SimpleNamespace(
         info={
-            "name": "ChatGPT" if case == "name" else "renamed",
+            "pid": 1234,
+            "name": None if case == "unknown" else "ChatGPT" if case == "name" else "renamed",
             "exe": str(launcher.DESKTOP / "Contents/MacOS/ChatGPT") if case == "path" else "/other",
         }
     )
@@ -189,24 +191,186 @@ async def test_launcher_fails_closed_when_process_inspection_is_denied(
     monkeypatch.setattr(launcher.psutil, "process_iter", processes)
     if expected is None:
         with pytest.raises(RuntimeError, match="Refusing"):
-            await launcher.is_running("ChatGPT")
+            await launcher.running_client("ChatGPT")
     else:
-        assert await launcher.is_running("ChatGPT") is expected
+        result = await launcher.running_client("ChatGPT")
+        assert bool(result) is expected
+        if expected:
+            assert result["pid"] == 1234
     assert launcher.commands == []
 
 
-async def test_unknown_desktop_stops_before_process_or_daemon_actions(launcher, monkeypatch):
+@pytest.mark.parametrize(
+    "process_name,label",
+    [
+        ("ChatGPT", "Codex desktop"),
+        ("Codex", "Codex desktop"),
+        ("renamed", "Codex desktop"),
+        ("Companion", "Local Companion (Ari)"),
+    ],
+)
+async def test_launcher_quit_warning_identifies_app_and_pid_without_starting_anything(
+    launcher, monkeypatch, process_name, label
+):
+    from companion.codex_compat import INSPECTED_DESKTOPS
+
+    desktop_hash, schema_hash = next(iter(INSPECTED_DESKTOPS.items()))
+
     async def fingerprint():
-        return {"desktop_sha256": "unknown"}
+        return {"desktop_sha256": desktop_hash, "schema_sha256": schema_hash}
+
+    executable = (
+        launcher.ROOT / "build/Local Companion.app/Contents/MacOS/Companion"
+        if process_name == "Companion"
+        else launcher.DESKTOP / "Contents/MacOS/ChatGPT"
+    )
+    process = SimpleNamespace(info={"pid": 1234, "name": process_name, "exe": str(executable)})
+
+    def forbidden(*_, **__):
+        pytest.fail("A running client must block all launcher mutations")
+
+    monkeypatch.setattr(sys, "argv", ["launch_codex.py", "--validation-thread", "test-task"])
+    monkeypatch.setattr(launcher, "desktop_fingerprint", fingerprint)
+    monkeypatch.setattr(launcher.psutil, "process_iter", lambda *_: [process])
+    monkeypatch.setattr(launcher, "prepare_bridge", forbidden)
+    monkeypatch.setattr(launcher, "restart_idle_host", forbidden)
+    monkeypatch.setattr(launcher.asyncio, "create_subprocess_exec", forbidden)
+    with pytest.raises(SystemExit) as stopped:
+        await launcher.main()
+    message = str(stopped.value)
+    assert f"{label} is still running" in message
+    assert "PID 1234" in message
+    assert "Cmd+Q" in message
+    assert "separate Terminal window" in message
+    assert "Nothing was restarted" in message
+    if process_name != "Companion":
+        assert str(launcher.DESKTOP) in message
+        assert "process can be named ChatGPT" in message
+
+
+@pytest.mark.parametrize(
+    "outcome", ["closed", "timeout", "cancelled", "inspection_denied"]
+)
+async def test_launcher_wait_is_bounded_and_requires_every_client_to_close(
+    launcher, monkeypatch, capsys, outcome
+):
+    sleeps = []
+
+    async def running(name):
+        if outcome == "inspection_denied":
+            raise RuntimeError("Cannot inspect running clients")
+        if name == "ChatGPT" and len(sleeps) < 2:
+            return {"pid": 10, "name": name}
+        if name == "Companion" and len(sleeps) == 2:
+            return {"pid": 20, "name": name}
+        return None
+
+    async def sleep(delay):
+        if outcome == "cancelled":
+            raise asyncio.CancelledError()
+        sleeps.append(delay)
+
+    monkeypatch.setattr(launcher, "running_client", running)
+    monkeypatch.setattr(launcher.asyncio, "sleep", sleep)
+    operation = launcher.require_clients_closed(
+        ("ChatGPT", "Companion"), wait=True, timeout=0 if outcome == "timeout" else 120
+    )
+    if outcome == "closed":
+        assert await operation is True
+        assert sleeps == [0.5, 0.5, 0.5]
+        output = capsys.readouterr().out
+        assert output.count("Waiting for") == 2  # repeated polling is quiet
+        assert "Codex desktop (PID 10)" in output
+        assert "Local Companion (Ari) (PID 20)" in output
+    elif outcome == "timeout":
+        with pytest.raises(SystemExit, match="Timed out waiting"):
+            await operation
+        assert sleeps == []
+    elif outcome == "cancelled":
+        with pytest.raises(asyncio.CancelledError):
+            await operation
+    else:
+        with pytest.raises(RuntimeError, match="Cannot inspect"):
+            await operation
+
+
+@pytest.mark.parametrize("changed", ["desktop_build", "client_reopened"])
+async def test_launcher_rechecks_compatibility_and_clients_after_waiting(
+    launcher, monkeypatch, changed
+):
+    from companion.codex_compat import INSPECTED_DESKTOPS
+
+    desktop_hash, schema_hash = next(iter(INSPECTED_DESKTOPS.items()))
+    calls = []
+
+    async def fingerprint():
+        calls.append("fingerprint")
+        return {
+            "desktop_sha256": (
+                "updated" if changed == "desktop_build" and len(calls) > 1 else desktop_hash
+            ),
+            "schema_sha256": schema_hash,
+        }
+
+    async def closed(names, *, wait=False):
+        calls.append(("closed", wait))
+        if wait:
+            return True
+        raise SystemExit("Codex desktop was reopened")
+
+    def forbidden(*_, **__):
+        pytest.fail("Changed preflight state must block all launcher mutations")
+
+    monkeypatch.setattr(sys, "argv", ["launch_codex.py", "--wait-for-clients"])
+    monkeypatch.setattr(launcher, "desktop_fingerprint", fingerprint)
+    monkeypatch.setattr(launcher, "require_clients_closed", closed)
+    monkeypatch.setattr(launcher, "prepare_bridge", forbidden)
+    monkeypatch.setattr(launcher, "restart_idle_host", forbidden)
+    monkeypatch.setattr(launcher.asyncio, "create_subprocess_exec", forbidden)
+    with pytest.raises(SystemExit, match="has not been checked|was reopened"):
+        await launcher.main()
+    assert calls[:3] == ["fingerprint", ("closed", True), "fingerprint"]
+    assert calls[3:] == ([] if changed == "desktop_build" else [("closed", False)])
+
+
+@pytest.mark.parametrize(
+    "installed,message",
+    [
+        ({"desktop_sha256": "unknown"}, "has not been checked"),
+        (
+            {
+                "desktop_sha256": "bf9c41fa9770fbfacfba93042ff71c24cb65c82935819377275faac08103383f",
+                "schema_sha256": "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+            },
+            "combination has not passed",
+        ),
+        (
+            {
+                "desktop_sha256": "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+                "schema_sha256": "8c745d3a424119540f488fc94a05bd0cdd4963cefa2d0d65e276835f1591b0a3",
+            },
+            "combination has not passed",
+        ),
+        (
+            {"desktop_sha256": "bf9c41fa9770fbfacfba93042ff71c24cb65c82935819377275faac08103383f"},
+            "combination has not passed",
+        ),
+    ],
+)
+async def test_unverified_pair_stops_before_process_or_daemon_actions(
+    launcher, monkeypatch, installed, message
+):
+    async def fingerprint():
+        return installed
 
     async def forbidden(*_):
         pytest.fail("Incompatible launch must stop before inspecting or starting clients")
 
     monkeypatch.setattr(sys, "argv", ["launch_codex.py", "--validation-thread", "test-task"])
     monkeypatch.setattr(launcher, "desktop_fingerprint", fingerprint)
-    monkeypatch.setattr(launcher, "is_running", forbidden)
+    monkeypatch.setattr(launcher, "running_client", forbidden)
     monkeypatch.setattr(launcher, "prepare_bridge", forbidden)
-    with pytest.raises(SystemExit, match="has not been checked"):
+    with pytest.raises(SystemExit, match=message):
         await launcher.main()
     assert launcher.commands == []
 
@@ -237,23 +401,40 @@ async def test_probe_distinguishes_restricted_inspection_from_missing_host(monke
 
 
 @pytest.mark.parametrize(
-    "desktop_hash",
+    "desktop_hash,schema_hash",
     [
-        "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
-        "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+        (
+            "75e397e2280dde93b70a85aa926f4282c728eacc84dfeb15ba7fb6ddd84628af",
+            "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+        ),
+        (
+            "2f231a64e6dd30111bcd09e03c149cd06c8679b25914842772423251c4608ded",
+            "59c1c2f4c78bf368f38d7ae8372d6d9da94b92c0c56ddf4e32278f4ed5cd803e",
+        ),
+        (
+            "bf9c41fa9770fbfacfba93042ff71c24cb65c82935819377275faac08103383f",
+            "8c745d3a424119540f488fc94a05bd0cdd4963cefa2d0d65e276835f1591b0a3",
+        ),
     ],
 )
+@pytest.mark.parametrize("wait_before_launch", [False, True])
 async def test_launcher_preserves_desktop_configuration_path_and_waits_for_attachment(
-    launcher, monkeypatch, desktop_hash
+    launcher, monkeypatch, desktop_hash, schema_hash, wait_before_launch
 ):
     async def fingerprint():
         return {
             "desktop_sha256": desktop_hash,
-            "schema_sha256": launcher.INSPECTED_SCHEMA,
+            "schema_sha256": schema_hash,
         }
 
+    inspections = 0
+
     async def not_running(_):
-        return False
+        nonlocal inspections
+        inspections += 1
+        if wait_before_launch and inspections == 1:
+            return {"pid": 1234, "name": "ChatGPT"}
+        return None
 
     async def start(*args, **kwargs):
         launcher.commands.append((args, kwargs))
@@ -269,9 +450,12 @@ async def test_launcher_preserves_desktop_configuration_path_and_waits_for_attac
     async def no_delay(_):
         pass
 
-    monkeypatch.setattr(sys, "argv", ["launch_codex.py", "--validation-thread", "test-task"])
+    arguments = ["launch_codex.py", "--validation-thread", "test-task"]
+    if wait_before_launch:
+        arguments.append("--wait-for-clients")
+    monkeypatch.setattr(sys, "argv", arguments)
     monkeypatch.setattr(launcher, "desktop_fingerprint", fingerprint)
-    monkeypatch.setattr(launcher, "is_running", not_running)
+    monkeypatch.setattr(launcher, "running_client", not_running)
     monkeypatch.setattr(launcher, "prepare_bridge", lambda: Path("/private/test-relay"))
     monkeypatch.setattr(launcher.asyncio, "create_subprocess_exec", start)
     monkeypatch.setattr(launcher.asyncio, "sleep", no_delay)
